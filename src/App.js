@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserLayout from "./layout/UserLayout";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<UserLayout />} />
+        <Route path="/user" element={<UserLayout />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+// import React, { useEffect } from "react";
+// import { Route, Routes } from "react-router";
+// import { BrowserRouter as Router, Navigate } from "react-router-dom";
+
+// import AdminLayout from "./layout/AdminLayout";
+// import UserLayout from "./layout/UserLayout";
+// // import RTLLayout from "layouts/RTL.js";
+// // import AuthLayout from "layouts/Auth.js";
+// // import CourseLayout from "layouts/Course";
+
+// function App(props) {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/user" render={(props) => <UserLayout {...props} />} />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default App;
