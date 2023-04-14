@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+.cart-item {
+  color: #757575;
+  font-family: "Open Sans", sans-serif;
+}
+.card-body p {
+  font-size: 13px;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+.card-body p:hover {
+  color: #353535;
+}
+
+.cart-price__div h4 {
+  font-weight: bold !important;
+  font-weight: 600;
+}
+
+.item-rating__div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.item-rating__div small {
+  font-size: 11px;
+}
+.item-rating__div svg {
+  width: 11px;
+  height: 13px;
+  margin-right: 3px;
+}
+
+.card-actions__div {
+  width: 100%;
+  height: 35px;
+  margin-left: -5px;
+  display: flex;
+}
+.card-actions__div button {
+  height: 100%;
+  margin-right: 5px;
+  background: #e8e8e8;
+  color: #777777;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  justify-content: center;
+  border: none;
+}

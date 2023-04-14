@@ -1,0 +1,15 @@
+.dropdown-content__btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+}
+.rc-menu {
+  width: 180px !important;
+}
+.rc-menu-item {
+  padding: 10px !important;
+  display: flex;
+  justify-content: flex-end;
+  /* align-self: flex-end; */
+}

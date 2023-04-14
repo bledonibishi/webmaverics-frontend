@@ -1,0 +1,33 @@
+a {
+  color: #808080;
+  border-bottom: none;
+}
+.header-container {
+  height: 4.95rem;
+  background-color: #1c1c1c;
+  color: #efefef;
+}
+.header-div {
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-div h3 {
+  padding-left: 37px;
+}
+.list-container {
+}
+.list-container a {
+  color: #808080;
+  border-bottom: none;
+  text-decoration: none;
+}
+.logo-header__div img {
+  width: 117px;
+  height: 34.99px;
+}
+.dropdown-toggle {
+  justify-content: center;
+  background: none !important;
+  border: none !important;
+}
