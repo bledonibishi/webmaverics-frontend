@@ -1,17 +1,16 @@
-import React from "react";
-import { Button, Card, CardBody, CardHeader } from "reactstrap";
-import Macbook from "../../../assets/images/0.png";
-import Rating from "react-rating";
+import React from 'react';
+import { Button, Card, CardBody, CardHeader } from 'reactstrap';
+import Macbook from '../../../assets/images/0.png';
+import Rating from 'react-rating';
 import {
   faHeart,
   faShoppingCart,
   faStar,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./CartItem.css";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './CartItem.css';
 
 const CartItem = (props) => {
-  console.log("props", props);
   const {
     brand,
     category,
@@ -25,7 +24,7 @@ const CartItem = (props) => {
     id,
     title,
   } = props;
-  const starStyle = { color: "#FFD700" };
+  const starStyle = { color: '#FFD700' };
 
   const discountValue = price % discountPercentage;
 
@@ -35,17 +34,15 @@ const CartItem = (props) => {
       ? `${description.substring(0, 50)}...`
       : description;
 
-  console.log("discountPrice", discountPrice);
-
   return (
     <Card
       // style={{ width: "240px", height: "auto" }}
       className="mx-1 cart-item col-2 p-0 mb-3 overflow-hidden"
     >
-      <CardHeader style={{ background: "#fff", padding: 0 }}>
+      <CardHeader style={{ background: '#fff', padding: 0 }}>
         <div
           className="p-0"
-          style={{ maxHeight: "240px", height: "240px", minWidth: "240px" }}
+          style={{ maxHeight: '240px', height: '240px', minWidth: '240px' }}
         >
           <a href={`/product/${id}`}>
             <img className="w-100 h-100" src={thumbnail} alt="Product image" />

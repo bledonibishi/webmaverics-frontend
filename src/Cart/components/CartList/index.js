@@ -1,14 +1,13 @@
-import React from "react";
-import CartItem from "../CartItem/CartItem";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { fetchProducts } from "../../../store/products/productSlice";
-import LoadingBar from "../../../ui/Loading/LoadingBar";
+import React from 'react';
+import CartItem from '../CartItem/CartItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchProducts } from '../../../store/products/productSlice';
+import LoadingBar from '../../../ui/Loading/LoadingBar';
 
 function index() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products);
-  console.log("products", products);
 
   useEffect(() => {
     dispatch(fetchProducts());

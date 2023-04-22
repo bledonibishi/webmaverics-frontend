@@ -1,26 +1,49 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Menu, { Item as MenuItem, Divider } from 'rc-menu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Menu, { Item as MenuItem, Divider } from 'rc-menu'
 import {
   faShoppingCart,
   faSearch,
   faArrowTurnDown,
-} from '@fortawesome/free-solid-svg-icons';
-import { InputGroup, InputGroupText, Input } from 'reactstrap';
-import Logo from '../../../assets/images/logo.svg';
-import Dropdown from '../../../ui/Dropdown';
-import 'rc-dropdown/assets/index.css';
-import './header.css';
-const Header = () => {
-  let selected = [];
+} from '@fortawesome/free-solid-svg-icons'
+import {
+  InputGroup,
+  InputGroupText,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  FormGroup,
+  Label,
+  Form,
+  Button,
+} from 'reactstrap'
+import Logo from '../../../assets/images/logo.svg'
+import Dropdown from '../../../ui/Dropdown'
+import 'rc-dropdown/assets/index.css'
+import './header.css'
+import { useState } from 'react'
+import CustomModal from '../modal/CustomModal'
+import { useDispatch } from 'react-redux'
+import axiosInstance from '../../../api/axiosInstance'
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
+// import { axiosInstance } from '../../../api/axiosInstance';
+const Header = (props) => {
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
+  const [loginModal, setLoginModal] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const axiosPrivate = useAxiosPrivate()
+
+  let selected = []
 
   const saveSelected = ({ selectedKeys }) => {
-    selected = selectedKeys;
-  };
+    selected = selectedKeys
+  }
 
   const confirm = () => {
-    console.log(selected);
-    setVisible(false);
-  };
+    console.log(selected)
+    setVisible(false)
+  }
   const menu = (
     <Menu
       style={{ width: 180 }}
@@ -32,6 +55,9 @@ const Header = () => {
       <MenuItem key="1">one</MenuItem>
       <MenuItem key="2">two</MenuItem>
       <Divider />
+      <MenuItem key="3">
+        <a href="/login">Login</a>
+      </MenuItem>
       <MenuItem disabled>
         <button
           style={{
@@ -51,7 +77,32 @@ const Header = () => {
         </button>
       </MenuItem>
     </Menu>
-  );
+  )
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const credentials = { email, password }
+
+    console.log('credentials', credentials)
+
+    try {
+      const response = await axiosPrivate.post(
+        'api/v1/users/login',
+        credentials
+      )
+      const token = response.data.token
+      localStorage.setItem('token', token)
+      console.log(response)
+      // Handle successful login response
+    } catch (error) {
+      console.log(error)
+      // Handle login error
+    }
+  }
+
+  const toggleModal = () => {
+    setLoginModal((state) => !state)
+  }
   return (
     <nav className="">
       <div className="header-container">
@@ -89,30 +140,42 @@ const Header = () => {
           </div>
 
           <div className="d-flex p-4 align-items-center">
-            <Dropdown
-              buttonContent="Bledon ibishi"
-              icon={<FontAwesomeIcon icon={faArrowTurnDown} />}
-              menu={menu}
-              placement="bottomRight"
-            />
-            <div
-              className="p-3"
-              style={{
-                borderLeft: '1px solid white',
-                cursor: 'pointer',
-                borderRight: '1px solid white',
-              }}
-            >
-              <div>
-                <Dropdown menu={menu} placement="bottomRight">
-                  <FontAwesomeIcon
-                    className="p-1"
-                    icon={faShoppingCart}
-                    style={{ width: '20px', height: '20px' }}
-                  />
-                </Dropdown>
-              </div>
-            </div>
+            {userIsLoggedIn ? (
+              <>
+                <Dropdown
+                  buttonContent="Login"
+                  icon={<FontAwesomeIcon icon={faArrowTurnDown} />}
+                  menu={menu}
+                  placement="bottomRight"
+                />
+                <div
+                  className="p-3"
+                  style={{
+                    borderLeft: '1px solid white',
+                    cursor: 'pointer',
+                    borderRight: '1px solid white',
+                  }}
+                >
+                  <div>
+                    <Dropdown menu={menu} placement="bottomRight">
+                      <FontAwesomeIcon
+                        className="p-1"
+                        icon={faShoppingCart}
+                        style={{ width: '20px', height: '20px' }}
+                      />
+                    </Dropdown>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <a
+                href
+                onClick={() => setLoginModal(true)}
+                style={{ color: 'white' }}
+              >
+                Login
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -153,8 +216,44 @@ const Header = () => {
           </li>
         </ul>
       </div>
-    </nav>
-  );
-};
 
-export default Header;
+      {loginModal && (
+        <CustomModal
+          isOpen={loginModal}
+          toggle={toggleModal}
+          size="md"
+          title="Login"
+        >
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Label for="exampleEmail">Email</Label>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="examplePassword">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </FormGroup>
+            <Button type="submit">Login</Button>
+            <p>
+              Dont have an account? <a href="/signup">Signup</a>
+            </p>
+          </Form>
+        </CustomModal>
+      )}
+    </nav>
+  )
+}
+
+export default Header
