@@ -23,21 +23,39 @@ import 'rc-dropdown/assets/index.css'
 import './header.css'
 import { useState } from 'react'
 import CustomModal from '../modal/CustomModal'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axiosInstance from '../../../api/axiosInstance'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
+import {
+  fetchCountries,
+  logout,
+  userLogin,
+} from '../../../store/auth/authSlice'
+import { useEffect } from 'react'
+import { useHistory, useNavigate } from 'react-router-dom'
 // import { axiosInstance } from '../../../api/axiosInstance';
 const Header = (props) => {
-  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
+  const dispatch = useDispatch()
+  const userState = useSelector((state) => state.auth)
+  console.log('userState', userState)
   const [loginModal, setLoginModal] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [user, setUser] = useState({})
   const axiosPrivate = useAxiosPrivate()
+  const navigate = useNavigate()
+  console.log('user', user)
 
   let selected = []
 
   const saveSelected = ({ selectedKeys }) => {
     selected = selectedKeys
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setUser((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }))
   }
 
   const confirm = () => {
@@ -56,7 +74,9 @@ const Header = (props) => {
       <MenuItem key="2">two</MenuItem>
       <Divider />
       <MenuItem key="3">
-        <a href="/login">Login</a>
+        <a href onClick={dispatch(logout())}>
+          Logout
+        </a>
       </MenuItem>
       <MenuItem disabled>
         <button
@@ -81,18 +101,14 @@ const Header = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const credentials = { email, password }
-
-    console.log('credentials', credentials)
-
     try {
-      const response = await axiosPrivate.post(
-        'api/v1/users/login',
-        credentials
-      )
+      const response = await axiosPrivate.post('api/v1/users/login', user)
+      dispatch(userLogin())
       const token = response.data.token
       localStorage.setItem('token', token)
-      console.log(response)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      setLoginModal(false)
+      navigate('/signup')
       // Handle successful login response
     } catch (error) {
       console.log(error)
@@ -140,10 +156,12 @@ const Header = (props) => {
           </div>
 
           <div className="d-flex p-4 align-items-center">
-            {userIsLoggedIn ? (
+            {userState.user ? (
               <>
                 <Dropdown
-                  buttonContent="Login"
+                  buttonContent={
+                    userState.user.name + ' ' + userState.user.surname
+                  }
                   icon={<FontAwesomeIcon icon={faArrowTurnDown} />}
                   menu={menu}
                   placement="bottomRight"
@@ -232,7 +250,7 @@ const Header = (props) => {
                 name="email"
                 id="email"
                 placeholder="Email"
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(event) => handleChange(event)}
               />
             </FormGroup>
             <FormGroup>
@@ -242,7 +260,7 @@ const Header = (props) => {
                 name="password"
                 id="password"
                 placeholder="Password"
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => handleChange(event)}
               />
             </FormGroup>
             <Button type="submit">Login</Button>

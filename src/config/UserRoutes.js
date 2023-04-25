@@ -1,10 +1,10 @@
-import React from 'react';
-import Header from '../components/User/Header/Header';
-import Footer from '../components/User/Footer';
-import { Routes, Route, Switch, Navigate } from 'react-router-dom';
-import Dashboard from '../components/User/dashboard';
-import CartDetailPage from '../Cart/pages/CartDetailsPage/CartDetailPage';
-function UserRoutes() {
+import React from 'react'
+import Header from '../components/User/Header/Header'
+import Footer from '../components/User/Footer'
+import { Routes, Route, Switch, Navigate } from 'react-router-dom'
+import Dashboard from '../components/User/dashboard'
+import CartDetailPage from '../Cart/pages/CartDetailsPage/CartDetailPage'
+const UserRoutes = () => {
   return (
     <>
       <Header />
@@ -17,7 +17,7 @@ function UserRoutes() {
       </div>
       <Footer />
     </>
-  );
+  )
 }
 
-export default UserRoutes;
+export default UserRoutes

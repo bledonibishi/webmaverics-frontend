@@ -2,32 +2,88 @@ import React from 'react'
 import { Form, FormGroup, Input, Label, Row } from 'reactstrap'
 import './signup.css'
 import { FormSelect } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCountries, userLogin } from '../../../../store/auth/authSlice'
 import axiosInstance from '../../../../api/axiosInstance'
-import axios from 'axios'
-import useAxiosPrivate from '../../../../hooks/useAxiosPrivate'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { reset, signup } from '../../../../store/auth/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 function Signup() {
-  const axiosPrivate = useAxiosPrivate()
-  const submitHandler = async (event) => {
-    event.preventDefault()
-    const credentials = {
-      name: 'signup6',
-      email: 'testsignup6@gmail.com',
-      password: 'test1234',
-      passwordConfirm: 'test1234',
-    }
-    try {
-      const promise = await axiosPrivate.post(
-        'api/v1/users/signup',
-        credentials
-      )
-      const token = promise.data.token
-      localStorage.setItem('token', token)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { user, isSuccess, isError, message, isLoading, countries } =
+    useSelector((state) => state.auth)
+  console.log(
+    'state.auth',
+    useSelector((state) => state.auth)
+  )
+  const [userFormData, setUserFormData] = useState({})
+  // console.log('userState', userState)
+  const [selectedCountry, setSelectedCountry] = useState('')
 
-      console.log('response.data', promise.data)
-    } catch (error) {
-      console.log('error', error)
+  useEffect(() => {
+    dispatch(fetchCountries())
+  }, [])
+
+  useEffect(() => {
+    if (isError) {
+      // Toast.error(message)
+      console.log('message isError')
     }
+
+    if (isSuccess || user) {
+      // navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setUserFormData((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }))
+  }
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    const credentials = {
+      name: 'user4',
+      surname: 'user4',
+      gender: 'Female',
+      country: '6445a51700404290d448bc72',
+      city: '6445a35300404290d448bc52',
+      email: 'user4@gmail.com',
+      password: 'user1234',
+      passwordConfirm: 'user1234',
+      birthYear: 2000,
+      birthMonth: 3,
+      birthDay: 19,
+    }
+
+    if (userFormData.password !== userFormData.passwordConfirm) {
+      // toast.error()
+      console.log('Password do not match!')
+    } else {
+      // const userData = userFormData
+
+      dispatch(signup(credentials))
+    }
+    // try {
+    //   const promise = await axiosInstance.post(
+    //     'api/v1/users/signup',
+    //     credentials
+    //   )
+    //   if (promise) dispatch(userLogin())
+    //   const token = promise.data.token
+    //   localStorage.setItem('token', token)
+
+    //   console.log('response.data', promise.data)
+    // } catch (error) {
+    //   console.log('error', error)
+    // }
   }
   return (
     <div id="signup">
@@ -93,6 +149,7 @@ function Signup() {
                 name="email"
                 id="exampleEmail"
                 placeholder="E-Mail"
+                onChange={(event) => handleChange(event)}
               />
             </FormGroup>
             <FormGroup>
@@ -102,32 +159,39 @@ function Signup() {
                 name="password"
                 id="password"
                 placeholder="Password"
+                onChange={(event) => handleChange(event)}
               />
             </FormGroup>
             <FormGroup>
               {/* <Label for="exampleEmail">Email</Label> */}
               <Input
-                type="password-confirm"
+                type="password"
                 name="password-confirm"
                 id="password-confirm"
                 placeholder="Password Confirm"
+                onChange={(event) => handleChange(event)}
               />
-            </FormGroup>
-            <FormGroup>
-              {/* <Label for="exampleEmail">Email</Label> */}
-              <Input type="emri" name="emri" id="emri" placeholder="Emri" />
             </FormGroup>
             <FormGroup>
               {/* <Label for="exampleEmail">Email</Label> */}
               <Input
-                type="mbiemri"
-                name="mbiemri"
-                id="mbiemri"
-                placeholder="Mbiermi"
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Emri"
+                onChange={(event) => handleChange(event)}
               />
             </FormGroup>
             <FormGroup>
-              {/* <Label for="exampleEmail">Email</Label> */}
+              <Input
+                type="text"
+                name="surname"
+                id="surname"
+                placeholder="Mbiermi"
+                onChange={(event) => handleChange(event)}
+              />
+            </FormGroup>
+            <FormGroup>
               <FormSelect>
                 <option value="0">Gjinia</option>
                 <option value="1">Mashkull</option>
@@ -137,10 +201,16 @@ function Signup() {
 
             <Row>
               <FormGroup className="col-6">
-                <FormSelect>
-                  <option value="0">Kosove</option>
-                  <option value="1">Shqiper</option>
-                  <option value="2">Maqedoni</option>
+                <FormSelect
+                  name="country"
+                  onClick={(event) => handleChange(event)}
+                >
+                  {countries.data &&
+                    countries.data.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
                 </FormSelect>
               </FormGroup>
               <FormGroup className="col-6">
@@ -197,7 +267,7 @@ function Signup() {
             <div className="form-buttons">
               <button
                 type="submit"
-                class="button button-primary reg-btn"
+                className="button button-primary reg-btn"
                 id="event-btn"
               >
                 <span class="gj">
@@ -206,7 +276,11 @@ function Signup() {
                 Regjistrohu
               </button>
               <hr />
-              <button type="submit" class="button button-facebook fb-btn">
+              <button
+                type="button"
+                onClick={() => dispatch(userLogin())}
+                className="button button-facebook fb-btn"
+              >
                 <span class="fb">
                   {/* <img src="/Content/Images/fb_white.png"> */}
                 </span>

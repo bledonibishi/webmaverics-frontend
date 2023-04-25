@@ -1,14 +1,14 @@
-import React from 'react';
-import { Button, Card, CardBody, CardHeader } from 'reactstrap';
-import Macbook from '../../../assets/images/0.png';
-import Rating from 'react-rating';
+import React from 'react'
+import { Button, Card, CardBody, CardHeader } from 'reactstrap'
+import Macbook from '../../../assets/images/0.png'
+import Rating from 'react-rating'
 import {
   faHeart,
   faShoppingCart,
   faStar,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './CartItem.css';
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './CartItem.css'
 
 const CartItem = (props) => {
   const {
@@ -23,16 +23,16 @@ const CartItem = (props) => {
     thumbnail,
     id,
     title,
-  } = props;
-  const starStyle = { color: '#FFD700' };
+  } = props
+  const starStyle = { color: '#FFD700' }
 
-  const discountValue = price % discountPercentage;
+  const discountValue = price % discountPercentage
 
-  const discountPrice = price - discountValue;
+  const discountPrice = price - discountValue
   const truncatedText =
-    description.length > 50
+    description?.length > 50
       ? `${description.substring(0, 50)}...`
-      : description;
+      : description
 
   return (
     <Card
@@ -77,7 +77,7 @@ const CartItem = (props) => {
         </div>
       </CardBody>
     </Card>
-  );
-};
+  )
+}
 
-export default CartItem;
+export default CartItem
