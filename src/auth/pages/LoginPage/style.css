@@ -1,0 +1,444 @@
+.auth-main-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 40px 0;
+  min-height: 100vh;
+  background-color: #fff;
+}
+.auth-wrapper {
+  width: 460px;
+}
+.auth-wrapper .main-title {
+  margin-bottom: 32px;
+  text-align: center;
+}
+.auth-wrapper .subtitle {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #667c99;
+  font-weight: 500;
+}
+.logo-main {
+  max-width: 138px;
+  max-height: 50px;
+}
+
+.auth-inner {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0px 24px 48px -12px rgb(0 0 0 / 8%);
+  border-radius: 16px;
+  padding: 48px;
+  position: relative;
+}
+.auth-wrapper .external-links.block {
+  gap: 8px;
+}
+.auth-wrapper .external-links {
+  padding: 0;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+.external-links.block .list-inline-item {
+  width: 100%;
+  display: block;
+  margin-right: 0;
+}
+.external-links .list-inline-item {
+  margin: 0;
+}
+.list-inline-item:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.list-inline-item {
+  display: inline-block;
+}
+.main-tooltip {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+.main-tooltip:hover {
+  box-shadow: 0 0 0 1px #ccc;
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border-radius: 4px;
+}
+.external-links.block .tooltip-text {
+  display: none;
+}
+.main-tooltip .tooltip-text,
+.info-tooltip {
+  position: absolute;
+  background: #4b4b4b;
+  border-radius: 4px;
+  padding: 8px;
+  line-height: 18px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 11;
+}
+.main-tooltip .tooltip-text {
+  width: 130px;
+  z-index: 1;
+  left: 50%;
+  bottom: calc(100% + 16px);
+  transform: translateX(-50%) translate3d(0, 10px, 0);
+  transition: all 0.15s ease-in;
+}
+
+.auth-wrapper .external-links.block a {
+  width: 100%;
+  text-decoration: none;
+}
+
+.auth-wrapper .external-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #f6f7f9;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  transition: all 0.15s ease-in;
+}
+.external-links .link-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 16px;
+  color: #052d61;
+}
+.or-line {
+  border-top: 1px solid #e0e5eb;
+  padding: 9px 0;
+  position: relative;
+  margin: 32px 0 30px 0;
+}
+.or-line span {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -15px;
+  padding: 4px 12px;
+  background-color: #fff;
+  color: #a3b0c2;
+  font-size: 14px;
+}
+.logged-in-accounts .account-item {
+  cursor: auto;
+  transition: 0.15s ease-in;
+}
+.logged-in-accounts .account-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  font-size: 14px;
+  border-bottom: 1px solid #e0e5eb;
+}
+.logged-in-accounts .initials,
+.logged-in-accounts .user-image {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+.user-image,
+.initials {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  font-size: 12px;
+  color: grey;
+  font-weight: 500;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px lightgrey;
+}
+.logged-in-accounts .account-item-btn {
+  width: 100%;
+  padding: 16px 8px 16px 50px;
+  text-align: left;
+  border-radius: 4px;
+  text-align: left;
+  transition: 0.15s ease-in;
+  font-size: 14px;
+  color: #052d61;
+  text-decoration: none;
+}
+.logged-in-accounts .account-item-btn:hover {
+  background-color: #f5f5f5a6;
+}
+.another-account-item .user-image {
+  width: 24px;
+  height: 24px;
+  left: 11px;
+  box-shadow: none;
+}
+.logged-in-accounts .user-image {
+  object-fit: cover;
+}
+
+.logged-in-accounts .initials,
+.logged-in-accounts .user-image {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+.user-image,
+.initials {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.user-image {
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.25);
+}
+.another-account-item .account-item-btn {
+  color: #667c99;
+}
+
+.logged-in-accounts .account-item-btn {
+  width: 100%;
+  padding: 16px 8px 16px 50px;
+  text-align: left;
+  border-radius: 4px;
+  text-align: left;
+  transition: 0.15s ease-in;
+  font-size: 14px;
+  color: #052d61;
+  text-decoration: none;
+}
+.logged-in-accounts .account-item.last-child {
+  border-bottom: 0;
+  margin-bottom: 8px;
+}
+.btn-transparent {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+}
+.logged-user-email {
+  font-size: 16px;
+  color: #052d61;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.15s ease-in-out;
+  margin-bottom: 24px;
+  padding: 4px 8px 4px 6px;
+  border-radius: 20px;
+  background-color: #f6f7f9;
+}
+.logged-user-email > span {
+  display: flex;
+  align-items: center;
+}
+.logged-user-email:hover {
+  box-shadow: 0 0 0 1px #ccc;
+}
+.user-image,
+.initials {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+}
+
+.user-image,
+.initials {
+  margin-right: 12px;
+}
+.user-image,
+.initials {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  font-size: 12px;
+  color: grey;
+  font-weight: 500;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px lightgrey;
+}
+.auth-wrapper .form-item:not(:last-child):not(.last-item) {
+  margin-bottom: 24px;
+}
+
+.auth-wrapper .form-item {
+  position: relative;
+}
+.auth-wrapper .login-remember {
+  margin-top: -10px;
+}
+.checkbox-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.auth-wrapper .link {
+  font-size: 14px;
+  color: #e56228;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+.checkbox-wrapper label {
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #667c99;
+  padding-left: 24px;
+  transition: all 0.15s ease-in;
+}
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+.auth-wrapper .link {
+  font-size: 14px;
+  color: #e56228;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+.auth-wrapper .form-button {
+  display: inline-block;
+  width: 100%;
+  margin-top: 32px;
+}
+.auth-wrapper .form-item {
+  position: relative;
+}
+.btn-text {
+  font-size: 14px !important;
+  text-transform: none !important;
+}
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+.form-button .btn-primary {
+  background-color: #e56228 !important;
+  color: #ffffff;
+  border-color: #e56228 !important;
+  transition: all 0.15s ease-in;
+}
+.auth-inner .btn {
+  font-size: 14px;
+  font-weight: 400;
+  padding: 10px 12px;
+  margin: 0;
+}
+.form-button .btn-primary {
+  width: 100%;
+}
+.auth-wrapper .plain-text {
+  color: #667c99;
+  font-size: 14px;
+  text-align: center;
+}
+.auth-wrapper .form-item {
+  position: relative;
+}
+.register-link {
+  margin-top: 32px;
+}
+.auth-wrapper .plain-text span {
+  margin-right: 8px;
+}
+.checkbox-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.checkbox-wrapper input {
+  opacity: 0;
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  cursor: pointer;
+  z-index: 1;
+}
+.checkbox-wrapper label {
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #667c99;
+  padding-left: 24px;
+  transition: all 0.15s ease-in;
+}
+.error-message {
+  display: block;
+  color: #e34850;
+  padding-left: 20px;
+  font-size: 14px;
+  background-image: url(../../../assets/images/error-circle.svg);
+  background-repeat: no-repeat;
+  background-position: left 1px;
+  background-size: 18px;
+}
+.checkbox-wrapper input:checked ~ label::before {
+  background-color: #e56228;
+  border-color: #e56228;
+}
+.checkbox-wrapper label::before {
+  margin-right: 8px;
+  border-radius: 4px;
+  border: 1.2px solid #667c99;
+}
+.checkbox-wrapper label::before,
+.checkbox-wrapper label::after {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  transition: all 0.15s ease-in;
+}
+.checkbox-wrapper input:checked ~ label::after {
+  transform: scale(1);
+}
+.checkbox-wrapper label::after {
+  background-image: url(../../../assets/images/checkmark.webp);
+  background-size: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(0);
+}
+.checkbox-wrapper label::before,
+.checkbox-wrapper label::after {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  transition: all 0.15s ease-in;
+}

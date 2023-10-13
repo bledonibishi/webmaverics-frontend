@@ -1,0 +1,21 @@
+.nav-history__section {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ececec;
+  margin-bottom: 20px;
+  font-size: 13px;
+  position: relative;
+  margin-bottom: 14px;
+  padding: 8px 105px 10px 0;
+  color: #acacac;
+}
+.nav-history__section a {
+  color: #acacac;
+}
+
+.ty-breadcrumbs__slash::before {
+  content: '→';
+  color: rgb(133, 133, 133);
+  display: inline-block;
+  font-size: 13px;
+  padding: 0 5px;
+}

@@ -1,0 +1,25 @@
+.personal-info_topdiv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 15px;
+  padding-bottom: 15px;
+}
+.personal-info__input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
+.personal-info__input label {
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+.personal-info__input input {
+  border: none;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+}
+.personal-info__input input:focus {
+  border-bottom: 1px solid rgb(230 82 40);
+  outline: none;
+}

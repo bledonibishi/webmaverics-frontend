@@ -1,7 +1,8 @@
 a {
-  color: #808080;
+  color: #000 !important;
   border-bottom: none;
 }
+
 .header-container {
   height: 4.95rem;
   background-color: #1c1c1c;
@@ -14,8 +15,6 @@ a {
 }
 .header-div h3 {
   padding-left: 37px;
-}
-.list-container {
 }
 .list-container a {
   color: #808080;
@@ -30,4 +29,81 @@ a {
   justify-content: center;
   background: none !important;
   border: none !important;
+}
+.cart-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.fa-shopping-cart {
+  width: 20px;
+  height: 20px;
+}
+
+/* Style the count badge */
+.cartItems-count__div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  background-color: #e15726;
+  color: white;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: center;
+  border-radius: 50%;
+  margin-left: -10px;
+  margin-top: -25px;
+  z-index: 1;
+}
+.menu-rc {
+  width: 350px !important;
+  padding: 10px !important;
+}
+.menu-item {
+  height: 80px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+.menu-item:last-child {
+  border-bottom: none !important;
+}
+.menu-item__image {
+  margin-right: 15px;
+}
+.makeOrder-btn {
+  cursor: pointer;
+  color: #000;
+  pointer-events: visible;
+  box-shadow: 0 4px 10px -4px #aaa;
+  border-radius: 3px;
+  background: #1d1d1d;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.menu-item__body {
+  display: flex;
+  flex-direction: column;
+}
+.menu-item__title a:hover {
+  color: red;
+  border-bottom: 1px solid red;
+}
+.count-price {
+  font-size: 13px;
+}
+.hover-content svg {
+  /* font-size: 13px; */
+  width: 10px;
+  height: 10px;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: red;
 }

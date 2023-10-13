@@ -1,0 +1,29 @@
+.order-info-div {
+  display: flex;
+  padding: 0px 0px 12px 0px;
+}
+.order-info-div p {
+  padding: 0px 16px;
+}
+.order-details-p {
+  display: flex;
+  align-self: center;
+}
+.order-card-content {
+  min-height: 110px;
+  width: 100%;
+  padding: 12px 0px 0px 0px;
+}
+.order-card-content img {
+  width: 120px;
+  height: 100%;
+}
+.dropdown-toggle::after {
+  display: none;
+}
+.order-details-transport {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+  row-gap: 2rem;
+}

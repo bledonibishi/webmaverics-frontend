@@ -1,0 +1,109 @@
+.header-menu {
+  z-index: 5;
+}
+@media only screen and (max-width: 811px) {
+  .top-menu {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .top-menu {
+    width: 1280px;
+  }
+}
+@media only screen and (min-width: 811px) {
+  .header-menu > ul > li:hover {
+    background-color: #f2f2f2;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .top-menu {
+    width: 90%;
+  }
+}
+@media (min-width: 811px) {
+  .top-menu {
+    width: 90%;
+    margin: auto;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .header-menu {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 811px) {
+  .header-menu {
+    position: relative;
+    width: 100%;
+    text-align: center;
+  }
+}
+@media (min-width: 1400px) {
+  .header-menu {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 811px) {
+  .header-menu > ul > li:hover {
+    background-color: #f2f2f2;
+  }
+}
+@media only screen and (min-width: 811px) {
+  .header-menu > ul > li:first-child {
+    border-left: 1px solid #eee;
+  }
+}
+@media only screen and (min-width: 811px) {
+  .header-menu > ul > li {
+    border-right: 1px solid #eee;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+@media (min-width: 811px) {
+  .md\:px-0 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media only screen and (min-width: 811px) {
+  .header-menu > ul > li > div > a {
+    line-height: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #2c2c2c;
+    width: 100%;
+    height: 100%;
+  }
+}
+.top-menu {
+  display: grid;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.grid-cols-8 {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.grid-flow-col {
+  grid-auto-flow: column;
+}
+.grid {
+  display: grid;
+}
+.hover\:underline:hover {
+  -webkit-text-decoration-line: underline;
+  text-decoration-line: underline;
+}
+.parent-category-active:hover .sublist {
+  display: block;
+}
+.gap-y-2\.5 {
+  row-gap: 0.625rem;
+}
+.header-container {
+  position: relative;
+  z-index: 6;
+}

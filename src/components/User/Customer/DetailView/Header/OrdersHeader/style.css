@@ -1,0 +1,30 @@
+.orders-header {
+  display: flex;
+  align-items: center;
+}
+
+.selectCustom-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: 4px;
+  height: 24px !important;
+}
+.light-dropdown-hover {
+  transition-property: all !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 150ms !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1) !important;
+}
+.light-dropdown-hover:hover {
+  cursor: pointer;
+  background-color: rgb(252 238 233) !important;
+  color: rgb(230 82 40) !important;
+}
+.addresses-select {
+  height: 100%;
+  margin-right: 10px;
+}

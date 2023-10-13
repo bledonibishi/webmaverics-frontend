@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+.cart-item {
+  color: #757575;
+  border-radius: 0 !important;
+  border: thin solid rgb(211, 211, 211);
+  font-family: 'Open Sans', sans-serif;
+  background: transparent;
+  transition: transform 0.3s ease;
+}
+.cart-item:not(:last-child) {
+  margin-bottom: -1px;
+  margin-right: -1px;
+}
+.cart-item:hover {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.01);
+}
+.card-body {
+  padding: 10px;
+}
+.card-body p {
+  font-size: 13px;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+.card-body p:hover {
+  color: #353535;
+}
+
+.cart-price__div h4 {
+  font-weight: bold !important;
+  font-weight: 600;
+}
+
+.item-rating__div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.item-rating__div small {
+  font-size: 11px;
+}
+.item-rating__div svg {
+  width: 11px;
+  height: 13px;
+  margin-right: 3px;
+}
+
+.card-actions__div {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  margin-left: -2px;
+  margin-bottom: -2px;
+}
+.card-actions__div button {
+  border-radius: 0;
+  height: 100%;
+  margin-right: 2px;
+  background: #e8e8e8;
+  color: #777777;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  justify-content: center;
+  border: none;
+}
+.card-actions__div svg {
+  font-size: 15px;
+}
+.addToCartModalFooter {
+  display: flex !important;
+  justify-content: space-between !important;
+  border-top: 1px solid #c7c7c7 !important;
+}
+.footer_div {
+  display: flex;
+  flex-direction: column;
+}
+.footer_div strong {
+  margin-bottom: 15px;
+}
+.content-image {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+/* new */
+@media (min-width: 480px) {
+  .tablet\:pl-0 {
+    padding-left: 0;
+  }
+}
+
+@media (min-width: 480px) {
+  .tablet\:gap-0 {
+    gap: 0;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:items-center {
+    align-items: center;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:flex-wrap {
+    flex-wrap: wrap;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:flex-row {
+    flex-direction: row;
+  }
+}
+
+.item-box .picture {
+  z-index: 1;
+  background-color: #fff;
+  margin: 0 0 10px;
+}
+.item-box .picture a:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+.item-box:hover .picture a img {
+  opacity: 0.85;
+}
+.duration-300 {
+  transition-duration: 300ms;
+}
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.product-title-lines {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+@media (min-width: 811px) {
+  .md\:text-xl {
+    font-size: 1.25rem;
+  }
+}
+@media (min-width: 1300px) {
+  .lg\:flex-row {
+    flex-direction: row;
+  }
+}
+@media (min-width: 1001px) {
+  .center-1 .buttons {
+    text-align: center;
+  }
+}
+@media (min-width: 811px) {
+  .md\:flex-grow {
+    flex-grow: 1;
+  }
+}
+.icon-heart:before {
+  content: '\E04E';
+}
+.md\:p-3 {
+  padding: 0.75rem;
+}
+.hover\:shadow-md:hover {
+  /* --tw-shadow-colored: 0px 4px 20px var(--tw-shadow-color); */
+  box-shadow: var(0 0 #0000, 0 0 #0000), var(0 0 #0000, 0 0 #0000),
+    var(0px 4px 20px rgba(44, 44, 44, 0.1));
+}
+@media (min-width: 480px) {
+  .tablet\:pl-0 {
+    padding-left: 0;
+  }
+}
+
+@media (min-width: 480px) {
+  .tablet\:gap-0 {
+    gap: 0;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:items-center {
+    align-items: center;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:flex-wrap {
+    flex-wrap: wrap;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:flex-row {
+    flex-direction: row;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:pl-3 {
+    padding-left: 0.75rem;
+  }
+}
+.h-6 {
+  height: 1.5rem;
+}
+.top-2\.5 {
+  top: 0.625rem;
+}
+.left-0 {
+  left: 0;
+}
+.item-box .picture a:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.shadow-sm {
+  --tw-shadow: ;
+  --tw-shadow-colored: 0px 4px 10px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}

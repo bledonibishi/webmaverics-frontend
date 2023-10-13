@@ -1,11 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+// ag grid
+import 'ag-grid-community/styles/ag-grid.css'
+import 'ag-grid-community/styles/ag-theme-alpine.css'
 
-import UserRoutes from './config/UserRoutes';
-import AdminRoutes from './config/AdminRoutes';
-import Signup from './components/User/authentication/Signup/Signup';
+import UserRoutes from './config/UserRoutes'
+import AdminRoutes from './config/AdminRoutes'
+import Signup from './components/User/authentication/Signup/Signup'
 
 function App() {
   return (
@@ -16,7 +19,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

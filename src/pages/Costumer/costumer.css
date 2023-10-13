@@ -1,0 +1,21 @@
+.test {
+  background-color: #f7f7f7 !important;
+  width: 100%;
+  display: grid;
+  gap: 20px 20px;
+}
+.costumer-sidebar__container {
+  width: 22.5%;
+  height: 100%;
+  margin-bottom: 0px !important;
+  box-sizing: border-box;
+  position: -webkit-sticky; /* For Safari */
+  position: sticky !important;
+  top: 20px;
+  z-index: 1;
+}
+.costumer-main {
+  float: right;
+  width: 76%;
+  overflow: auto;
+}

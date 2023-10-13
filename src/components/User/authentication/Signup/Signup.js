@@ -4,7 +4,6 @@ import './signup.css'
 import { FormSelect } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCountries, userLogin } from '../../../../store/auth/authSlice'
-import axiosInstance from '../../../../api/axiosInstance'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { reset, signup } from '../../../../store/auth/authSlice'
@@ -15,26 +14,21 @@ function Signup() {
   const navigate = useNavigate()
   const { user, isSuccess, isError, message, isLoading, countries } =
     useSelector((state) => state.auth)
-  console.log(
-    'state.auth',
-    useSelector((state) => state.auth)
-  )
+  console.log('isSuccess', isSuccess)
+
   const [userFormData, setUserFormData] = useState({})
-  // console.log('userState', userState)
-  const [selectedCountry, setSelectedCountry] = useState('')
+
+  console.log('component called')
 
   useEffect(() => {
-    dispatch(fetchCountries())
-  }, [])
-
-  useEffect(() => {
+    // dispatch(fetchCountries())
     if (isError) {
       // Toast.error(message)
       console.log('message isError')
     }
 
-    if (isSuccess || user) {
-      // navigate('/')
+    if (isSuccess) {
+      navigate('/')
     }
 
     dispatch(reset())
@@ -50,12 +44,12 @@ function Signup() {
   const submitHandler = async (e) => {
     e.preventDefault()
     const credentials = {
-      name: 'user4',
-      surname: 'user4',
+      name: 'user6',
+      surname: 'user6',
       gender: 'Female',
       country: '6445a51700404290d448bc72',
       city: '6445a35300404290d448bc52',
-      email: 'user4@gmail.com',
+      email: 'user6@gmail.com',
       password: 'user1234',
       passwordConfirm: 'user1234',
       birthYear: 2000,
@@ -71,19 +65,6 @@ function Signup() {
 
       dispatch(signup(credentials))
     }
-    // try {
-    //   const promise = await axiosInstance.post(
-    //     'api/v1/users/signup',
-    //     credentials
-    //   )
-    //   if (promise) dispatch(userLogin())
-    //   const token = promise.data.token
-    //   localStorage.setItem('token', token)
-
-    //   console.log('response.data', promise.data)
-    // } catch (error) {
-    //   console.log('error', error)
-    // }
   }
   return (
     <div id="signup">
@@ -205,8 +186,8 @@ function Signup() {
                   name="country"
                   onClick={(event) => handleChange(event)}
                 >
-                  {countries.data &&
-                    countries.data.map((item) => (
+                  {countries?.data &&
+                    countries?.data.map((item) => (
                       <option key={item.id} value={item.name}>
                         {item.name}
                       </option>

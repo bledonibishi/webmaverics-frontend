@@ -1,0 +1,38 @@
+.paginationIndex {
+  background-color: black;
+  width: 100%;
+  opacity: 0.2;
+  height: 5px;
+  border-radius: 4px;
+}
+.slick-track {
+  height: 100% !important;
+}
+.activeStyle {
+  width: 0px;
+  border-radius: 4px;
+  opacity: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 173, 145, 1) 0%,
+    rgba(228, 111, 70, 1) 50%,
+    rgba(225, 87, 38, 1) 100%
+  );
+  animation: slide-progress 2s cubic-bezier(0.3, 0, 0.3, 1) forwards;
+  /* transition: width 5s ease; */
+}
+.slick-dots li {
+  width: 80px !important;
+}
+.slick-slide img:focus {
+  outline: none !important; /* Remove the focus outline */
+  border: none !important; /* Remove any border */
+}
+@keyframes slide-progress {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}

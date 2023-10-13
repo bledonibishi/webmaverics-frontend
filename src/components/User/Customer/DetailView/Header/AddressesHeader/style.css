@@ -1,0 +1,11 @@
+.add-address-button {
+  background: transparent;
+  border: none;
+  display: flex;
+  height: 20px;
+  align-items: center !important;
+}
+.add-address-button:hover {
+  border-bottom: 1px solid rgb(230 82 40);
+  background: transparent;
+}
