@@ -1,4 +1,4 @@
-import WrappingCard from '@/pages/Costumer/WrappingCard'
+import WrappingCard from '@/ui/WrappingCard'
 import {
   faBackward,
   faPrint,
@@ -59,7 +59,7 @@ const OrderDetails = () => {
   }
   return (
     <>
-      <WrappingCard marginBtm="20px">
+      <WrappingCard marginBtm="20px" padding="12px">
         <div className="d-flex align-items-center justify-content-between">
           <p className="text-lg">
             Porosia:{' '}
@@ -92,7 +92,7 @@ const OrderDetails = () => {
           </div>
         </div>
       </WrappingCard>
-      <WrappingCard marginBtm="20px">
+      <WrappingCard marginBtm="20px" padding="12px">
         <div className="text-center">
           <p
             className="text-lg font-semibold"
@@ -104,7 +104,7 @@ const OrderDetails = () => {
           <p>Date of shipment: {order.shipmentDate}</p>
         </div>
       </WrappingCard>
-      <WrappingCard marginBtm="20px">
+      <WrappingCard marginBtm="20px" padding="12px">
         <div className="d-flex justify-content-between border-bottom pb-2">
           <p className="text-lg">Products</p>
           <p className="text-lg">Price</p>
@@ -125,7 +125,7 @@ const OrderDetails = () => {
           </div>
         </div>
       </WrappingCard>
-      <WrappingCard marginBtm="20px">
+      <WrappingCard marginBtm="20px" padding="12px">
         <div className="border-bottom">
           <div className="d-flex justify-content-between pb-3">
             <p>Subtotal:</p>
@@ -153,7 +153,7 @@ const OrderDetails = () => {
           <p className="text-primary">21.00 $</p>
         </div>
       </WrappingCard>
-      <WrappingCard>
+      <WrappingCard padding="12px">
         <div className="order-details-transport">
           <div>
             <p className="font-semibold pb-2">Transport mode:</p>

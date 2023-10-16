@@ -21,12 +21,12 @@ type sidebarProps = {
 
 const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
   return (
-    <div className="costumer-sidebar">
+    <div className="costumer-sidebar ">
       <div className="costumer-sidebar__header">
         <p className="text-lg m-0">Tung bledon</p>
         <p className="text-sm pb-3">Faleminderit që je pjesë e Gjirafa50</p>
       </div>
-      <div className="costumer-sidebar__body">
+      <div className="costumer-sidebar__body ">
         <ul className="list flex-col gap-2 p-0 m-0">
           <li>
             <Link

@@ -3,3 +3,11 @@
   /* top: 200px; */
   right: 17rem;
 }
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+}

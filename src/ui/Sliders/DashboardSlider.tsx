@@ -13,6 +13,7 @@ import './style.css'
 
 const DashboardSlider = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
+  console.log('activeIndex', activeIndex)
   const totalSlides = 6
 
   //   useEffect(() => {
@@ -46,8 +47,7 @@ const DashboardSlider = () => {
             // paddingRight: '10px',
           }}
         >
-          {' '}
-          {dots}{' '}
+          {dots}
         </ul>
       </div>
     ),
@@ -58,38 +58,40 @@ const DashboardSlider = () => {
     ),
   }
   return (
-    <Slider
-      {...settings}
-      beforeChange={(current, next) => setActiveIndex(next)}
-    >
-      <div>
-        <img src={Banner} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner1} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner2} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner3} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner4} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner5} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner6} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner7} alt="banner" />
-      </div>
-      <div>
-        <img src={Banner8} alt="banner" />
-      </div>
-    </Slider>
+    <div className="dashboard theme-custom position-relative">
+      <Slider
+        {...settings}
+        beforeChange={(current, next) => setActiveIndex(next)}
+      >
+        <div>
+          <img src={Banner} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner1} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner2} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner3} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner4} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner5} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner6} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner7} alt="banner" />
+        </div>
+        <div>
+          <img src={Banner8} alt="banner" />
+        </div>
+      </Slider>
+    </div>
   )
 }
 

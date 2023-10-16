@@ -11,7 +11,7 @@ function ProductList() {
   const { data, error, isLoading } = useGetProductsQuery()
 
   return (
-    <div className="container p-0">
+    <div className="master-wrapper-content mx-auto p-0">
       {isLoading ? (
         <LoadingBar height={'80vh'} size={50} />
       ) : !isLoading && error ? (
@@ -24,7 +24,7 @@ function ProductList() {
         </div>
       ) : (
         <div
-          className="row item-grid grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-5 position-relative w-100 p-0"
+          className="item-grid grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-5 position-relative w-100 p-0"
           style={{ marginLeft: '1px' }}
         >
           {!isLoading &&

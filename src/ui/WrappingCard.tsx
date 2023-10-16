@@ -3,19 +3,22 @@ import React, { ReactNode } from 'react'
 const WrappingCard = ({
   children,
   marginBtm,
+  padding,
 }: {
   children: ReactNode
   marginBtm?: string
+  padding: string
 }) => {
   return (
     <div
       style={{
-        padding: '12px',
-        background: '#fff',
-        boxShadow: ' 2px 0px 6px rgba(0, 0, 0, 0.1)',
+        padding: `${padding}`,
+        background: 'rgb(255, 255, 255)',
+        // boxShadow:
+        // ' ${var(--tw-ring-offset-shadow, 0 0 #0000)}, var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
         marginBottom: `${marginBtm}`,
       }}
-      className="rounded"
+      className="rounded shadow-md bg-white"
     >
       {children}
     </div>

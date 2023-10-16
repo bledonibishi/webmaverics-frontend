@@ -10,6 +10,9 @@ import Wishlist from '@/components/User/Customer/DetailView/Wishlist'
 import ProductDetailPage from '@/components/User/products/ProductDetailsPage/ProductDetailPage'
 import RegisterPage from '@/auth/pages/SignupPage'
 import ProductItem from '@/pages/ProductItem/ProductItem'
+import Cart from '@/Cart/pages/Cart'
+import OnePageCheckout from '@/pages/OnePageCheckout'
+import SearchComponent from '@/pages/SearchPage'
 const UserRoutes = () => {
   const currentPath = useLocation().pathname
   const isLoginPage =
@@ -24,10 +27,12 @@ const UserRoutes = () => {
         <Route path="/login/:type" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/product/:id" element={<ProductItem />} />
-        {/* <Route path="/cart" element={<Cart />} /> */}
+        <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/customer" element={<Customer />} />
         <Route path="/customer/:type/:id?" element={<Customer />} />
+        <Route path="/onepagecheckout/:type" element={<OnePageCheckout />} />
+        <Route path="/search" element={<SearchComponent />} />
       </Routes>
       {showHeaderAndFooter && <Footer />}
     </>

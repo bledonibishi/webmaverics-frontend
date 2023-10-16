@@ -12,7 +12,7 @@ import UserInfo from '../../components/User/Customer/DetailView/UserInfo'
 import Addresses from '../../components/User/Customer/DetailView/Addresses'
 import Orders from '../../components/User/Customer/DetailView/Orders'
 import WrapperWIthSpacing from '../../ui/WrapperWIthSpacing'
-import WrappingCard from './WrappingCard'
+import WrappingCard from '../../ui/WrappingCard'
 import UserInfoHeader from '../../components/User/Customer/DetailView/Header/UserInfoHeader'
 import AddressesHeader from '../../components/User/Customer/DetailView/Header/AddressesHeader'
 import OrdersHeader from '../../components/User/Customer/DetailView/Header/OrdersHeader'
@@ -78,23 +78,23 @@ const Costumer = () => {
   }
   return (
     <WrapperWIthSpacing>
-      <div style={{ padding: '20px 0' }}>
-        <div className="d-flex test">
-          <div className="costumer-sidebar__container">
-            <WrappingCard>
-              <Sidebar onLinkClick={handleLinkClick} activeLink={activeLink} />
-            </WrappingCard>
-          </div>
-          <div className="costumer-main">
-            {/* <WrappingCard marginBtm={'20px'}>{headerComponent}</WrappingCard> */}
-            {contentComponent.type.name === 'Orders' ||
-            contentComponent.type.name === 'Addresses' ||
-            contentComponent.type.name === 'OrderDetails'
-              ? contentComponent
-              : contentComponent}
-          </div>
+      {/* <div style={{ padding: '20px 0' }}> */}
+      <div className="d-flex test">
+        <div className="costumer-sidebar__container shadow-md">
+          <WrappingCard padding="12px">
+            <Sidebar onLinkClick={handleLinkClick} activeLink={activeLink} />
+          </WrappingCard>
+        </div>
+        <div className="costumer-main ">
+          {/* <WrappingCard marginBtm={'20px'}>{headerComponent}</WrappingCard> */}
+          {contentComponent.type.name === 'Orders' ||
+          contentComponent.type.name === 'Addresses' ||
+          contentComponent.type.name === 'OrderDetails'
+            ? contentComponent
+            : contentComponent}
         </div>
       </div>
+      {/* </div> */}
     </WrapperWIthSpacing>
   )
 }

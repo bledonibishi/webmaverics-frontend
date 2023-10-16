@@ -1,5 +1,5 @@
 import React from 'react'
-import WrappingCard from '../../../../../pages/Costumer/WrappingCard'
+import WrappingCard from '../../../../../ui/WrappingCard'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -56,7 +56,7 @@ const Orders = () => {
   const price = 21.0
   return (
     <div>
-      <WrappingCard marginBtm="20px">
+      <WrappingCard marginBtm="20px" padding="12px">
         <div className="d-flex justify-content-between orders-header">
           <p className="text-lg">Porosite</p>
           <div className="d-flex align-items-center">
@@ -104,7 +104,7 @@ const Orders = () => {
           </div>
         </div>
       </WrappingCard>
-      <WrappingCard marginBtm={'20px'}>
+      <WrappingCard marginBtm={'20px'} padding="12px">
         <OrderCard
           id="e1abb490-c5f4-45d9-b440-eea625d50709"
           sericalNumber="212527"
@@ -113,7 +113,7 @@ const Orders = () => {
           price={price}
         />
       </WrappingCard>
-      <WrappingCard marginBtm={'20px'}>
+      <WrappingCard marginBtm={'20px'} padding="12px">
         <OrderCard
           id="e1abb490-c5f4-45d9-b440"
           sericalNumber="212527"
@@ -122,7 +122,7 @@ const Orders = () => {
           price={price}
         />
       </WrappingCard>
-      <WrappingCard>Pagination</WrappingCard>
+      <WrappingCard padding="12px">Pagination</WrappingCard>
     </div>
   )
 }

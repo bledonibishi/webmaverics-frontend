@@ -1,7 +1,15 @@
 import React, { ReactNode, useState } from 'react'
-import './header.css'
+// import './header.css'
 import Navigation from '../Navbar/Navigation'
 import SubNavigation from '../Navbar/SubNavigation'
+import Logo from '@/assets/images/gjirafa50.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faHeart,
+  faSearch,
+  faShoppingCart,
+  faSignIn,
+} from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
@@ -26,7 +34,8 @@ const Header = () => {
     setIsDropdownVisible(false)
   }
   return (
-    <nav className="w-100 position-relative">
+    // <nav className="w-100 position-relative">
+    <>
       <Navigation />
       <SubNavigation
         handleLiMouseLeave={handleLiMouseLeave}
@@ -36,7 +45,8 @@ const Header = () => {
         handleDropdownMouseEnter={handleDropdownMouseEnter}
       />
       {isDropdownVisible && <div className="overlay"></div>}
-    </nav>
+    </>
+    // </nav>
   )
 }
 

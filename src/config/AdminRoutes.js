@@ -1,16 +1,16 @@
-import React from "react";
-import Header from "../components/User/Header/Header";
-import Footer from "../components/User/Footer";
+import React from 'react'
+import Header from '../components/User/Header/Header'
+import Footer from '../components/User/Footer'
 
-import MainContent from "../components/Admin/Dashboard";
+import MainContent from '../components/Admin/Dashboard'
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Switch,
   Navigate,
-} from "react-router-dom";
-import Dashboard from "../components/User/dashboard";
+} from 'react-router-dom'
+import Dashboard from '../components/User/dashboard'
 function AdminRoutes() {
   return (
     <>
@@ -24,9 +24,9 @@ function AdminRoutes() {
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         </Routes>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
-  );
+  )
 }
 
-export default AdminRoutes;
+export default AdminRoutes

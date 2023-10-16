@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { CartItemProduct } from '@/helpers/types'
 import { useDeleteCartProductMutation } from '@/Cart/store/cartAPI'
+import { useNavigate } from 'react-router-dom'
 
 type DropdownProps = {
   children?: ReactNode
@@ -40,6 +41,7 @@ const CustomDropdown = ({
   align,
   handleDeleteCartProduct,
 }: DropdownProps) => {
+  const navigate = useNavigate()
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null)
 
   const cartItemClassName = ({ hover }: any) =>
@@ -51,6 +53,9 @@ const CustomDropdown = ({
   // const handleDeleteCartProduct = (productId: number | string) => {
   //   deleteProduct(productId)
   // }
+  const gotoCart = () => {
+    navigate('/cart')
+  }
 
   return (
     <Menu
@@ -107,6 +112,14 @@ const CustomDropdown = ({
             <p className="text-gray-700 ">
               {cartItemProducts.map((item) => item.price)}
             </p>
+          </div>
+          <div className="buttons d-flex justify-content-center px-4 pb-4">
+            <input
+              type="button"
+              value="Shko në shportë"
+              className="cart-button w-100 btn btn-primary btn-primary-hover text-sm"
+              onClick={gotoCart}
+            />
           </div>
         </div>
       ) : (

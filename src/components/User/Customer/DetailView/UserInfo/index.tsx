@@ -1,16 +1,16 @@
 import React from 'react'
 import { Button, Form } from 'react-bootstrap'
 import './style.css'
-import WrappingCard from '@/pages/Costumer/WrappingCard'
+import WrappingCard from '@/ui/WrappingCard'
 import UserInfoHeader from '@/components/User/Customer/DetailView/Header/UserInfoHeader'
 
 const UserInfo = () => {
   return (
     <>
-      <WrappingCard>
+      <WrappingCard padding="12px" marginBtm="20px">
         <UserInfoHeader />
       </WrappingCard>
-      <WrappingCard marginBtm="20px">
+      <WrappingCard marginBtm="20px" padding="12px">
         <Form className="personal-info__details">
           <div className="personal-info_topdiv">
             <div className="personal-info__input">

@@ -8,9 +8,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAngleDown,
   faArrowDown,
+  faCheck,
   faCreditCard,
   faHeart,
   faMoneyBillTransfer,
+  faShoppingCart,
   faTruck,
 } from '@fortawesome/free-solid-svg-icons'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
@@ -417,22 +419,25 @@ const ProductItem = () => {
               className="overview-buttons d-flex bg-white w-100 px-2 right-0 md:px-0  md:relative bottom-0 z-50 pt-3 pb-3 md:mb-0 md:py-0 gap-4 justify-content-end"
               //   position-fixed
             >
-              <button
+              {/* <button
                 id="buy-now-btn-container"
                 type="button"
-                className="btn btn-primary btn-primary-hover w-100 focus:outline-none d-flex justify-content-center align-items-center gap-2 text-sm"
+                style={{ display: 'none' }}
+                className="btn btn-primary  btn-primary-hover w-100 focus:outline-none d-flex justify-content-center align-items-center hidden gap-2 text-sm"
                 // style="display: none;"
               >
                 <i className="icon-check-badge icon-line-height text-2xl"></i>
                 Blej tani
-              </button>
+              </button> */}
               <div className="w-100">
                 <button
                   type="button"
                   className="open-buynow-popup btn btn-primary btn-primary-hover w-100 focus:outline-none d-flex align-items-center justify-content-center gap-2"
                   //  href="#buynow-popup"
                 >
-                  <i className="icon-check-badge text-2xl d-flex align-items-center justify-content-center gap-2 icon-line-height"></i>
+                  <i className="icon-check-badge text-2xl d-flex align-items-center justify-content-center gap-2 icon-line-height">
+                    <FontAwesomeIcon icon={faCheck} />
+                  </i>
                   <span className="uppercase text-xs md:text-sm">
                     Blej tani
                   </span>
@@ -441,7 +446,7 @@ const ProductItem = () => {
               <button
                 type="button"
                 id="add-to-cart-button-160697"
-                className="add-to-cart-button btn btn-secondary btn-secondary-hover md:w-100 focus:outline-none d-flex justify-center"
+                className="w-100 add-to-cart-button btn btn-secondary btn-secondary-hover md:w-100 focus:outline-none d-flex justify-content-center"
                 data-productid="160697"
                 aria-label="Shto në shportë"
 
@@ -451,20 +456,22 @@ const ProductItem = () => {
                 //                     return false;"
               >
                 <i className="icon-cart-shopping-add text-2xl icon-line-height">
-                  <FontAwesomeIcon icon={faHeart} />
+                  <FontAwesomeIcon icon={faShoppingCart} />
                 </i>
-                <span className="text-xs md:text-sm hidden md:flex ml-2">
+                <span className="text-xs md:text-sm md:flex ml-2">
                   Shto në shportë
                 </span>
               </button>
               <button
                 type="button"
                 id="add-to-wishlist-button-160697"
-                className="add-to-wishlist-button btn btn-secondary btn-secondary-hover focus:outline-none hidden md:flex"
+                className="add-to-wishlist-button btn btn-secondary btn-secondary-hover focus:outline-none  md:flex"
                 data-productid="160697"
                 //  onclick="AjaxCart.addproducttocart_details('/addproducttocart/details/160697/2', '#product-details-form');return false;"
               >
-                <i className="icon-heart text-2xl icon-line-height"></i>
+                <i className="icon-heart text-2xl icon-line-height">
+                  <FontAwesomeIcon icon={faHeart} />
+                </i>
               </button>
             </div>
           </div>
@@ -484,24 +491,232 @@ const ProductItem = () => {
             ))}
           </ul>
 
-          <div className="product-details__content pl-4 pr-4">
+          <div className="product-details__content p-3 md:p-6">
             {activeProdTitle === '1' && (
-              <>
-                <p className="pd-subheader">Pershkrimi i produktit</p>
-                <p>{'description'}</p>
-              </>
+              <div className="tab1 text-sm">
+                <p className="">
+                  Telefon i shkëlqyer për çdo rast. Kështu është Apple iPhone
+                  15, i cili përveç dizajnit unik dhe cilësisë të
+                  jashtëzakonshme ofron një gamë të plotë të veçorive më të
+                  larta, duke përfshirë zmadhim optik të dyfishtë dhe sistemin e
+                  njoftimeve Dynamic Island.
+                </p>
+                <p>Veçoritë kryesore:</p>
+                <ul>
+                  <li>Konektor USB-C</li>
+                  <li>Ekran me diagonale 6.1" Super Retina XDR</li>
+                  <li>
+                    Sistem i përparuar i dyfishtë i kamerave (48 Mpix dhe 12
+                    Mpix)
+                  </li>
+                  <li>Zmadhimi optik të dyfishtë </li>
+                  <li>Procesori i fuqishëm A16 Bionic</li>
+                  <li>Mbështetje për 5G</li>
+                  <li>
+                    Tejet i qëndrueshëm me Ceramic Shield në pjesën e përparme
+                  </li>
+                </ul>
+                <h6 className="mt-3">
+                  Ekran të përsosur OLED Super Retina XDR 6.1"
+                </h6>
+                <p>
+                  Për imazhin e përsosur të iPhone 15, kujdeset ekran OLED Super
+                  Retina XDR 6.1" me mbështetje për teknologjinë True Tone, e
+                  cila rregullon shfaqjen e ekranit në bazë të dritës së
+                  ambientit. Përveç kësaj, ekrani ka një rezolucion të lartë,
+                  ngjyrat janë të realizuara në mënyrë të përsosur dhe kontrasti
+                  është i padiskutueshëm.
+                </p>
+                <ul>
+                  <li>Shfaqja e njoftimeve Dynamic Island </li>
+                  <li>Ekran HDR </li>
+                  <li>True Tone</li>
+                  <li>Gamë e ngjyrave e gjerë (P3) </li>
+                  <li>Haptic Touch </li>
+                  <li>Raporti i kontrastit (tipik) 2,000,000:1</li>
+                  <li>
+                    Luminenca maksimale (tipike) 1,000 nit; luminenca maksimale
+                    (HDR) 1,600 nit; luminenca maksimale (në ambiente të
+                    jashtme) 2,000 nit
+                  </li>
+                  <li>Përpunim oleofobik kundër shenjave të gishtave</li>
+                </ul>
+                <h6 className="mt-3">Fotografi dhe video të përsosura</h6>
+                <p>
+                  iPhone 15 bën fotografi edhe më të mira se sa verzionet e
+                  kaluara. Avantazhi i këtij modeli është kamera kryesore e re
+                  48Mpix, e cila ju lejon të kapni pamje të mahnitshme me një
+                  rezolucion shumë të lartë. Kështu, do të kapni lehtësisht foto
+                  me detaje të jashtëzakonshme. Tani do të keni një zoom optik
+                  të dyfishtë të disponueshëm. Dhe në rast të mungesës së
+                  dritës, modaliteti i natës do të aktivizohet automatikisht.
+                  Telefoni tani kap ngjyrat më të theksuara dhe detajet më të
+                  imëta. Noviteti ka prekur edhe kamerën e përparme TrueDepth.
+                  Tani ajo fokusohet në mënyrë automatike te ju. Selfiet tuaja
+                  dhe bisedat FaceTime do të jenë më të mira se kurrë më parë
+                </p>
+              </div>
             )}
             {activeProdTitle === '2' && (
-              <>
-                <p className="pd-subheader">Detajet Teknike</p>
-                <p>Details table</p>
-              </>
+              <div className="d-flex flex-col position-relative">
+                <div
+                  className="grid grid-cols-1  md:grid-cols-2"
+                  id="product-specifications-split-page"
+                >
+                  <div className="d-flex flex-grow ">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                  <div className="d-flex flex-grow">
+                    <div className="spec-name pl-2 py-2 m-0 text-xs text-left font-medium">
+                      Garancioni nga prodhuesi:
+                    </div>
+                    <div className="spec-value py-2 m-0 text-xs">1 vit </div>
+                  </div>
+                </div>
+              </div>
             )}
             {activeProdTitle === '3' && (
-              <>
-                <p className="pd-subheader">Vleresimet</p>
-                <p>Asnje postim i gjetur</p>
-              </>
+              <div className="product-reviews">
+                <div className="d-flex pb-6 justify-content-around border-b">
+                  <div className="d-flex align-items-center text-center flex-col ratingsAndReviews">
+                    <span className="text-primary text-4xl font-bold md:mb-0 d-flex align-items-center">
+                      0<i className="icon-star text-2xl"></i>
+                    </span>
+                    <p>0 Vlerësime</p>
+                  </div>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <button
+                      id="display-product-review-modal"
+                      className="btn text-primary border rounded border-primary  hover:bg-primary transition-all duration-150 hover:text-white text-sm open-product-review-popup"
+                    >
+                      Shto vlerësimin tuaj
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>

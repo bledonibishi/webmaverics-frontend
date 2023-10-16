@@ -24,11 +24,11 @@ const SubNavigation = ({
   return (
     <div className="header-menu d-flex bg-white shadow-md justify-content-center mb-6 align-items-center">
       <ul
-        className="d-grid grid-cols-8 grid-flow-col notmobile position-relative top-menu container p-0"
+        className="top-menu grid grid-cols-10 grid-flow-col notmobile position-relative  p-0"
         onMouseLeave={handleLiMouseLeave}
       >
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -73,8 +73,9 @@ const SubNavigation = ({
             />
           </div>
         </li>
+
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -120,7 +121,7 @@ const SubNavigation = ({
           </div>
         </li>
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -167,7 +168,7 @@ const SubNavigation = ({
           </div>
         </li>
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -215,7 +216,7 @@ const SubNavigation = ({
           </div>
         </li>
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -263,7 +264,7 @@ const SubNavigation = ({
           </div>
         </li>
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -311,7 +312,7 @@ const SubNavigation = ({
           </div>
         </li>
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -359,7 +360,7 @@ const SubNavigation = ({
           </div>
         </li>
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -407,7 +408,7 @@ const SubNavigation = ({
           </div>
         </li>
         <li
-          className={`parent-category-active d-flex category-item px-3 md:px-0 items-center `}
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
           onMouseEnter={handleLiMouseEnter}
         >
           <div
@@ -419,6 +420,54 @@ const SubNavigation = ({
               href=""
             >
               Qka ka tre?
+            </a>
+
+            <BannerDropdown
+              buttonContent="test"
+              content="ten dropdown"
+              onVisibilityChange={handleDropdownVisibility}
+              categories={[
+                {
+                  Telephone: {
+                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
+                    image: Computer,
+                  },
+                },
+                {
+                  Tablet: {
+                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
+                    image: Laptop,
+                  },
+                },
+                {
+                  Ebook: {
+                    items: ['Touch', 'Digital notebook', 'Accessory'],
+                    image: Server,
+                  },
+                },
+                {
+                  GPSnavigation: {
+                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
+                    image: Server,
+                  },
+                },
+              ]}
+            />
+          </div>
+        </li>
+        <li
+          className={`parent-category-active d-flex category-item px-3 md:px-0 align-items-center `}
+          onMouseEnter={handleLiMouseEnter}
+        >
+          <div
+            className="overlay-container"
+            onMouseEnter={handleDropdownMouseEnter}
+          >
+            <a
+              className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
+              href=""
+            >
+              Apple?
             </a>
 
             <BannerDropdown

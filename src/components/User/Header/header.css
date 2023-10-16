@@ -1,4 +1,4 @@
-a {
+/* a {
   color: #000 !important;
   border-bottom: none;
 }
@@ -106,4 +106,94 @@ a {
   cursor: pointer;
   border-radius: 50%;
   background-color: red;
+}
+*/ #header-menu-mobile {
+  top: -42px;
+}
+@media only screen and (min-width: 811px) {
+  .menu-toggle,
+  .sublist-toggle {
+    display: none;
+  }
+}
+.nav-i-animation {
+  transition: transform 0.3s ease;
+  transform: translate3d(0, 0, 0) translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+.navbar-logo {
+  width: 115px;
+}
+.max-w-username {
+  max-width: 150px;
+}
+@media (min-width: 811px) {
+  .search-box-inp {
+    transition: transform 0.3s ease;
+    width: 40%;
+    transition: width 0.3s ease;
+    transform: translate3d(0, 0, 0) translateZ(0);
+    backface-visibility: hidden;
+    will-change: width;
+  }
+}
+.search-box-inp {
+  width: 92%;
+  transition: width 0.3s ease;
+  transform: translate3d(0, 0, 0) translateZ(0);
+  backface-visibility: hidden;
+  will-change: width;
+}
+#small-search-box-form,
+#small-searchterms {
+  background-color: #4b4b4b;
+  color: #cecece;
+  border: none;
+  transition: all ease 0.3s;
+  border-radius: 4px;
+}
+@media (min-width: 811px) {
+  #small-searchterms {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+input[type='text'],
+.inputs input[type='email'],
+input[type='email'],
+.inputs input[type='tel'],
+input[type='tel'],
+.inputs input[type='password'],
+input[type='password'],
+.inputs input[type='number'],
+input[type='number'],
+.inputs select,
+select,
+.inputs textarea,
+textarea,
+.selectCustom.select {
+  max-width: 100%;
+  background-color: #fff;
+  border: 1px solid #cacaca;
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #2c2c2c;
+  transition: border 0.5s ease;
+}
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='tel']:focus,
+input[type='password']:focus,
+input[type='number']:focus,
+textarea:focus,
+input:focus-within,
+select:focus-within,
+textarea:focus-within {
+  border: 1px solid #e15726;
+  position: relative;
+  outline: none;
+  box-shadow: 0 4px 15px rgba(44, 44, 44, 0.04);
+  transition: border 0.5s ease;
 }

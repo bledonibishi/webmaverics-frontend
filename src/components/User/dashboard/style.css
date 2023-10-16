@@ -8,8 +8,8 @@
   padding: 0;
   /* margin-left: 10%; */
   /* margin-left: 10%; */
-  margin-top: -40px;
-  align-self: -40px;
+  margin-top: -40px !important;
+  /* align-self: -40px; */
   justify-content: center;
 }
 .small-banner img {

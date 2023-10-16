@@ -7,7 +7,7 @@ import {
   faPlus,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
-import WrappingCard from '@/pages/Costumer/WrappingCard'
+import WrappingCard from '@/ui/WrappingCard'
 import { useNavigate } from 'react-router-dom'
 
 const Addresses = () => {
@@ -40,7 +40,7 @@ const Addresses = () => {
   ]
   return (
     <>
-      <WrappingCard marginBtm="20px">
+      <WrappingCard marginBtm="20px" padding="12px">
         <div className="d-flex align-items-center justify-content-between account-details-container">
           <div className="text-base font-medium">Adresat</div>
           <button
@@ -53,7 +53,7 @@ const Addresses = () => {
           </button>
         </div>
       </WrappingCard>
-      <WrappingCard>
+      <WrappingCard padding="12px">
         <div className="address-container">
           {addressess.map((item) => (
             <AddressCard>

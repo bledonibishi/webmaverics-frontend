@@ -43,7 +43,7 @@ const BannerDropdown = ({
           const { items, image } = categoryObject[categoryKey]
           return (
             <li
-              className="category-item px-3 md:px-0 items-center d-flex"
+              className="category-item px-3 md:px-0 align-items-center d-flex"
               key={index}
             >
               <div className="">
@@ -63,12 +63,12 @@ const BannerDropdown = ({
                 <ul className="second-level p-0 m-0 d-flex">
                   {items.map((item, itemIndex) => (
                     <li
-                      className="category-item  pl-0 md:px-0 items-center "
+                      className="category-item  pl-0 md:px-0 align-items-center "
                       key={itemIndex}
                     >
                       <a
                         href=""
-                        className="category-item-content text-xs  hover:underline font-medium d-flex items-center justify-content-center px-2 text-sm text-gray-700"
+                        className="category-item-content text-xs  hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
                       >
                         {item}
                       </a>
