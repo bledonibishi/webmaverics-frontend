@@ -4,6 +4,15 @@ import { useNavigate } from 'react-router-dom'
 const OpcPaymentMethod = () => {
   const navigate = useNavigate()
   const [newAddress, setNewAddress] = useState<boolean>(false)
+  const [paymentMainMethod, setpaymentMainMethod] = useState<string>('online')
+  const [paymentMethod, setPaymentMethod] = useState<string>('teb')
+
+  const changePaymentMethod = (method: string) => {
+    setPaymentMethod(method)
+  }
+  const changeMainPaymentMethod = (method: string) => {
+    setpaymentMainMethod(method)
+  }
 
   const gotoPaymentInfo = () => {
     navigate('/onepagecheckout/opc-payment_info')
@@ -127,9 +136,9 @@ const OpcPaymentMethod = () => {
                     className="method-list d-flex flex-col mb-4"
                     id="payment-method-block"
                   >
-                    <li className="text-sm d-flex flex-col align-items-start w-100 p-2">
+                    <li className="text-sm  d-flex flex-col align-items-start w-100 p-2">
                       <label
-                        data-payment-method=""
+                        onClick={() => changeMainPaymentMethod('online')}
                         className="payment-group d-flex align-items-center cursor-pointer"
                       >
                         <input
@@ -138,18 +147,26 @@ const OpcPaymentMethod = () => {
                           name="paymentmethod"
                           value="Payments.Online.Teb"
                           className="mr-2"
-                          data-gtm-form-interact-field-id="1"
+                          checked={paymentMainMethod === 'online'}
                         />
                         <i className="icon-payments-online text-base mr-1"></i>
                         <label>
                           Paguaj online (Blerje direkte ose me këste)
                         </label>
                       </label>
-                      <span className="payment-method-container w-100">
+                      <span
+                        className={`payment-method-container w-100 ${
+                          paymentMainMethod === 'online' ? '' : 'hidden'
+                        } `}
+                      >
                         <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                           <label
-                            data-payment-method="Payments.Online.Teb"
-                            className="payment-method method-name w-100 p-2 border rounded w-100 border-primary shadow-halo"
+                            onClick={() => changePaymentMethod('teb')}
+                            className={`payment-method method-name w-100 p-2 border rounded w-100 ${
+                              paymentMethod === 'teb'
+                                ? ' border-primary shadow-halo'
+                                : ''
+                            } `}
                           >
                             <span className="d-flex flex-col gap-2">
                               <span className="payment-logo">
@@ -172,8 +189,12 @@ const OpcPaymentMethod = () => {
                         </span>
                         <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                           <label
-                            data-payment-method="Payments.Online.Raiffeisen"
-                            className="payment-method method-name w-100 p-2 border rounded w-100"
+                            onClick={() => changePaymentMethod('reiffeisen')}
+                            className={`payment-method method-name w-100 p-2 border rounded w-100 ${
+                              paymentMethod === 'reiffeisen'
+                                ? ' border-primary shadow-halo'
+                                : ''
+                            }`}
                           >
                             <span className="d-flex flex-col gap-2">
                               <span className="payment-logo">
@@ -196,8 +217,12 @@ const OpcPaymentMethod = () => {
                         </span>
                         <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                           <label
-                            data-payment-method="Payments.Online.ProCredit"
-                            className="payment-method method-name w-100 p-2 border rounded w-100"
+                            onClick={() => changePaymentMethod('procredit')}
+                            className={`payment-method method-name w-100 p-2 border rounded w-100 ${
+                              paymentMethod === 'procredit'
+                                ? ' border-primary shadow-halo'
+                                : ''
+                            } `}
                           >
                             <span className="d-flex flex-col gap-2">
                               <span className="payment-logo">
@@ -222,7 +247,7 @@ const OpcPaymentMethod = () => {
                     </li>
                     <li className="text-sm d-flex flex-col align-items-start w-100 p-2">
                       <label
-                        data-payment-method=""
+                        onClick={() => changeMainPaymentMethod('cash')}
                         className="payment-group d-flex align-items-center cursor-pointer"
                       >
                         <input
@@ -231,14 +256,15 @@ const OpcPaymentMethod = () => {
                           name="paymentmethod"
                           value="Payments.Cash"
                           className="mr-2"
-                          data-gtm-form-interact-field-id="0"
+                          checked={paymentMainMethod === 'cash'}
                         />
                         <i className="icon-payments-cash text-base mr-1"></i>
                         <label>Paguaj me para në dorë</label>
                       </label>
                       <span
-                        className="payment-method-container w-100 "
-                        style={{ opacity: '1' }}
+                        className={`payment-method-container w-100 ${
+                          paymentMainMethod === 'cash' ? '' : 'hidden'
+                        } `}
                       >
                         <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                           <label
@@ -269,7 +295,7 @@ const OpcPaymentMethod = () => {
                     </li>
                     <li className="text-sm d-flex flex-col align-items-start w-100 p-2">
                       <label
-                        data-payment-method="Payments.Installments.Teb"
+                        onClick={() => changeMainPaymentMethod('pos')}
                         className="payment-group d-flex align-items-center cursor-pointer"
                       >
                         <input
@@ -278,13 +304,15 @@ const OpcPaymentMethod = () => {
                           name="paymentmethod"
                           value="Payments.Installments.Teb"
                           className="mr-2"
+                          checked={paymentMainMethod === 'pos'}
                         />
                         <i className="icon-payments-pos text-base mr-1"></i>
                         <label>Paguaj me POS</label>
                       </label>
                       <span
-                        className="payment-method-container w-100 "
-                        style={{ opacity: '1' }}
+                        className={`payment-method-container w-100 ${
+                          paymentMainMethod === 'pos' ? '' : 'hidden'
+                        } `}
                       >
                         <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                           <label
@@ -371,7 +399,7 @@ const OpcPaymentMethod = () => {
                     </li>
                     <li className="text-sm d-flex flex-col align-items-start w-100 p-2">
                       <label
-                        data-payment-method=""
+                        onClick={() => changeMainPaymentMethod('transfer')}
                         className="payment-group d-flex align-items-center cursor-pointer"
                       >
                         <input
@@ -380,12 +408,16 @@ const OpcPaymentMethod = () => {
                           name="paymentmethod"
                           value="Payments.CheckMoneyOrder"
                           className="mr-2"
-                          data-gtm-form-interact-field-id="2"
+                          checked={paymentMainMethod === 'transfer'}
                         />
                         <i className="icon-payments-banktransfer text-base mr-1"></i>
                         <label>Paguaj me transfer bankar</label>
                       </label>
-                      <span className="payment-method-container w-100 ">
+                      <span
+                        className={`payment-method-container w-100 ${
+                          paymentMainMethod === 'transfer' ? '' : 'hidden'
+                        } `}
+                      >
                         {/* style="opacity: 0;" */}
                         <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                           <label

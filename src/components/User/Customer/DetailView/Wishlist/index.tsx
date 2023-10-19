@@ -8,7 +8,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import { useGetWishlistProductsQuery } from '@/wishlist/store/wishlistAPI'
+import {
+  useGetWishlistProductsQuery,
+  useRemoveProductMutation,
+} from '@/wishlist/store/wishlistAPI'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWishlistProducts } from '@/wishlist/store/wishlistSlice'
@@ -19,16 +22,24 @@ import AppleImage from '@/assets/images/Img1Big.png'
 const Wishlist = () => {
   const dispatch = useAppDispatch()
   const wishlist = useAppSelector((state) => state.wishlist)
-  console.log('wishlist', wishlist)
+  const [removeProduct, { error }] = useRemoveProductMutation()
+  const { data, isLoading, refetch } = useGetWishlistProductsQuery()
+  console.log('wishlist', data)
 
-  useEffect(() => {
-    dispatch(getWishlistProducts())
-  }, [])
+  // const [location, setLocation] = useState('')
+  // const copyWishListUrl = () => {
+  //   console.log('copyWishListUrl')
+  // }
 
-  const [location, setLocation] = useState('')
-  const copyWishListUrl = () => {
-    console.log('copyWishListUrl')
+  const deleteProductHandler = async (productID: string) => {
+    try {
+      removeProduct(productID)
+      refetch()
+    } catch (error) {
+      console.log('error', error)
+    }
   }
+
   return (
     <>
       <WrappingCard marginBtm="20px" padding="12px">
@@ -96,90 +107,108 @@ const Wishlist = () => {
       </WrappingCard>
       <WrappingCard padding="12px">
         <div className="wishlist-content">
-          <form action="/wishlist" method="post">
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-4  mb-6">
-              <div className="item-box">
-                <div
-                  className="product-item bg-white overflow-hidden p-2 md:p-3 hover:shadow-md shadow-sm rounded position-relative"
-                  id="related-products"
-                  data-productid="160697"
-                >
-                  <div
-                    className="position-absolute h-6 pr-3 pl-3 tablet:pl-0 z-10 w-100"
-                    style={{ top: '0.625rem', left: '0' }}
-                  >
+          <form>
+            {isLoading ? (
+              <LoadingBar height="50px" size={'50px'} />
+            ) : !isLoading && data?.length ? (
+              <div className="grid grid-cols-2 gap-2 md:grid-cols-4  mb-6">
+                {data.map((item) => (
+                  <div className="item-box">
                     <div
-                      className="w-10 bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute shadow-sm text-white text-xs font-medium"
-                      style={{ height: '19px', top: '1px', right: '0.75rem' }}
+                      className="product-item bg-white overflow-hidden p-2 md:p-3 hover:shadow-md shadow-sm rounded position-relative"
+                      id="related-products"
+                      data-productid="160697"
                     >
-                      -24%
-                    </div>
-                  </div>
-                  <div className="picture position-relative px-4 pt-4">
-                    <a
-                      className="relative block"
-                      href="/apple-iphone-15-128gb-black"
-                      title="Apple iPhone 15, 128GB, Black"
-                    >
-                      <img
-                        loading="lazy"
-                        src={AppleImage}
-                        className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-                        alt="Foto e Apple iPhone 15, 128GB, Black"
-                      />
-                    </a>
-                  </div>
-                  <div className="details">
-                    <span className="product-title">
-                      <a
-                        className="text-sm md:text-base product-title-lines hover:underline"
-                        title="Apple iPhone 15, 128GB, Black"
-                        href="/apple-iphone-15-128gb-black"
+                      <div
+                        className="position-absolute h-6 pr-3 pl-3 tablet:pl-0 z-10 w-100"
+                        style={{ top: '0.625rem', left: '0' }}
                       >
-                        Apple iPhone 15, 128GB, Black
-                      </a>
-                    </span>
-                    <div className="add-info">
-                      <div className="prices d-flex flex-col h-12 my-2">
-                        <span className="price actual-price font-semibold text-gray-700 text-base md:text-xl">
-                          1,099.50 €
+                        <div
+                          className="w-10 bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute shadow-sm text-white text-xs font-medium"
+                          style={{
+                            height: '19px',
+                            top: '1px',
+                            right: '0.75rem',
+                          }}
+                        >
+                          -24%
+                        </div>
+                      </div>
+                      <div className="picture position-relative px-4 pt-4">
+                        <a
+                          className="relative block"
+                          href="/apple-iphone-15-128gb-black"
+                          title="Apple iPhone 15, 128GB, Black"
+                        >
+                          <img
+                            loading="lazy"
+                            src={AppleImage}
+                            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                            alt="Foto e Apple iPhone 15, 128GB, Black"
+                          />
+                        </a>
+                      </div>
+                      <div className="details">
+                        <span className="product-title">
+                          <a
+                            className="text-sm md:text-base product-title-lines hover:underline"
+                            title="Apple iPhone 15, 128GB, Black"
+                            href="/apple-iphone-15-128gb-black"
+                          >
+                            {item.title}
+                          </a>
                         </span>
+                        <div className="add-info">
+                          <div className="prices d-flex flex-col h-12 my-2">
+                            <span className="price actual-price font-semibold text-gray-700 text-base md:text-xl">
+                              {item.price}.50 €
+                            </span>
+                          </div>
+                        </div>
+                        <div className="buttons d-flex justify-content-evenly gap-2">
+                          <button
+                            aria-label="Shto në shportë"
+                            className="h-10 product-box-add-to-cart-button d-flex align-items-center btn-primary-hover justify-content-center md:flex-grow hover:bg-primary hover:text-white w-50 focus:outline-none focus:border-none btn-simple btn-secondary focus:text-white"
+                            // onclick="AjaxCart.addproducttocart_catalog('/addproducttocart/catalog/160697/1/1');return false;"
+                          >
+                            <span className="icon-cart-shopping-add icon-line-height text-xl md:hidden"></span>
+                            <span className="hidden md:grid text-xs font-medium">
+                              Shto në shportë
+                            </span>
+                          </button>
+                          <button
+                            // name="updatecart"
+                            style={{ border: 'none' }}
+                            className="h-10 d-flex align-items-center justify-content-center hover:bg-primary  md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                            onClick={() => deleteProductHandler(item.id)}
+                            // onclick="SendDeleteFromCartEvent('160697', 'Apple iPhone 15, 128GB, Black','1,099.50 €','1','wishlist'); $('#removefromcart215652').prop('checked', true).change();"
+                          >
+                            {/* <input
+                              type="checkbox"
+                              className="hidden"
+                              name="removefromcart"
+                              id="removefromcart215652"
+                              // data-productid="160697"
+                              value="215652"
+                              // aria-label="Largo"
+                            /> */}
+                            <i className="icon-delete-trash text-xl">
+                              <FontAwesomeIcon icon={faTrashCan} />
+                            </i>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                    <div className="buttons d-flex justify-content-evenly gap-2">
-                      <button
-                        aria-label="Shto në shportë"
-                        className="h-10 product-box-add-to-cart-button d-flex align-items-center btn-primary-hover justify-content-center md:flex-grow hover:bg-primary hover:text-white w-50 focus:outline-none focus:border-none btn-simple btn-secondary focus:text-white"
-                        // onclick="AjaxCart.addproducttocart_catalog('/addproducttocart/catalog/160697/1/1');return false;"
-                      >
-                        <span className="icon-cart-shopping-add icon-line-height text-xl md:hidden"></span>
-                        <span className="hidden md:grid text-xs font-medium">
-                          Shto në shportë
-                        </span>
-                      </button>
-                      <button
-                        name="updatecart"
-                        className="h-10 d-flex align-items-center justify-content-center hover:bg-primary  md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-                        // onclick="SendDeleteFromCartEvent('160697', 'Apple iPhone 15, 128GB, Black','1,099.50 €','1','wishlist'); $('#removefromcart215652').prop('checked', true).change();"
-                      >
-                        <input
-                          type="checkbox"
-                          className="hidden"
-                          name="removefromcart"
-                          id="removefromcart215652"
-                          data-productid="160697"
-                          value="215652"
-                          aria-label="Largo"
-                        />
-                        <i className="icon-delete-trash text-xl">
-                          <FontAwesomeIcon icon={faTrashCan} />
-                        </i>
-                      </button>
-                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            </div>
+            ) : (
+              <div className="item-box h-auto">
+                <p className=" text-center">
+                  Nuk keni asnje product ne wishlist
+                </p>
+              </div>
+            )}
           </form>
         </div>
       </WrappingCard>

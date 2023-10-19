@@ -7,21 +7,23 @@ import WrappingCard from '@/ui/WrappingCard'
 import Apple from '@/assets/images/productIMG1.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
-import { useAppSelector } from '@/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { useNavigate } from 'react-router-dom'
-// import { getCartProducts } from '../store/cartSlice'
+import { getCartProducts } from '../store/cartSlice'
 
 const Cart = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.auth.user)
   console.log('user', user)
-  // const { cart } = useSelector((state) => state.cart)
+  const { cart } = useAppSelector((state) => state.cart)
+
+  console.log('cart', cart)
   // const products = cart?.products
 
-  // useEffect(() => {
-  //   dispatch(getCartProducts())
-  // }, [])
+  useEffect(() => {
+    dispatch(getCartProducts())
+  }, [])
 
   const goToLogin = () => {
     navigate('/login/identifier')

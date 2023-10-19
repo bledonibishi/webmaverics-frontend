@@ -1,7 +1,7 @@
 import axiosInstance from '@/api/axiosInstance'
 import { Product } from '@/helpers/types'
 
-const API_URL = 'api/v1/wishlist'
+const API_URL = '/api/v1/wishlist'
 
 const getProducts = async (): Promise<Product[]> => {
   const response = await axiosInstance.get(API_URL)

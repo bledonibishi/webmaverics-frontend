@@ -3,6 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 
 const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
+console.log('BASE_URL', BASE_URL)
+
 type CreateProductResponse = {
   product: Product
 }
@@ -33,9 +35,8 @@ export const wishlistsAPI = createApi({
     }),
     removeProduct: builder.mutation<void, string>({
       query: (productId) => ({
-        url: '/api/v1/wishlist/delete',
+        url: `/api/v1/wishlist/delete/${productId}`,
         method: 'DELETE',
-        body: { product: productId },
       }),
     }),
     removeAll: builder.mutation<void, void>({

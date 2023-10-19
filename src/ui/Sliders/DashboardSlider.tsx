@@ -13,7 +13,6 @@ import './style.css'
 
 const DashboardSlider = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
-  console.log('activeIndex', activeIndex)
   const totalSlides = 6
 
   //   useEffect(() => {

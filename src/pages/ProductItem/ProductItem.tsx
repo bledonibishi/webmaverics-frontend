@@ -33,6 +33,8 @@ const ProductItem = () => {
   const { product, loading, error } = useAppSelector((state) => state.products)
   const [selectedImage, setSelectedImage] = useState<string>(Img1)
 
+  console.log('product', product)
+
   const handleImageChange = (newImage: string) => {
     console.log('newImage', newImage)
     setSelectedImage(newImage)
@@ -158,7 +160,7 @@ const ProductItem = () => {
                       id="price-value-160697"
                       className="product-price-160697  text-2xl fw-bold text-gray-700 price-value-160697"
                     >
-                      1,099.50 €
+                      {product?.price}.50 €
                     </div>
                   </div>
                 </div>

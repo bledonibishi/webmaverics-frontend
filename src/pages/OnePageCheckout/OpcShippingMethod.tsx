@@ -18,7 +18,7 @@ const OpcShippingMethod = () => {
           </div>
           <p className="back-link">
             <a
-              href="#"
+              href="/onepagecheckout/opc-billing"
               className="text-primary font-medium m-2 p-2 editbutton"
               // onclick="Checkout.back(); return false; "
             >

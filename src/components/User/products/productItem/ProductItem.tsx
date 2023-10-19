@@ -24,7 +24,10 @@ import { ProductItemTypes, addToCartType } from '@/helpers/types'
 import useSocket from '@/hooks/useSocket'
 // import ImageTwentyFour from '@/assets/images/local-stock-ks.png'
 // import NewItem from '@/assets/images/newproduct-1.png'
-import { useAddToCartQueryMutation } from '@/Cart/store/cartAPI'
+import {
+  useAddToCartQueryMutation,
+  useGetCartProductsQuery,
+} from '@/Cart/store/cartAPI'
 import { ToastContainer, toast } from 'react-toastify'
 
 type AddToCart = {
@@ -52,6 +55,11 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   const [createProduct, { error }] = useCreateProductMutation()
   const [addToCartQuery, { isError, isLoading, isSuccess }] =
     useAddToCartQueryMutation()
+  const {
+    data: cart,
+    refetch,
+    isLoading: cartLoading,
+  } = useGetCartProductsQuery()
 
   const addToCartHandler = (items: addToCartType) => {
     console.log('items', items)
@@ -68,7 +76,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
           progress: undefined,
           theme: 'light',
         })
-        socket?.emit('cartUpdated', { product: items.productId })
+        refetch()
       })
       .catch((err) => console.log('err', err))
   }
@@ -176,6 +184,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
               value="Shto në listën e dëshirave"
               style={{ border: 'none' }}
               title="Shto në listën e dëshirave"
+              onClick={() => createWishlistProductHandler(id)}
               //  onclick="sendAddToCartEvent('160697', `Apple iPhone 15, 128GB, Black`, '1099,50', 'wishlist');AjaxCart.addproducttocart_catalog(`/addproducttocart/catalog/160697/2/1`);return false;"
               className="group hover:bg-primary w-25 md:w-auto add-to-wishlist-button  btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
             >

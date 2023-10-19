@@ -4,6 +4,7 @@ import { productsAPI } from './products/RTKProductSlice'
 // import { wishlistsAPI } from '../wishlist/store/wishlistAPI'
 import rootReducer from '@/store/rootReducer'
 import { cartsAPI } from '@/Cart/store/cartAPI'
+import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
 
 // Automatically adds the thunk middleware and the Redux DevTools extension
 const store = configureStore({
@@ -11,8 +12,8 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(
       productsAPI.middleware,
-      cartsAPI.middleware
-      //     wishlistsAPI.middleware
+      cartsAPI.middleware,
+      wishlistsAPI.middleware
     )
   },
 })
