@@ -60,11 +60,11 @@ const ProductItem = () => {
             className="w-100 md:w-50 d-flex align-items-center justify-content-center position-relative md:pr-3"
             id="product-img-wrapper"
           >
-            <div className="position-absolute top-0 left-0 md:left-16 d-flex align-items-center justify-content-center z-10">
+            <div className="position-absolute top-0 left-0 md:left-16 d-flex align-items-center justify-content-center ">
               <img src={AuthorizedSeller} alt="" style={{ width: '100px' }} />
             </div>
 
-            <span className="w-36 position-absolute top-0 right-0 md:right-6 d-flex align-items-center justify-content-center z-10">
+            <span className="w-36 position-absolute top-0 right-0 md:right-6 d-flex align-items-center justify-content-center">
               <img src={BestPrice} alt="" style={{ width: '100px' }} />
             </span>
             {/* <div
@@ -430,10 +430,10 @@ const ProductItem = () => {
                 Blej tani
               </button> */}
               <div className="w-100">
-                <button
+                <a
                   type="button"
                   className="open-buynow-popup btn btn-primary btn-primary-hover w-100 focus:outline-none d-flex align-items-center justify-content-center gap-2"
-                  //  href="#buynow-popup"
+                   href="/cart"
                 >
                   <i className="icon-check-badge text-2xl d-flex align-items-center justify-content-center gap-2 icon-line-height">
                     <FontAwesomeIcon icon={faCheck} />
@@ -441,7 +441,7 @@ const ProductItem = () => {
                   <span className="uppercase text-xs md:text-sm">
                     Blej tani
                   </span>
-                </button>
+                </a>
               </div>
               <button
                 type="button"
