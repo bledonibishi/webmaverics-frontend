@@ -5,6 +5,36 @@ import TestImage from '@/assets/images/asus.png'
 import Computer from '@/assets/images/kompjuterDp.png'
 import Laptop from '@/assets/images/laptopDd.png'
 import Server from '@/assets/images/server.png'
+import CelularImage from '@/assets/images/celularbanner.png'
+import Gps from '@/assets/images/gps.png'
+import Tablet from '@/assets/images/tablet.png'
+import Ebook from '@/assets/images/ebook.png'
+import Tv from '@/assets/images/tv.png'
+import Audio from '@/assets/images/audiosmallbanner.png'
+import Foto from '@/assets/images/fotosmallbanner.png'
+import Video from '@/assets/images/videosmallbanner.png'
+import Konzol from '@/assets/images/konzolasmallbanner.png'
+import Reality from '@/assets/images/realitysmallbanner.png'
+import Videolojra from '@/assets/images/videolojrasmallbanner.png'
+import Suvenira from '@/assets/images/suvenirasmallbanner.png'
+import SmartHome from '@/assets/images/smarthomesmallbanner.png'
+import Sport from '@/assets/images/sportsmallbanner.png'
+import LodraSmart from '@/assets/images/lodrasmartsmallbanner.png'
+import Shendet from '@/assets/images/shendetsmallbanner.png'
+import Printer from '@/assets/images/printersmallbanner.png'
+import Monitor from '@/assets/images/monitorsmallbanner.png'
+import Mouse from '@/assets/images/mouseSmallBanner.png'
+import Kufje from '@/assets/images/kufjeSmallBanner.png'
+import KartelGrafike from '@/assets/images/kartelagrafikeSmallBanner.png'
+import Procesor from '@/assets/images/procesorSmallBanner.png'
+import PllakaAme from '@/assets/images/pllakaameSmallBanner.png'
+import MemorieOperative from '@/assets/images/memorieOperativeSmallBanner.png'
+import AppleLogo from '@/assets/images/appleSmallBannerLogo.png'
+
+
+
+
+
 
 type props = {
   handleDropdownVisibility: (isVisible: boolean) => void
@@ -39,7 +69,7 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              Kompjuter,laptop & server
+              Computer,Laptop & Server
             </a>
             <BannerDropdown
               buttonContent="test"
@@ -86,7 +116,7 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              Celular,tablet & navigim
+              Celular,Tablet & Navigim
             </a>
             <BannerDropdown
               content="second dropdown"
@@ -95,25 +125,25 @@ const SubNavigation = ({
                 {
                   Telephone: {
                     items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
+                    image: CelularImage,
                   },
                 },
                 {
                   Tablet: {
                     items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
+                    image: Tablet,
                   },
                 },
                 {
                   Ebook: {
                     items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
+                    image: Ebook,
                   },
                 },
                 {
                   GPSnavigation: {
                     items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
+                    image: Gps,
                   },
                 },
               ]}
@@ -132,7 +162,7 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              TV,audio & foto
+              TV,Audio & Foto
             </a>
             <BannerDropdown
               buttonContent="test"
@@ -140,27 +170,27 @@ const SubNavigation = ({
               onVisibilityChange={handleDropdownVisibility}
               categories={[
                 {
-                  Telephone: {
-                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
+                  'TV & Projector': {
+                    items: ['TV', 'Accessory', 'Projector'],
+                    image: Tv,
                   },
                 },
                 {
-                  Tablet: {
-                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
+                  'Audio': {
+                    items: ['Gramaphone', 'Radio', 'Home'],
+                    image: Audio,
                   },
                 },
                 {
-                  Ebook: {
-                    items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
+                  'Foto & Video': {
+                    items: ['Camera', 'Digital camera', 'Telescope'],
+                    image: Foto,
                   },
                 },
                 {
-                  GPSnavigation: {
-                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
+                  'Video players ': {
+                    items: ['Multimedia', 'Blue Ray', 'DVD', 'Portative'],
+                    image: Video,
                   },
                 },
               ]}
@@ -188,27 +218,27 @@ const SubNavigation = ({
               onVisibilityChange={handleDropdownVisibility}
               categories={[
                 {
-                  Telephone: {
-                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
+                  'Console & Accessories ': {
+                    items: ['PlayStation 5', 'PlayStation 4', 'X-Box', 'CD'],
+                    image: Konzol,
                   },
                 },
                 {
-                  Tablet: {
-                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
+                  'Virtual Reality': {
+                    items: ['VR', '', 'Video Games', 'Accessory'],
+                    image: Reality,
                   },
                 },
                 {
-                  Ebook: {
-                    items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
+                  'Video Game': {
+                    items: ['Consoles for PC', 'Accessory', 'CD-s'],
+                    image: Videolojra,
                   },
                 },
                 {
-                  GPSnavigation: {
-                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
+                  Souvenir: {
+                    items: ['Textile', 'Images', 'Pictures', 'Bowl'],
+                    image: Suvenira,
                   },
                 },
               ]}
@@ -236,27 +266,27 @@ const SubNavigation = ({
               onVisibilityChange={handleDropdownVisibility}
               categories={[
                 {
-                  Telephone: {
-                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
+                  'Smart Home': {
+                    items: ['VAcuum Cleaner ', 'Security', 'AC', 'Lightning'],
+                    image: SmartHome,
                   },
                 },
                 {
-                  Tablet: {
-                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
+                  Sport: {
+                    items: ['Scoouter', 'Helmets', 'Cycling', 'Accessory'],
+                    image: Sport,
                   },
                 },
                 {
-                  Ebook: {
-                    items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
+                  'Smart Game & Drone': {
+                    items: ['Game', 'Drone', 'Accessory'],
+                    image: LodraSmart,
                   },
                 },
                 {
-                  GPSnavigation: {
-                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
+                  Health: {
+                    items: ['Dental Hygiene', 'Scales'],
+                    image: Shendet,
                   },
                 },
               ]}
@@ -275,7 +305,7 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              Aksesore
+              Accessories
             </a>
 
             <BannerDropdown
@@ -284,27 +314,27 @@ const SubNavigation = ({
               onVisibilityChange={handleDropdownVisibility}
               categories={[
                 {
-                  Telephone: {
-                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
+                  'Printer & Colors': {
+                    items: ['Ink', 'Chargers', 'Tonners', '3D Printers'],
+                    image: Printer,
                   },
                 },
                 {
-                  Tablet: {
-                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
+                  'Monitor': {
+                    items: ['Apple', 'Gaming', 'Office'],
+                    image: Monitor,
                   },
                 },
                 {
-                  Ebook: {
-                    items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
+                  Mouse: {
+                    items: ['Gaming', 'Wireless', 'Accessory'],
+                    image: Mouse,
                   },
                 },
                 {
-                  GPSnavigation: {
-                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
+                  'Headphones & Microphone': {
+                    items: ['Headphones', 'Gaming', 'Microphone', 'Accessory'],
+                    image: Kufje,
                   },
                 },
               ]}
@@ -323,7 +353,7 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              Pjese per kompjutere
+              Parts for Computers
             </a>
 
             <BannerDropdown
@@ -332,27 +362,27 @@ const SubNavigation = ({
               onVisibilityChange={handleDropdownVisibility}
               categories={[
                 {
-                  Telephone: {
-                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
+                  'Graphic Cards': {
+                    items: ['Gaming', 'Proffesionals', 'Accessories'],
+                    image: KartelGrafike,
                   },
                 },
                 {
-                  Tablet: {
-                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
+                  Procesor: {
+                    items: ['PC', 'For Servers', 'Workstations'],
+                    image: Procesor,
                   },
                 },
                 {
-                  Ebook: {
-                    items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
+                  Motherboard: {
+                    items: ['Asus', 'Multimedia', 'Gaming'],
+                    image: PllakaAme,
                   },
                 },
                 {
-                  GPSnavigation: {
-                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
+                  'RAM Memory': {
+                    items: ['For PC', 'For Laptops', 'Gaming'],
+                    image: MemorieOperative,
                   },
                 },
               ]}
@@ -392,13 +422,13 @@ const SubNavigation = ({
                   },
                 },
                 {
-                  Ebook: {
+                  Laptop: {
                     items: ['Touch', 'Digital notebook', 'Accessory'],
                     image: Server,
                   },
                 },
                 {
-                  GPSnavigation: {
+                  'GPS navigation': {
                     items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
                     image: Server,
                   },
@@ -419,40 +449,8 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              Qka ka tre?
+              What's new?
             </a>
-
-            <BannerDropdown
-              buttonContent="test"
-              content="ten dropdown"
-              onVisibilityChange={handleDropdownVisibility}
-              categories={[
-                {
-                  Telephone: {
-                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
-                  },
-                },
-                {
-                  Tablet: {
-                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
-                  },
-                },
-                {
-                  Ebook: {
-                    items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
-                  },
-                },
-                {
-                  GPSnavigation: {
-                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
-                  },
-                },
-              ]}
-            />
           </div>
         </li>
         <li
@@ -467,40 +465,10 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              Apple?
+              <img style={{ width: "30px", height: "30px" }} src={AppleLogo} alt="" />
             </a>
 
-            <BannerDropdown
-              buttonContent="test"
-              content="ten dropdown"
-              onVisibilityChange={handleDropdownVisibility}
-              categories={[
-                {
-                  Telephone: {
-                    items: ['Touchscreen', 'Pieces', 'Classic', 'stable'],
-                    image: Computer,
-                  },
-                },
-                {
-                  Tablet: {
-                    items: ['Apple', 'Android', 'Classic', 'Accessory'],
-                    image: Laptop,
-                  },
-                },
-                {
-                  Ebook: {
-                    items: ['Touch', 'Digital notebook', 'Accessory'],
-                    image: Server,
-                  },
-                },
-                {
-                  GPSnavigation: {
-                    items: ['Cars', 'Bicycles', 'Motorcycles', 'Accessory'],
-                    image: Server,
-                  },
-                },
-              ]}
-            />
+
           </div>
         </li>
       </ul>
