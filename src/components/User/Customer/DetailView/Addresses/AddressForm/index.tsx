@@ -1,12 +1,27 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import '../style.css'
 import PersonForm from './PersonForm'
 import BusinessForm from './BusinessForm'
 import WrappingCard from '@/ui/WrappingCard'
+import { useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
+import { getAddressWithId } from '@/store/addresses/addressesSlice'
 
 const AddressForm = () => {
-  const [selectedType, setSelectedType] = useState('Person')
+  const dispatch = useAppDispatch()
+  const { id } = useParams()
+  const isEditing = !!id
+  const { address } = useAppSelector((state) => state.address)
+  const [selectedType, setSelectedType] = useState<string>(
+    address?.type ?? 'Person'
+  )
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getAddressWithId(id))
+    }
+  }, [id])
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedType(event.target.value)
@@ -69,7 +84,19 @@ const AddressForm = () => {
           </div>
         </div>
         <div className="add-address-content ">
-          {selectedType === 'Person' ? <PersonForm /> : <BusinessForm />}
+          {selectedType === 'Person' ? (
+            <PersonForm
+              selectedType={selectedType}
+              isEditing={isEditing}
+              addressToEdit={address}
+            />
+          ) : (
+            <BusinessForm
+              selectedType={selectedType}
+              isEditing={isEditing}
+              addressToEdit={address}
+            />
+          )}
         </div>
       </section>
     </WrappingCard>

@@ -91,3 +91,29 @@ export type ProductItemTypes = {
   summary: string
   title: string
 }
+
+export type Address = {
+  id: string
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: string
+}
+export type CreateAddress = {
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: string
+}
