@@ -104,7 +104,6 @@ export const validateUserByEmail = createAsyncThunk(
   async (email: string, thunkAPI) => {
     try {
       const response = await authService.validateUserByEmail(email)
-      console.log('response', response)
       return response
     } catch (error: any) {
       const message =

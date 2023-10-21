@@ -5,6 +5,10 @@ export type Product = {
   ratingsAverage: number
   ratingsQuantity: number
   brand: string
+  discount: number
+  tfTransport: boolean
+  warranty: string
+  isNew: boolean
   details: []
   summary: string
   description: string
@@ -87,6 +91,10 @@ export type ProductItemTypes = {
   priceDiscount: number
   ratingsAverage: number
   ratingsQuantity: number
+  discount: number
+  tfTransport: boolean
+  isNew: boolean
+  warranty: string
   stock: number
   summary: string
   title: string

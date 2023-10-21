@@ -3,7 +3,7 @@
   align-items: center;
 }
 
-.selectCustom-option {
+/* .selectCustom-option {
   position: relative;
   display: flex;
   align-items: center;
@@ -12,7 +12,7 @@
   border-radius: 4px;
   margin: 4px;
   height: 24px !important;
-}
+} */
 .light-dropdown-hover {
   transition-property: all !important;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;

@@ -22,8 +22,8 @@ import { useCreateProductMutation } from '../../../../wishlist/store/wishlistAPI
 import { useNavigate } from 'react-router-dom'
 import { ProductItemTypes, addToCartType } from '@/helpers/types'
 import useSocket from '@/hooks/useSocket'
-// import ImageTwentyFour from '@/assets/images/local-stock-ks.png'
-// import NewItem from '@/assets/images/newproduct-1.png'
+import ImageTwentyFour from '@/assets/images/tfTransport.png'
+import NewItem from '@/assets/images/newproduct-1.png'
 import {
   useAddToCartQueryMutation,
   useGetCartProductsQuery,
@@ -47,6 +47,10 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   price,
   priceDiscount,
   summary,
+  discount,
+  isNew,
+  tfTransport,
+  warranty,
 }) => {
   const socket = useSocket()
   const dispatch = useDispatch()
@@ -55,6 +59,10 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   const [createProduct, { error }] = useCreateProductMutation()
   const [addToCartQuery, { isError, isLoading, isSuccess }] =
     useAddToCartQueryMutation()
+
+  {
+    console.log('typeofdiscount', typeof discount)
+  }
   const {
     data: cart,
     refetch,
@@ -112,25 +120,31 @@ const ProductItem: React.FC<ProductItemTypes> = ({
         <div className="product-item bg-white p-2 md:p-3 relative shadow-sm hover:shadow-md rounded h-full overflow-hidden d-flex flex-col justify-between">
           <div className="h-6 top-2.5 left-0 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-full flex-row justify-content-between">
             <div className="d-flex">
-              <div className="pointer-events-none d-flex items-center tablet:pl-3">
-                {/* <img
-                  src={NewItem}
-                  // className="w-100 h-100"
-                  style={{ width: '55px', height: '19px' }}
-                  alt=""
-                /> */}
-              </div>
-              <div className="pointer-events-none d-flex items-center tablet:pl-3">
-                {/* <img
-                  src={ImageTwentyFour}
-                  alt=""
-                  style={{ width: '55px', height: '19px' }}
-                /> */}
-              </div>
+              {isNew && (
+                <div className="pointer-events-none d-flex items-center tablet:pl-3">
+                  <img
+                    src={NewItem}
+                    // className="w-100 h-100"
+                    style={{ width: '55px', height: '19px' }}
+                    alt=""
+                  />
+                </div>
+              )}
+              {tfTransport && (
+                <div className="pointer-events-none d-flex items-center tablet:pl-3">
+                  <img
+                    src={ImageTwentyFour}
+                    alt=""
+                    style={{ width: '55px', height: '19px' }}
+                  />
+                </div>
+              )}
             </div>
-            <div className="w-10 pl-1 pr-1 h-[19px] bg-primary discount__label d-flex justify-content-center items-center rounded  right-3 shadow-sm text-white text-xs font-medium">
-              -20%
-            </div>
+            {discount !== 0 && (
+              <div className="w-10 pl-1 pr-1 h-[19px] bg-primary discount__label d-flex justify-content-center items-center rounded  right-3 shadow-sm text-white text-xs font-medium">
+                -{discount}%
+              </div>
+            )}
           </div>
           <div className="picture relative px-4 pt-6">
             <a href={`/product/${id}`} className="position-relative d-block">
@@ -149,12 +163,25 @@ const ProductItem: React.FC<ProductItemTypes> = ({
               </a>
             </h2>
             <div className="prices d-flex flex-col h-12 position-relative">
-              <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                {priceDiscount.toFixed(2)} €
-              </span>
-              <small>
-                <del>{price.toFixed(2)} $</del>
-              </small>
+              {discount !== 0 ? (
+                <>
+                  <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                    {priceDiscount.toFixed(2)} €
+                  </span>
+                  <small>
+                    <del>{price.toFixed(2)} $</del>
+                  </small>
+                </>
+              ) : (
+                <>
+                  <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                    {price.toFixed(2)} €
+                  </span>
+                  <small style={{ opacity: '0' }}>
+                    <del>test</del>
+                  </small>
+                </>
+              )}
             </div>
             <div className="flex flex-col pt-2 justify-between lg:flex-row">
               <span className="text-xs text-gray-600">Përfshirë TVSH</span>

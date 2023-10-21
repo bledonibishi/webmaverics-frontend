@@ -381,6 +381,9 @@ input[type='radio'] input[type='radio'] {
   z-index: 4;
   background-color: rgba(0, 0, 0, 0.5);
 }
+.line-through {
+  text-decoration: line-through;
+}
 @keyframes show-overlay {
   from {
     opacity: 0;

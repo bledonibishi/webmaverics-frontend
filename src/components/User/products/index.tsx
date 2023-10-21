@@ -45,6 +45,10 @@ function ProductList() {
                 details={product.details}
                 imageCover={product.imageCover}
                 ratingsAverage={product.ratingsAverage}
+                discount={product.discount}
+                isNew={product.isNew}
+                tfTransport={product.tfTransport}
+                warranty={product.warranty}
                 // rating={product.ratingsAverage}
                 // thumbnail={product.imageCover}
                 // key={product.id}
