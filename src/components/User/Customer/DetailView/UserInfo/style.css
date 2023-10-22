@@ -14,12 +14,24 @@
   font-size: 12px;
   margin-bottom: 7px;
 }
-.personal-info__input input {
-  border: none;
-  border-bottom: 1px solid #eaeaea;
-  padding-bottom: 10px;
-}
-.personal-info__input input:focus {
-  border-bottom: 1px solid rgb(230 82 40);
+.account-page .customer-info-input:focus {
   outline: none;
+  border: none;
+  border-bottom: 1px solid #e65228 !important;
+  background: 0 0;
+  box-shadow: none;
+}
+
+.account-page .customer-info-input,
+input[type='text'].customer-info-input,
+select.customer-info-input,
+textarea.customer-info-input {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #eaeaea !important;
+  padding: 0;
+  color: #1a1a1a;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  font-weight: 500;
 }

@@ -1,4 +1,10 @@
-import { LoginUserData, SignupUserData, User } from '@/helpers/types'
+import {
+  AuthPromise,
+  ChangePasswordInput,
+  LoginUserData,
+  SignupUserData,
+  User,
+} from '@/helpers/types'
 import axiosInstance from '../../api/axiosInstance'
 import axios, { AxiosResponse } from 'axios'
 
@@ -78,6 +84,17 @@ const validateUserByEmail = async (
   return response.data
 }
 
+const changePassword = async (
+  body: ChangePasswordInput
+): Promise<AuthPromise> => {
+  const response: AxiosResponse<AuthPromise> = await axiosInstance.patch(
+    API_URL + `updateMyPassword`,
+    body
+  )
+
+  return response.data
+}
+
 const authService = {
   signup,
   login,
@@ -86,6 +103,7 @@ const authService = {
   fetchCountries,
   refreshToken,
   validateUserByEmail,
+  changePassword,
 }
 
 export default authService

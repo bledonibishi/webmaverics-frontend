@@ -220,3 +220,13 @@ input.qtyminus {
   width: 50%;
   text-align: left;
 }
+.rating {
+  min-width: 95px;
+  max-width: 95px;
+  height: 14px;
+  /* background: url(../images/rating1.png) repeat-x; */
+}
+.rating div {
+  height: 14px;
+  /* background: url(../images/rating2.png) repeat-x; */
+}

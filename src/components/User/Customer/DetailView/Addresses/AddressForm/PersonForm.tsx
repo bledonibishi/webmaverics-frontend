@@ -120,7 +120,7 @@ const PersonForm = ({ selectedType, isEditing, addressToEdit }: Props) => {
               value={formData.country}
               onClick={(e) => handleChange(e)}
             >
-              {countries?.map((country, index) => (
+              {countries?.map((country: any, index: any) => (
                 <option
                   key={index}
                   value={country._id}

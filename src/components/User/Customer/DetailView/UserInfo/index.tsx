@@ -3,10 +3,12 @@ import { Button, Form } from 'react-bootstrap'
 import './style.css'
 import WrappingCard from '@/ui/WrappingCard'
 import UserInfoHeader from '@/components/User/Customer/DetailView/Header/UserInfoHeader'
+import { useAppSelector } from '@/hooks/hooks'
 
 const UserInfo = () => {
+  const { user } = useAppSelector((state) => state.auth)
   return (
-    <>
+    <div className="account-page">
       <WrappingCard padding="12px" marginBtm="20px">
         <UserInfoHeader />
       </WrappingCard>
@@ -15,22 +17,38 @@ const UserInfo = () => {
           <div className="personal-info_topdiv">
             <div className="personal-info__input">
               <label>Emri *</label>
-              <input type="text" value={'bledon'} />
+              <input
+                type="text"
+                className="w-100 customer-info-input valid"
+                value={user?.user.name}
+              />
               <p className="text-danger pb-2 text-xs">
                 Hapësira 'Emri' nuk duhet të jetë e zbrazët!
               </p>
             </div>
             <div className="personal-info__input">
               <label>Mbiemri *</label>
-              <input type="text" value={'bledon'} />
+              <input
+                type="text"
+                className="w-100 customer-info-input valid"
+                value={user?.user.surname}
+              />
             </div>
             <div className="personal-info__input">
               <label>Email *</label>
-              <input type="text" value={'bledon'} />
+              <input
+                type="text"
+                className="w-100 customer-info-input valid"
+                value={user?.user.email}
+              />
             </div>
             <div className="personal-info__input">
               <label>Data e lindjes</label>
-              <input type="text" value={'bledon'} />
+              <input
+                type="text"
+                className="w-100 customer-info-input valid"
+                value={`${user?.user.birthDay}/${user?.user.birthMonth}/${user?.user.birthYear}`}
+              />
             </div>
           </div>
           <div className="personal-info_topdiv">
@@ -42,6 +60,7 @@ const UserInfo = () => {
                 type={'radio'}
                 label="Mashkull"
                 id={`inline-radio-1`}
+                checked={true}
               />
               <Form.Check
                 inline
@@ -56,7 +75,7 @@ const UserInfo = () => {
           <Button>RUAJ</Button>
         </Form>
       </WrappingCard>
-    </>
+    </div>
   )
 }
 

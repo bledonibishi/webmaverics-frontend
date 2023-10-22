@@ -1,9 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authService from './authService'
-import { LoginUserData, SignupUserData, User } from '@/helpers/types'
+import {
+  AuthPromise,
+  ChangePasswordInput,
+  LoginUserData,
+  SignupUserData,
+  User,
+} from '@/helpers/types'
 
 interface AuthState {
   user: User | null
+  authPromise: AuthPromise | null
   isAuthenticated: boolean
   countries: any[] | null // Replace 'any' with the actual type of your countries data
   isLoading: boolean
@@ -20,6 +27,7 @@ const user: User = userString ? JSON.parse(userString) : null
 
 const initialState: AuthState = {
   user: user ? user : null,
+  authPromise: null,
   isAuthenticated: false,
   countries: null,
   isLoading: false,
@@ -116,6 +124,22 @@ export const validateUserByEmail = createAsyncThunk(
     }
   }
 )
+
+export const updateMyPassword = createAsyncThunk<
+  AuthPromise,
+  ChangePasswordInput
+>('auth/updateMyPassword', async (body, thunkAPI) => {
+  try {
+    const response = await authService.changePassword(body)
+    return response
+  } catch (error: any) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
 
 const authSlice = createSlice({
   name: 'auth',
@@ -232,6 +256,25 @@ const authSlice = createSlice({
         state.isSuccess = false
         state.isLoading = false
         state.error = 'Cannot find user with this email'
+        state.message = action.error.message
+        state.validatedUserByEmail = false
+      })
+      .addCase(updateMyPassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateMyPassword.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.authPromise = payload
+        state.error = null
+        state.validatedUserByEmail = true
+      })
+      .addCase(updateMyPassword.rejected, (state, action) => {
+        state.countries = null
+        state.isSuccess = false
+        state.isLoading = false
+        state.authPromise = null
+        state.error = 'Error while trying to update password'
         state.message = action.error.message
         state.validatedUserByEmail = false
       })

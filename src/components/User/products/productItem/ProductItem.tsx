@@ -9,7 +9,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from 'reactstrap'
-import Rating from 'react-rating'
 import {
   faHeart,
   faShoppingCart,
@@ -74,16 +73,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
     addToCartQuery(items)
       // .unwrap()
       .then(() => {
-        toast('Product added to cart!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        })
+        toast.success('Product added to cart!')
         refetch()
       })
       .catch((err) => console.log('err', err))
@@ -94,7 +84,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
       // .unwrap()
       .then(() => {
         socket?.emit('createWishlistProduct', { productId })
-        toast('Wow so easy!')
+        toast.success('Product added to wishlist!')
       })
       .catch((err) => {
         console.log('err', error)

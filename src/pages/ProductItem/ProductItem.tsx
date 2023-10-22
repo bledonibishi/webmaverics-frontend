@@ -13,6 +13,7 @@ import {
   faHeart,
   faMoneyBillTransfer,
   faShoppingCart,
+  faStar,
   faTruck,
 } from '@fortawesome/free-solid-svg-icons'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
@@ -24,6 +25,11 @@ import TebImg from '@/assets/images/teb.png'
 import RbkoImg from '@/assets/images/rbko.png'
 import SliderTest from './Slider.test'
 import SwipperSlider from './SwipperSlider'
+import RatingModal from './RatingModal'
+import Rating from 'react-rating-stars-component'
+import { useGetRatingWithProductIdQuery } from '@/store/products/RTKProductSlice'
+
+const FullStar = () => <FontAwesomeIcon icon={faStar} />
 
 const ProductItem = () => {
   const dispatch = useAppDispatch()
@@ -31,6 +37,11 @@ const ProductItem = () => {
   const id = useLocation().pathname.split('/')[2]
   const [activeProdTitle, setActiveProdTitle] = useState('1')
   const { product, loading, error } = useAppSelector((state) => state.products)
+  const { data: productRatings } = useGetRatingWithProductIdQuery(id)
+  console.log('productRatings', productRatings)
+
+  const { user } = useAppSelector((state) => state.auth)
+  const [ratingsModal, setRatingsModal] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<string>(Img1)
 
   console.log('product', product)
@@ -160,7 +171,7 @@ const ProductItem = () => {
                       id="price-value-160697"
                       className="product-price-160697  text-2xl fw-bold text-gray-700 price-value-160697"
                     >
-                      {product?.price}.50 €
+                      {product?.price.toFixed(2)} €
                     </div>
                   </div>
                 </div>
@@ -705,24 +716,77 @@ const ProductItem = () => {
                 <div className="d-flex pb-6 justify-content-around border-b">
                   <div className="d-flex align-items-center text-center flex-col ratingsAndReviews">
                     <span className="text-primary text-4xl font-bold md:mb-0 d-flex align-items-center">
-                      0<i className="icon-star text-2xl"></i>
+                      {productRatings?.length}
+                      <i className="icon-star text-sm">
+                        <FullStar />
+                        {/* <FontAwesomeIcon /> */}
+                      </i>
                     </span>
-                    <p>0 Vlerësime</p>
+                    <p>{productRatings?.length} Ratings</p>
                   </div>
                   <div className="d-flex justify-content-center align-items-center">
                     <button
                       id="display-product-review-modal"
+                      onClick={() => setRatingsModal(true)}
                       className="btn text-primary border rounded border-primary  hover:bg-primary transition-all duration-150 hover:text-white text-sm open-product-review-popup"
                     >
                       Shto vlerësimin tuaj
                     </button>
                   </div>
                 </div>
+                <div className="product-review-list">
+                  {productRatings?.map((productItem, index) => (
+                    <div className="product-review-item mt-4" key={index}>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <span className="inline-block text-base font-semibold capitalize-first-letter">
+                          {typeof productItem.productID === 'string'
+                            ? ''
+                            : productItem.productID.title}{' '}
+                        </span>
+                        <Rating
+                          count={5}
+                          size={24}
+                          value={productItem.rating}
+                          color="#ccc"
+                          edit={false}
+                          activeColor="#f8b400"
+                          char={FullStar}
+                        />
+                      </div>
+                      <div className="review-item-head d-flex align-items-center divide-dashed">
+                        <span className="pr-1 text-xs capitalize-first-letter">
+                          {typeof productItem.userID === 'string'
+                            ? ''
+                            : productItem.userID.name}
+                        </span>
+                        <span className="text-xs text-gray-700">
+                          22.10.2023 11:48 e paradites
+                        </span>
+                      </div>
+                      <div className="review-content text-left">
+                        <div className="review-text flex items-center my-2">
+                          <div className="text-body capitalize-first-letter flex-grow text-sm">
+                            {productItem.description}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
         </div>
       </ProductWrapper>
+
+      {ratingsModal && (
+        <RatingModal
+          show={ratingsModal}
+          onHide={() => setRatingsModal(false)}
+          userID={user?.user.id || ''}
+          productID={id}
+        />
+      )}
     </div>
   )
 }
@@ -732,61 +796,61 @@ export default ProductItem
 {
   /* 
 
-<div class="page-body p-6">
+<div className="page-body p-6">
     
-        <div class="write-review" id="review-form">
+        <div className="write-review" id="review-form">
 
             <form method="post" id="product-review-modal-form" action="/productreviews/160697">
                 <input type="number" name="productId" value="160697" hidden="">
                 <input name="add-review" value="true" hidden="">
 
-                <div class="message-error validation-summary-errors"><ul><li>Vetëm përdoruesit e regjistruar mund të shkruajnë vlerësime</li>
+                <div className="message-error validation-summary-errors"><ul><li>Vetëm përdoruesit e regjistruar mund të shkruajnë vlerësime</li>
 </ul></div>
 
-                <div class="fieldset">
-                    <div class="form-fields">
-                        <div class="inputs mb-4 w-full">
-                            <span class="flex">
+                <div className="fieldset">
+                    <div className="form-fields">
+                        <div className="inputs mb-4 w-full">
+                            <span className="flex">
                                 <label for="AddProductReview_Title">Titulli:</label>
-                                <span class="required">*</span>
+                                <span className="required">*</span>
                             </span>
-                            <input class="review-title w-full" disabled="disabled" type="text" id="AddProductReview_Title" name="AddProductReview.Title" value="">
-                            <span class="field-validation-valid" data-valmsg-for="AddProductReview.Title" data-valmsg-replace="true"></span>
+                            <input className="review-title w-full" disabled="disabled" type="text" id="AddProductReview_Title" name="AddProductReview.Title" value="">
+                            <span className="field-validation-valid" data-valmsg-for="AddProductReview.Title" data-valmsg-replace="true"></span>
                         </div>
-                        <div class="inputs mb-4">
-                            <span class="flex">
+                        <div className="inputs mb-4">
+                            <span className="flex">
                                 <label for="AddProductReview_ReviewText">Përshkrimi:</label>
-                                <span class="required">*</span>
+                                <span className="required">*</span>
                             </span>
-                            <textarea class="review-text w-full" id="AddProductReview_ReviewText" name="AddProductReview.ReviewText" disabled="disabled"></textarea>
-                            <span class="field-validation-valid" data-valmsg-for="AddProductReview.ReviewText" data-valmsg-replace="true"></span>
+                            <textarea className="review-text w-full" id="AddProductReview_ReviewText" name="AddProductReview.ReviewText" disabled="disabled"></textarea>
+                            <span className="field-validation-valid" data-valmsg-for="AddProductReview.ReviewText" data-valmsg-replace="true"></span>
                         </div>
-                        <div class="review-rating d-flex flex-col mb-5">
-                            <div class="name-description text-sm text-gray-700 flex">
+                        <div className="review-rating d-flex flex-col mb-5">
+                            <div className="name-description text-sm text-gray-700 flex">
                                 <label for="AddProductReview_Rating">Vlerësime:</label>
-                                <span class="required">*</span>
+                                <span className="required">*</span>
                             </div>
-                            <div class="rating-wrapper d-flex align-items-center justify-start rounded-md w-min">
-                                <div class="rating-options d-flex align-items-center">
+                            <div className="rating-wrapper d-flex align-items-center justify-start rounded-md w-min">
+                                <div className="rating-options d-flex align-items-center">
                                     <div>
-                                        <input class="mr-1 opacity-0 input-star" value="1" type="radio" id="addproductrating_1" aria-label="Keq" data-val="true" data-val-required="The Vlerësime field is required." name="AddProductReview.Rating">
-                                        <i class="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
+                                        <input className="mr-1 opacity-0 input-star" value="1" type="radio" id="addproductrating_1" aria-label="Keq" data-val="true" data-val-required="The Vlerësime field is required." name="AddProductReview.Rating">
+                                        <i className="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
                                     </div>
                                     <div>
-                                        <input class="mr-1 opacity-0 input-star" value="2" type="radio" id="addproductrating_2" aria-label="Jo mirë" name="AddProductReview.Rating">
-                                        <i class="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
+                                        <input className="mr-1 opacity-0 input-star" value="2" type="radio" id="addproductrating_2" aria-label="Jo mirë" name="AddProductReview.Rating">
+                                        <i className="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
                                     </div>
                                     <div>
-                                        <input class="mr-1 opacity-0 input-star" value="3" type="radio" id="addproductrating_3" aria-label="Mire, por edhe jo i shkëlqyer" name="AddProductReview.Rating">
-                                        <i class="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
+                                        <input className="mr-1 opacity-0 input-star" value="3" type="radio" id="addproductrating_3" aria-label="Mire, por edhe jo i shkëlqyer" name="AddProductReview.Rating">
+                                        <i className="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
                                     </div>
                                     <div>
-                                        <input class="mr-1 opacity-0 input-star" value="4" type="radio" id="addproductrating_4" aria-label="Mirë" name="AddProductReview.Rating">
-                                        <i class="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
+                                        <input className="mr-1 opacity-0 input-star" value="4" type="radio" id="addproductrating_4" aria-label="Mirë" name="AddProductReview.Rating">
+                                        <i className="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
                                     </div>
                                     <div>
-                                        <input class="mr-1 opacity-0 input-star" value="5" type="radio" id="addproductrating_5" aria-label="I shkëlqyer" name="AddProductReview.Rating">
-                                        <i class="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
+                                        <input className="mr-1 opacity-0 input-star" value="5" type="radio" id="addproductrating_5" aria-label="I shkëlqyer" name="AddProductReview.Rating">
+                                        <i className="stars-rating mdi icon-star text-lg text-gray-400 absolute -ml-4"></i>
                                     </div>
                                     <script>
                                         var stars = document.getElementsByClassName('icon-star');
@@ -817,13 +881,13 @@ export default ProductItem
                                     </script>
                                 </div>
                             </div>
-                            <span class="field-validation-valid" data-valmsg-for="AddProductReview.Rating" data-valmsg-replace="true"></span>
+                            <span className="field-validation-valid" data-valmsg-for="AddProductReview.Rating" data-valmsg-replace="true"></span>
                         </div>
 
                     </div>
                 </div>
-                <div class="buttons">
-                    <button id="add-review-modal-submit-btn" name="add-review" class="write-product-review-buttoni btn btn-primary btn-primary-hover w-full" onclick="return false;" disabled="">
+                <div className="buttons">
+                    <button id="add-review-modal-submit-btn" name="add-review" className="write-product-review-buttoni btn btn-primary btn-primary-hover w-full" onclick="return false;" disabled="">
                         Vlerëso
                     </button>
                 </div>

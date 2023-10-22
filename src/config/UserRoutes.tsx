@@ -14,12 +14,16 @@ import Cart from '@/Cart/pages/Cart'
 import OnePageCheckout from '@/pages/OnePageCheckout'
 import SearchComponent from '@/pages/SearchPage'
 import ForgotPassword from '@/auth/pages/ForgotPassword'
+import ResetPassword from '@/auth/pages/ResetPassword'
+import ChangePassword from '@/auth/pages/ChangePassword'
 const UserRoutes = () => {
   const currentPath = useLocation().pathname
   const isLoginPage =
     currentPath.startsWith('/login') ||
     currentPath === '/register' ||
-    currentPath.startsWith('/forgotPassword')
+    currentPath.startsWith('/forgotPassword') ||
+    currentPath.startsWith('/resetPassword') ||
+    currentPath.startsWith('/changePassword')
   const showHeaderAndFooter = !isLoginPage
 
   return (
@@ -30,6 +34,8 @@ const UserRoutes = () => {
         <Route path="/login/:type" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/resetPassword" element={<ResetPassword />} />
+        <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/product/:id" element={<ProductItem />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />

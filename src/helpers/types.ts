@@ -125,3 +125,33 @@ export type CreateAddress = {
   email: string
   telephone: string
 }
+
+export type Rating = {
+  title: string
+  userID: string | SignupUserData
+  productID: string | Product
+  description: string
+  rating: number
+  createdAt: Date
+  updatedAt: Date
+}
+export type RatingInput = {
+  title: string
+  userID: string | SignupUserData
+  productID: string | Product
+  description?: string
+  rating: number
+}
+
+export type ChangePasswordInput = {
+  passwordCurrent: string
+  password: string
+  passwordConfirm: string
+}
+
+export type AuthPromise = {
+  status: string
+  token: string
+  refreshToken: string
+  user: SignupUserData
+}
