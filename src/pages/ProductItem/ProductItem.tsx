@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { getProductWithId } from '@/store/products/productSlice'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import LeftSlider from './LeftSlider'
 import Img1 from '@/assets/images/productIMG1.png'
 import TebImg from '@/assets/images/teb.png'
@@ -28,12 +28,18 @@ import SwipperSlider from './SwipperSlider'
 import RatingModal from './RatingModal'
 import Rating from 'react-rating-stars-component'
 import { useGetRatingWithProductIdQuery } from '@/store/products/RTKProductSlice'
+import { addToCartType } from '@/helpers/types'
+import {
+  useAddToCartQueryMutation,
+  useGetCartProductsQuery,
+} from '@/Cart/store/cartAPI'
 
 const FullStar = () => <FontAwesomeIcon icon={faStar} />
 
 const ProductItem = () => {
   const dispatch = useAppDispatch()
   const path = useLocation()
+  const navigate = useNavigate()
   const id = useLocation().pathname.split('/')[2]
   const [activeProdTitle, setActiveProdTitle] = useState('1')
   const { product, loading, error } = useAppSelector((state) => state.products)
@@ -43,6 +49,15 @@ const ProductItem = () => {
   const { user } = useAppSelector((state) => state.auth)
   const [ratingsModal, setRatingsModal] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<string>(Img1)
+
+  const [addToCartQuery, { isError, isLoading, isSuccess }] =
+    useAddToCartQueryMutation()
+
+  const {
+    data: cart,
+    refetch,
+    isLoading: cartLoading,
+  } = useGetCartProductsQuery()
 
   console.log('product', product)
 
@@ -62,6 +77,16 @@ const ProductItem = () => {
     { id: '2', title: 'Details' },
     { id: '3', title: 'Ratings' },
   ]
+
+  const addToCartHandler = (items: addToCartType) => {
+    addToCartQuery(items)
+      // .unwrap()
+      .then(() => {
+        refetch()
+        navigate('/cart')
+      })
+      .catch((err) => console.log('err', err))
+  }
   return (
     <div className="p-0 container">
       <div className="pt-3">
@@ -446,6 +471,13 @@ const ProductItem = () => {
                 <button
                   type="button"
                   className="open-buynow-popup btn btn-primary btn-primary-hover w-100 focus:outline-none d-flex align-items-center justify-content-center gap-2"
+                  onClick={() =>
+                    addToCartHandler({
+                      productId: product?.id ?? '',
+                      quantity: 1,
+                      price: product?.price ?? 0,
+                    })
+                  }
                   //  href="#buynow-popup"
                 >
                   <i className="icon-check-badge text-2xl d-flex align-items-center justify-content-center gap-2 icon-line-height">

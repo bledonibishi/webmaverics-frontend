@@ -7,22 +7,18 @@ import { getCartProducts } from '@/Cart/store/cartSlice'
 import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import { getAllAddresses } from '@/store/addresses/addressesSlice'
 import { fetchCountries } from '@/store/auth/authSlice'
-import { Address } from '@/helpers/types'
 
-type OpcBillinPropTypes = {
+type OpcShippingPropTypes = {
   handleContinue: (activeStep: string) => void
-  handleAddressSelection: (address: string) => void
 }
 
-const OpcBilling: React.FC<OpcBillinPropTypes> = ({
-  handleContinue,
-  handleAddressSelection,
-}) => {
+const OpcShipping: React.FC<OpcShippingPropTypes> = ({ handleContinue }) => {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [newAddress, setNewAddress] = useState<boolean>(false)
   const { addresses, loading } = useAppSelector((state) => state.address)
   const { countries, user } = useAppSelector((state) => state.auth)
   const [selectedType, setSelectedType] = useState<string>('Bussines')
-  const [sameAddress, setSameAddress] = useState<boolean>(true)
 
   useEffect(() => {
     dispatch(fetchCountries())
@@ -32,11 +28,15 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
     dispatch(getAllAddresses())
   }, [])
 
-  const dispatch = useAppDispatch()
-
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedType(event.target.value)
   }
+
+  const {
+    data: cart,
+    refetch,
+    isLoading: cartLoading,
+  } = useGetCartProductsQuery()
 
   useEffect(() => {
     dispatch(getCartProducts())
@@ -46,7 +46,7 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
     if (event.target.value === 'new') {
       setNewAddress(true)
     } else {
-      handleAddressSelection(event.target.value)
+      setNewAddress(false)
     }
   }
 
@@ -68,8 +68,7 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
                   data-val-required="The ShipToSameAddress field is required."
                   id="ShipToSameAddress"
                   name="ShipToSameAddress"
-                  checked={sameAddress}
-                  onChange={() => setSameAddress((state) => !state)}
+                  value="true"
                 />
                 <label
                   className="text-sm text-gray-700 pl-4"
@@ -569,15 +568,15 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
           id="next-step"
           type="button"
           name="save"
-          className="new-address-next-step-button btn btn-primary btn-primary-hover mt-3 shadow-sm"
+          className="new-address-next-step-button btn btn-primary btn-primary-hover  shadow-sm"
           // onclick="Billing.save(); sendSelectedAddressEvent('invoice')"
-          onClick={() => handleContinue('opc-shipping')}
+          onClick={() => handleContinue('opc-shipping_method')}
         >
           Vazhdo
         </button>
         <div
           id="billing-please-wait"
-          className="w-100 justify-content-center align-items-center hidden text-xs"
+          className="w-100 d-flex justify-content-center align-items-center hidden text-xs"
           style={{ display: 'none' }}
         >
           Duke u ngarkuar hapi i ardhshëm ...
@@ -588,4 +587,4 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
   )
 }
 
-export default OpcBilling
+export default OpcShipping

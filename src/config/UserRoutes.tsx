@@ -41,7 +41,7 @@ const UserRoutes = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/customer" element={<Customer />} />
         <Route path="/customer/:type/:id?" element={<Customer />} />
-        <Route path="/onepagecheckout/:type" element={<OnePageCheckout />} />
+        <Route path="/onepagecheckout" element={<OnePageCheckout />} />
         <Route path="/search" element={<SearchComponent />} />
       </Routes>
       {showHeaderAndFooter && <Footer />}

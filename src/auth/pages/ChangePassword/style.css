@@ -1,8 +1,8 @@
 .auth-wrapper input[type='password']:focus,
 input[type='text']:focus {
-  border: none !important;
+  /* border: none !important; */
 }
 .auth-wrapper input[type='password'],
 input[type='text'] {
-  border: none !important;
+  /* border: none !important; */
 }

@@ -155,3 +155,24 @@ export type AuthPromise = {
   refreshToken: string
   user: SignupUserData
 }
+
+export type OrderProduct = {
+  productID: string | Product
+  quantity: number
+}
+
+export type Order = {
+  _id: string
+  userID: string | SignupUserData
+  products: OrderProduct[]
+  status: 'pending' | 'processed' | 'completed' | 'admin'
+  addressID: string | Address
+  transportMode: string
+  paymentMethod: string
+  comments: string | null
+  orderDate: string
+  arrivalDate: string
+  orderCode: string
+  createdAt: string
+  updatedAt: string
+}

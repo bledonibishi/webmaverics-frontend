@@ -5,3 +5,25 @@
 .opc .title {
   font-size: 14px;
 }
+.customer-address-field input {
+  width: 100%;
+}
+input[type='radio'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  min-width: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  max-height: 16px;
+  border: 2px solid #cacaca;
+  transition: 0.2s all linear;
+  position: relative;
+}
+input[type='checkbox'],
+input[type='radio'],
+input[type='checkbox'] + *,
+input[type='radio'] + * {
+  vertical-align: middle;
+}

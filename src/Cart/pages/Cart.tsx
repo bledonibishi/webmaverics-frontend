@@ -33,7 +33,7 @@ const Cart = () => {
     navigate('/login/identifier')
   }
   const goToOnePageCheckout = () => {
-    navigate('/onepagecheckout/opc-billing')
+    navigate('/onepagecheckout#opc-billing')
   }
   const calculateTotalPrice = (items: CartItemProduct[] | undefined) => {
     const VAT_RATE = 0.18
