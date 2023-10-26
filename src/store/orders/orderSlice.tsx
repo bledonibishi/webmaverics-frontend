@@ -31,6 +31,7 @@ export const createOrder = createAsyncThunk(
     try {
       console.log('newOrder', newOrder)
       const response = await OrderService.createOrder(newOrder)
+      console.log('response', response)
       return response
     } catch (error) {
       throw error

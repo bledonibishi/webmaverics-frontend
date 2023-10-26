@@ -1,8 +1,12 @@
 import React from 'react'
 import SuccessImage from '@/assets/images/wired-flat-1103-confetti.png'
 import './style.css'
+import { useLocation } from 'react-router-dom'
 
 const CheckoutCompleted = () => {
+  const location = useLocation()
+  const orderResponse = location.state.orderResponse.payload
+  console.log('orderResponse', orderResponse)
   return (
     <div className="master-wrapper-content px-2 md:px-0 mx-auto">
       <div className="master-column-wrapper my-6">
@@ -70,40 +74,45 @@ const CheckoutCompleted = () => {
         <div className="side-3 sticky top-28 mb-4 md:mb-0 mt-4 md:mt-0">
           <div className="w-100 rounded shadow-md bg-white">
             <span className="d-flex border-b w-100 p-3 md:p-4 text-sm text-gray-700 font-medium">
-              Produktet e blera: (1)
+              Produktet e blera: ({orderResponse.products.length})
             </span>
             <div className="px-4 pb-2 max-h-80 overflow-y-scroll scrollbar-modifier">
-              <div className="d-flex border-b border-gray-300 justify-content-between align-items-center table-content flex-row position-relative py-2 gap-4">
-                <a
-                  href="/set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
-                  className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
+              {orderResponse.products.map((product: any, index: any) => (
+                <div
+                  key={index}
+                  className="d-flex border-b border-gray-300 justify-content-between align-items-center table-content flex-row position-relative py-2 gap-4"
                 >
-                  <img
-                    className="max-h-full max-w-full position-relative"
-                    alt="Foto e Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6        "
-                    src="https://iqq6kf0xmf.gjirafa.net/images/2962/2962.jpeg"
-                    title="Shfaq detaje për Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6        "
-                  />
-                </a>
-                <div className="d-flex justify-content-between align-items-start flex-col w-100">
-                  <div className="product product-title-lines">
-                    <a
-                      href="/set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
-                      className="product-name-opc text-sm hover:text-primary"
-                    >
-                      Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6{' '}
-                    </a>
-                  </div>
-                  <div className="d-flex flex-col w-100">
-                    <span className="product-quantity text-xs text-gray-600">
-                      SKU: 213486
-                    </span>
-                    <span className="product-unit-price text-xs text-gray-600">
-                      1.50 €
-                    </span>
+                  <a
+                    href="/set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
+                    className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
+                  >
+                    <img
+                      className="max-h-full max-w-full position-relative"
+                      alt="Foto e Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6        "
+                      src="https://iqq6kf0xmf.gjirafa.net/images/2962/2962.jpeg"
+                      title="Shfaq detaje për Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6        "
+                    />
+                  </a>
+                  <div className="d-flex justify-content-between align-items-start flex-col w-100">
+                    <div className="product product-title-lines">
+                      <a
+                        href="/set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
+                        className="product-name-opc text-sm hover:text-primary"
+                      >
+                        {product.productID.title}
+                      </a>
+                    </div>
+                    <div className="d-flex flex-col w-100">
+                      <span className="product-quantity text-xs text-gray-600">
+                        SKU: 213486
+                      </span>
+                      <span className="product-unit-price text-xs text-gray-600">
+                        {product.productID.priceDiscount.toFixed(2)} €
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
             <div className="p-3 md:p-4">
               <div className="d-flex justify-content-between mb-2">

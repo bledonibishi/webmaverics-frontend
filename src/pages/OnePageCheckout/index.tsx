@@ -22,6 +22,7 @@ import { createOrder } from '@/store/orders/orderSlice'
 const OnePageCheckout = () => {
   const dispatch = useAppDispatch()
   const stepRef = useRef(null)
+  const navigate = useNavigate()
   const {
     data: cart,
     refetch,
@@ -145,12 +146,16 @@ const OnePageCheckout = () => {
         transportMode,
         paymentMethod: paymentMethod,
         arrivalDate: '2023-10-31',
-        orderCode: 'test1',
+        orderCode: 'test6',
       }
 
       console.log('body', body)
-
-      dispatch(createOrder(body))
+      try {
+        const response = await dispatch(createOrder(body))
+        navigate('/checkout/completed', { state: { orderResponse: response } })
+      } catch (error) {
+        console.log('error', error)
+      }
     } else {
     }
   }
