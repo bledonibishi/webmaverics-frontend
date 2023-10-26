@@ -10,9 +10,13 @@ import { fetchCountries } from '@/store/auth/authSlice'
 
 type OpcShippingPropTypes = {
   handleContinue: (activeStep: string) => void
+  handleTransportAddress: (address: string) => void
 }
 
-const OpcShipping: React.FC<OpcShippingPropTypes> = ({ handleContinue }) => {
+const OpcShipping: React.FC<OpcShippingPropTypes> = ({
+  handleContinue,
+  handleTransportAddress,
+}) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [newAddress, setNewAddress] = useState<boolean>(false)
@@ -46,7 +50,7 @@ const OpcShipping: React.FC<OpcShippingPropTypes> = ({ handleContinue }) => {
     if (event.target.value === 'new') {
       setNewAddress(true)
     } else {
-      setNewAddress(false)
+      handleTransportAddress(event.target.value)
     }
   }
 
@@ -59,25 +63,6 @@ const OpcShipping: React.FC<OpcShippingPropTypes> = ({ handleContinue }) => {
       >
         <div id="checkout-billing-load">
           <div className="checkout-data">
-            <div className="section ship-to-same-address mb-6">
-              <div className="selector d-flex items-center">
-                <input
-                  type="checkbox"
-                  // checked="checked"
-                  data-val="true"
-                  data-val-required="The ShipToSameAddress field is required."
-                  id="ShipToSameAddress"
-                  name="ShipToSameAddress"
-                  value="true"
-                />
-                <label
-                  className="text-sm text-gray-700 pl-4"
-                  htmlFor="ShipToSameAddress"
-                >
-                  Transporto në të njejtën adresë
-                </label>
-              </div>
-            </div>
             <div className="section select-billing-address mb-6 d-flex flex-col gap-2 p-2 bg-gray-100">
               <label
                 htmlFor="billing-address-select"

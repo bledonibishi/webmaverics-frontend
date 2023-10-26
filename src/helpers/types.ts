@@ -176,3 +176,15 @@ export type Order = {
   createdAt: string
   updatedAt: string
 }
+export type OrderInput = {
+  products: OrderProduct[]
+  // status: 'pending' | 'processed' | 'completed' | 'admin'
+  status: string
+  addressID: string | Address
+  transportMode: string
+  paymentMethod: string
+  comments?: string | null
+  orderDate?: string
+  arrivalDate: string
+  orderCode: string
+}

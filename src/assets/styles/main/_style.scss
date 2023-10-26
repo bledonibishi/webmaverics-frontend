@@ -228,6 +228,44 @@ p {
   position: -webkit-sticky;
   position: sticky;
 }
+.w-\[52\.5\%\] {
+  width: 52.5%;
+}
+@media (min-width: 480px) {
+  .tablet\:px-1 {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+@media (min-width: 480px) {
+  .tablet\:py-1\.5 {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
+}
+@media (min-width: 811px) {
+  .md\:p-4 {
+    padding: 1rem;
+  }
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+@media (min-width: 480px) {
+  .tablet\:h-6 {
+    height: 1.5rem;
+  }
+}
+#header-menu-mobile {
+  top: -42px;
+}
 .font-medium {
   font-weight: 500;
 }

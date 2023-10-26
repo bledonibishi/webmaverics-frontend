@@ -16,6 +16,7 @@ import SearchComponent from '@/pages/SearchPage'
 import ForgotPassword from '@/auth/pages/ForgotPassword'
 import ResetPassword from '@/auth/pages/ResetPassword'
 import ChangePassword from '@/auth/pages/ChangePassword'
+import CheckoutCompleted from '@/pages/CheckoutCompleted'
 const UserRoutes = () => {
   const currentPath = useLocation().pathname
   const isLoginPage =
@@ -37,6 +38,7 @@ const UserRoutes = () => {
         <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/product/:id" element={<ProductItem />} />
+        <Route path="/checkout/completed" element={<CheckoutCompleted />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/customer" element={<Customer />} />

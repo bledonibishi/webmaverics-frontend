@@ -1,4 +1,4 @@
-import { Order } from '@/helpers/types'
+import { Order, OrderInput } from '@/helpers/types'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import OrderService from './orderService'
 
@@ -27,10 +27,11 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', async () => {
 
 export const createOrder = createAsyncThunk(
   'orders/createOrder',
-  async (newOrder: Order) => {
+  async (newOrder: OrderInput) => {
     try {
+      console.log('newOrder', newOrder)
       const response = await OrderService.createOrder(newOrder)
-      return response.data
+      return response
     } catch (error) {
       throw error
     }

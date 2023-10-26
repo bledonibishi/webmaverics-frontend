@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import './style.css'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { useGetCartProductsQuery } from '@/Cart/store/cartAPI'
 import { getCartProducts } from '@/Cart/store/cartSlice'
@@ -12,17 +12,21 @@ import { Address } from '@/helpers/types'
 type OpcBillinPropTypes = {
   handleContinue: (activeStep: string) => void
   handleAddressSelection: (address: string) => void
+  sameAddress: boolean
+  setSameAddress: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const OpcBilling: React.FC<OpcBillinPropTypes> = ({
   handleContinue,
   handleAddressSelection,
+  sameAddress,
+  setSameAddress,
 }) => {
+  const navigate = useNavigate()
   const [newAddress, setNewAddress] = useState<boolean>(false)
   const { addresses, loading } = useAppSelector((state) => state.address)
   const { countries, user } = useAppSelector((state) => state.auth)
   const [selectedType, setSelectedType] = useState<string>('Bussines')
-  const [sameAddress, setSameAddress] = useState<boolean>(true)
 
   useEffect(() => {
     dispatch(fetchCountries())
@@ -48,6 +52,10 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
     } else {
       handleAddressSelection(event.target.value)
     }
+  }
+
+  const handleSkip = () => {
+    navigate('#opc-shipping_method')
   }
 
   return (
@@ -571,7 +579,9 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
           name="save"
           className="new-address-next-step-button btn btn-primary btn-primary-hover mt-3 shadow-sm"
           // onclick="Billing.save(); sendSelectedAddressEvent('invoice')"
-          onClick={() => handleContinue('opc-shipping')}
+          onClick={() =>
+            handleContinue(sameAddress ? 'opc-shipping_method' : 'opc-shipping')
+          }
         >
           Vazhdo
         </button>

@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom'
 
 type OpcShippingMethodPropTypes = {
   handleContinue: (activeStep: string) => void
+  shippingMethod: string | null
+  setShippingMethod: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 const OpcShippingMethod: React.FC<OpcShippingMethodPropTypes> = ({
   handleContinue,
+  setShippingMethod,
+  shippingMethod,
 }) => {
   return (
     <>
@@ -18,14 +22,22 @@ const OpcShippingMethod: React.FC<OpcShippingMethodPropTypes> = ({
                 <label
                   data-shipping-method="STANDARD - Transport falas"
                   htmlFor="shippingoption_0"
-                  className="method-name d-flex gap-4 items-baseline border rounded p-2 mb-6 border-primary shadow-halo"
+                  className={`method-name d-flex gap-4 items-baseline border rounded p-2 mb-5 ${
+                    shippingMethod === 'STANDARD - Transport(free)'
+                      ? 'border-primary shadow-halo'
+                      : ''
+                  } `}
                 >
                   <span>
                     <input
                       id="shippingoption_0"
                       type="radio"
                       name="shippingoption"
-                      value="STANDARD - Transport falas___Shipping.FixedByWeightByTotal"
+                      value="STANDARD - Transport(free)"
+                      className="hidden"
+                      onChange={() =>
+                        setShippingMethod('STANDARD - Transport(free)')
+                      }
                     />
                   </span>
 
@@ -49,7 +61,11 @@ const OpcShippingMethod: React.FC<OpcShippingMethodPropTypes> = ({
                 <label
                   data-shipping-method="Merre në zyret e Gjirafa50"
                   htmlFor="shippingoption_1"
-                  className="method-name d-flex gap-4 items-baseline border rounded p-2 mb-6 "
+                  className={`method-name d-flex gap-4 items-baseline border rounded p-2 mb-5 ${
+                    shippingMethod === 'BYURSELF - Transport(byurself)'
+                      ? 'border-primary shadow-halo'
+                      : ''
+                  } `}
                 >
                   <span>
                     <input
@@ -57,6 +73,10 @@ const OpcShippingMethod: React.FC<OpcShippingMethodPropTypes> = ({
                       type="radio"
                       name="shippingoption"
                       value="Merre në zyret e Gjirafa50___Shipping.FixedByWeightByTotal"
+                      className="hidden"
+                      onChange={() =>
+                        setShippingMethod('BYURSELF - Transport(byurself)')
+                      }
                     />
                   </span>
 

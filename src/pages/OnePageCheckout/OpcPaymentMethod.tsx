@@ -3,13 +3,16 @@ import { useNavigate } from 'react-router-dom'
 
 type OpcPaymentMethodPropTypes = {
   handleContinue: (activeStep: string) => void
+  paymentMethod: string
+  setPaymentMethod: React.Dispatch<React.SetStateAction<string>>
 }
 
 const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
   handleContinue,
+  setPaymentMethod,
+  paymentMethod,
 }) => {
   const [paymentMainMethod, setpaymentMainMethod] = useState<string>('online')
-  const [paymentMethod, setPaymentMethod] = useState<string>('teb')
 
   const changePaymentMethod = (method: string) => {
     setPaymentMethod(method)
@@ -40,6 +43,7 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                       value="Payments.Online.Teb"
                       className="mr-2"
                       checked={paymentMainMethod === 'online'}
+                      onChange={() => setPaymentMethod('TEB Bank')}
                     />
                     <i className="icon-payments-online text-base mr-1"></i>
                     <label>Paguaj online (Blerje direkte ose me këste)</label>
@@ -51,16 +55,16 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                   >
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        onClick={() => changePaymentMethod('teb')}
+                        onClick={() => setPaymentMethod('TEB Bank')}
                         className={`payment-method method-name w-100 p-2 border rounded w-100 ${
-                          paymentMethod === 'teb'
+                          paymentMethod === 'TEB Bank'
                             ? ' border-primary shadow-halo'
                             : ''
                         } `}
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex gap-2">
                           <span className="payment-logo">
-                            <label>
+                            <label style={{ width: '80px', height: '50px' }}>
                               <img
                                 src="http://gjirafa50.com/Plugins/Payments.Online.Teb/logo.png"
                                 alt="TEB Bank"
@@ -79,20 +83,20 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                     </span>
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        onClick={() => changePaymentMethod('reiffeisen')}
+                        onClick={() => setPaymentMethod('Reiffeisen Bank')}
                         className={`payment-method method-name w-100 p-2 border rounded w-100 ${
-                          paymentMethod === 'reiffeisen'
+                          paymentMethod === 'Reiffeisen Bank'
                             ? ' border-primary shadow-halo'
                             : ''
                         }`}
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex  gap-2">
                           <span className="payment-logo">
-                            <label>
+                            <label style={{ width: '80px', height: '50px' }}>
                               <img
                                 src="http://gjirafa50.com/Plugins/Payments.Online.Raiffeisen/logo.jpg"
                                 alt="Raiffeisen Bank"
-                                className="max-h-10"
+                                className="max-h-10 w-100 h-100"
                               />
                             </label>
                           </span>
@@ -107,20 +111,20 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                     </span>
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        onClick={() => changePaymentMethod('procredit')}
+                        onClick={() => setPaymentMethod('Procredit Bank')}
                         className={`payment-method method-name w-100 p-2 border rounded w-100 ${
-                          paymentMethod === 'procredit'
+                          paymentMethod === 'Procredit Bank'
                             ? ' border-primary shadow-halo'
                             : ''
                         } `}
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex  gap-2">
                           <span className="payment-logo">
-                            <label>
+                            <label style={{ width: '80px', height: '50px' }}>
                               <img
                                 src="http://gjirafa50.com/Plugins/Payments.Online.ProCredit/logo.jpg"
                                 alt="ProCredit Bank"
-                                className="max-h-10"
+                                className="max-h-10 w-100 "
                               />
                             </label>
                           </span>
@@ -137,7 +141,9 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                 </li>
                 <li className="text-sm d-flex flex-col align-items-start w-100 p-2">
                   <label
-                    onClick={() => changeMainPaymentMethod('cash')}
+                    onClick={() =>
+                      changeMainPaymentMethod('Paguaj me para në dorë')
+                    }
                     className="payment-group d-flex align-items-center cursor-pointer"
                   >
                     <input
@@ -146,22 +152,27 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                       name="paymentmethod"
                       value="Payments.Cash"
                       className="mr-2"
-                      checked={paymentMainMethod === 'cash'}
+                      checked={paymentMainMethod === 'Paguaj me para në dorë'}
+                      onChange={() =>
+                        setPaymentMethod('Paguaj me para në dorë')
+                      }
                     />
                     <i className="icon-payments-cash text-base mr-1"></i>
                     <label>Paguaj me para në dorë</label>
                   </label>
                   <span
                     className={`payment-method-container w-100 ${
-                      paymentMainMethod === 'cash' ? '' : 'hidden'
+                      paymentMainMethod === 'Paguaj me para në dorë'
+                        ? ''
+                        : 'hidden'
                     } `}
                   >
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        data-payment-method="Payments.Cash"
-                        className="payment-method method-name w-100 p-2 border rounded w-100"
+                        // data-payment-method="Payments.Cash"
+                        className="payment-method method-name w-100 p-2 border rounded w-100 border-primary shadow-halo"
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex gap-2">
                           <span className="payment-logo">
                             <label>
                               <img
@@ -185,7 +196,10 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                 </li>
                 <li className="text-sm d-flex flex-col align-items-start w-100 p-2">
                   <label
-                    onClick={() => changeMainPaymentMethod('pos')}
+                    onClick={() => {
+                      changeMainPaymentMethod('pos')
+                      setPaymentMethod('Paguaj me këste (TEB Starcard)')
+                    }}
                     className="payment-group d-flex align-items-center cursor-pointer"
                   >
                     <input
@@ -195,6 +209,9 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                       value="Payments.Installments.Teb"
                       className="mr-2"
                       checked={paymentMainMethod === 'pos'}
+                      onChange={() =>
+                        setPaymentMethod('Paguaj me këste (TEB Starcard)')
+                      }
                     />
                     <i className="icon-payments-pos text-base mr-1"></i>
                     <label>Paguaj me POS</label>
@@ -206,10 +223,16 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                   >
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        data-payment-method="Payments.Installments.Teb"
-                        className="payment-method method-name w-100 p-2 border rounded w-100"
+                        onClick={() =>
+                          setPaymentMethod('Paguaj me këste (TEB Starcard)')
+                        }
+                        className={`payment-method method-name w-100 p-2 border rounded w-100   ${
+                          paymentMethod === 'Paguaj me këste (TEB Starcard)'
+                            ? ' border-primary shadow-halo'
+                            : ''
+                        } `}
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex  gap-2">
                           <span className="payment-logo">
                             <label>
                               <img
@@ -233,10 +256,19 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                     </span>
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        data-payment-method="Payments.Installments.Raiffeisen"
-                        className="payment-method method-name w-100 p-2 border rounded w-100"
+                        onClick={() =>
+                          setPaymentMethod(
+                            'Paguaj me këste (Raiffeisen Bonus Kartelë)'
+                          )
+                        }
+                        className={`payment-method method-name w-100 p-2 border rounded w-100   ${
+                          paymentMethod ===
+                          'Paguaj me këste (Raiffeisen Bonus Kartelë)'
+                            ? ' border-primary shadow-halo'
+                            : ''
+                        } `}
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex  gap-2">
                           <span className="payment-logo">
                             <label>
                               <img
@@ -260,10 +292,16 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                     </span>
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        data-payment-method="Payments.POS.ProCredit"
-                        className="payment-method method-name w-100 p-2 border rounded w-100"
+                        onClick={() =>
+                          setPaymentMethod('Paguaj me POS (ProCredit Bank)')
+                        }
+                        className={`payment-method method-name w-100 p-2 border rounded w-100   ${
+                          paymentMethod === 'Paguaj me POS (ProCredit Bank)'
+                            ? ' border-primary shadow-halo'
+                            : ''
+                        } `}
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex  gap-2">
                           <span className="payment-logo">
                             <label>
                               <img
@@ -297,6 +335,9 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                       value="Payments.CheckMoneyOrder"
                       className="mr-2"
                       checked={paymentMainMethod === 'transfer'}
+                      onChange={() =>
+                        setPaymentMethod('Paguaj me transfer bankar')
+                      }
                     />
                     <i className="icon-payments-banktransfer text-base mr-1"></i>
                     <label>Paguaj me transfer bankar</label>
@@ -309,10 +350,12 @@ const OpcPaymentMethod: React.FC<OpcPaymentMethodPropTypes> = ({
                     {/* style="opacity: 0;" */}
                     <span className="d-flex flex-col align-items-center w-100 mt-4 pl-6">
                       <label
-                        data-payment-method="Payments.CheckMoneyOrder"
-                        className="payment-method method-name w-100 p-2 border rounded w-100"
+                        onClick={() =>
+                          setPaymentMethod('Paguaj me transfer bankar')
+                        }
+                        className="payment-method method-name w-100 p-2 border rounded w-100 border-primary shadow-halo"
                       >
-                        <span className="d-flex flex-col gap-2">
+                        <span className="d-flex  gap-2">
                           <span className="payment-logo">
                             <label>
                               <img

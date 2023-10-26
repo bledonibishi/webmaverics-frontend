@@ -1,5 +1,5 @@
-.header-menu {
-  z-index: 5;
+#topbar {
+  height: 42px;
 }
 @media (min-width: 811px) {
   .top-menu {

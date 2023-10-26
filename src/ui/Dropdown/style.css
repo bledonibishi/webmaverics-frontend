@@ -10,9 +10,6 @@
 .my-menuCartItem-hover .cartItem_action:hover {
   color: red;
 }
-.my-menuCartItem-hover h6 {
-  box-shadow: 0 1px 0 0 #ccc;
-}
 
 .header-productItem {
   padding-left: 15px;

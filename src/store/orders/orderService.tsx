@@ -1,5 +1,5 @@
 import axiosInstance from '@/api/axiosInstance'
-import { Order } from '@/helpers/types'
+import { Order, OrderInput } from '@/helpers/types'
 
 const API_URL = '/api/v1/orders'
 
@@ -13,9 +13,9 @@ const fetchOrders = async () => {
   }
 }
 
-const createOrder = async (body: Order) => {
+const createOrder = async (body: OrderInput): Promise<Order> => {
   try {
-    const response = await axiosInstance.post(API_URL)
+    const response = await axiosInstance.post(API_URL, body)
 
     return response.data
   } catch (error: any) {

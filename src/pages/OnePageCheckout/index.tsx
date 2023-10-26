@@ -1,5 +1,5 @@
 import WrapperWIthSpacing from '@/ui/WrapperWIthSpacing'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import OpcBilling from './OpcBilling'
 import WrappingCard from '@/ui/WrappingCard'
@@ -17,9 +17,11 @@ import { fetchCountries } from '@/store/auth/authSlice'
 import axiosInstance from '@/api/axiosInstance'
 import { toast } from 'react-toastify'
 import { Address } from '@/helpers/types'
+import { createOrder } from '@/store/orders/orderSlice'
 
 const OnePageCheckout = () => {
   const dispatch = useAppDispatch()
+  const stepRef = useRef(null)
   const {
     data: cart,
     refetch,
@@ -29,14 +31,31 @@ const OnePageCheckout = () => {
   const [activeStep, setActiveStep] = useState<string>('opc-billing')
   const [stepChanges, setStepChanges] = useState<string[]>([])
   const [selectedAddress, setSelectedAddress] = useState<undefined | Address>(
-    undefined
+    addresses[0]
   )
+  const [sameAddress, setSameAddress] = useState<boolean>(false)
+  const [transportAddress, setTransportAddress] = useState<undefined | Address>(
+    selectedAddress ?? addresses[0]
+  )
+  const [shippingMethod, setShippingMethod] = useState<string | null>(null)
+  const [paymentMethod, setPaymentMethod] = useState<string>('TEB Bank')
 
   const handleAddressSelection = (address: string) => {
     const selAddress = addresses.find((item) => item.id === address)
 
     setSelectedAddress(selAddress)
   }
+  const handleTransportAddress = (address: string) => {
+    const selAddress = addresses.find((item) => item.id === address)
+
+    setTransportAddress(selAddress)
+  }
+
+  useEffect(() => {
+    if (sameAddress) {
+      setTransportAddress(selectedAddress)
+    }
+  }, [sameAddress])
 
   useEffect(() => {
     dispatch(getAllAddresses())
@@ -47,8 +66,6 @@ const OnePageCheckout = () => {
   }, [])
 
   const totalPriceInfo = CalculateTotalPrice(cart?.products)
-
-  // Use the values as needed
   const {
     totalPriceWithoutVAT,
     totalPriceWithVAT,
@@ -61,10 +78,12 @@ const OnePageCheckout = () => {
   const handleContinue = (activeStep: string) => {
     setStepChanges([...stepChanges, activeStep])
     setActiveStep(activeStep)
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    })
   }
   const handleStepChange = (step: string) => {
-    // This function is called when the user clicks the "Change" link.
-    // Remove the step from the changes array.
     setStepChanges(stepChanges.filter((s) => s !== step))
   }
 
@@ -90,13 +109,59 @@ const OnePageCheckout = () => {
     })
   }, [])
 
+  const createOrderHandler = async () => {
+    // setLoading(true)
+
+    let addressID: string | Address
+
+    let transportMode: string
+
+    if (shippingMethod) {
+      transportMode = shippingMethod
+    } else {
+      transportMode = ''
+    }
+
+    if (selectedAddress) {
+      addressID = selectedAddress?.id
+    } else {
+      addressID = ''
+    }
+
+    console.log('addressID', addressID)
+    console.log('transportMode', transportMode)
+
+    if (cart && cart.products) {
+      const products = cart.products.map((item) => ({
+        productID: item.product.id,
+        quantity: item.quantity,
+      }))
+
+      const body = {
+        products: products.flat(),
+        status: 'pending',
+        addressID,
+        // addressID: selectedAddress?.id,
+        transportMode,
+        paymentMethod: paymentMethod,
+        arrivalDate: '2023-10-31',
+        orderCode: 'test1',
+      }
+
+      console.log('body', body)
+
+      dispatch(createOrder(body))
+    } else {
+    }
+  }
+
   return (
     <WrapperWIthSpacing>
       <div className="page-title-top mb-3 md:mb-6 page-title pointer-events-none w-100 text-start md:text-left text-primary text-lg font-medium">
         Blerje e sigurtë
       </div>
       <div className="position-relative">
-        <div className="center-3">
+        <div className="center-3" ref={stepRef}>
           <div className="d-flex md:flex-row flex-col">
             <div className="page checkout-page flex-grow">
               <div className="page-body checkout-data mb-5">
@@ -112,6 +177,8 @@ const OnePageCheckout = () => {
                     <OpcBilling
                       handleContinue={handleContinue}
                       handleAddressSelection={handleAddressSelection}
+                      setSameAddress={setSameAddress}
+                      sameAddress={sameAddress}
                     />
                   </OrderDropdown>
                   <OrderDropdown
@@ -122,7 +189,10 @@ const OnePageCheckout = () => {
                     isChangable={stepChanges.includes('opc-shipping')}
                     onChange={handleStepChange}
                   >
-                    <OpcShipping handleContinue={handleContinue} />
+                    <OpcShipping
+                      handleContinue={handleContinue}
+                      handleTransportAddress={handleTransportAddress}
+                    />
                   </OrderDropdown>
                   <OrderDropdown
                     isActive={activeStep === 'opc-shipping_method'}
@@ -132,7 +202,11 @@ const OnePageCheckout = () => {
                     isChangable={stepChanges.includes('opc-shipping_method')}
                     onChange={handleStepChange}
                   >
-                    <OpcShippingMethod handleContinue={handleContinue} />
+                    <OpcShippingMethod
+                      handleContinue={handleContinue}
+                      setShippingMethod={setShippingMethod}
+                      shippingMethod={shippingMethod}
+                    />
                   </OrderDropdown>
                   <OrderDropdown
                     number={4}
@@ -142,9 +216,13 @@ const OnePageCheckout = () => {
                     isChangable={stepChanges.includes('opc-payment_method')}
                     onChange={handleStepChange}
                   >
-                    <OpcPaymentMethod handleContinue={handleContinue} />
+                    <OpcPaymentMethod
+                      handleContinue={handleContinue}
+                      paymentMethod={paymentMethod}
+                      setPaymentMethod={setPaymentMethod}
+                    />
                   </OrderDropdown>
-                  <OrderDropdown
+                  {/* <OrderDropdown
                     isActive={activeStep === 'opc-payment_info'}
                     number={5}
                     urlLink="opc-payment_info"
@@ -152,8 +230,119 @@ const OnePageCheckout = () => {
                     isChangable={stepChanges.includes('opc-payment_info')}
                     onChange={handleStepChange}
                   >
-                    <OpcPaymentInfo handleContinue={handleContinue} />
-                  </OrderDropdown>
+                    <OpcPaymentInfo
+                      handleContinue={handleContinue}
+                      paymentMethod={paymentMethod}
+                      createOrderHandler={createOrderHandler}
+                    />
+                  </OrderDropdown> */}
+                  <li
+                    id="opc-billing"
+                    className={`tab-section allow bg-white  shadow-md active`}
+                  >
+                    <div className="step-title d-flex justify-content-between p-3 border-b border-gray-300 text-sm">
+                      <div className="d-flex items-center">
+                        <span className="number">5</span>
+                        <h6 className="title ml-4 mb-0">
+                          Address and payment infp
+                        </h6>
+                      </div>
+                      <p className="back-link">
+                        {/* {isChangable && (
+            <a
+              href={urlLink}
+              className={`text-primary font-medium m-2 p-2 editbutton ${
+                isChangable ? '' : 'hidden'
+              }`}
+              //   onClick={(e) => {
+              //     e.preventDefault()
+              //     onChange(urlLink)
+              //   }}
+            >
+              Change
+            </a>
+          )} */}
+                      </p>
+                    </div>
+                    <div id="checkout-step-billing" className="step a-item p-4">
+                      <form action="" id="co-payment-info-form">
+                        <div
+                          id="checkout-payment-info-load"
+                          className="mb-5 flex flex-col text-left text-sm"
+                        >
+                          <div className="checkout-data">
+                            <div className="section payment-info">
+                              {/* {info && <p>{info.content}</p>} */}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="customer-entered-delivery-date mb-3 d-flex flex-col">
+                          <label
+                            htmlFor="datepicker"
+                            className="text-sm text-gray-600 mb-2"
+                          >
+                            Për datë tjetër të arritjes së porosisë, mund të e
+                            caktoni atë këtu:
+                          </label>
+                          <div className="d-flex align-items-center">
+                            <label className="position-relative d-flex align-items-center w-min cursor-pointer">
+                              <input
+                                name="customer-entered-delivery-date"
+                                className="cursor-pointer"
+                                data-toggle="datepicker"
+                                placeholder="DD.MM.YYYY"
+                                type="date"
+                              />
+                              <i className="icon-calendar-event-month text-xl text-gray-600 absolute right-2"></i>
+                            </label>
+                            <i className="icon-close-cancel text-lg text-gray-600 ml-2 cursor-pointer hidden"></i>
+                          </div>
+                          <span
+                            id="validation-for-customer-entered-delivery-date"
+                            className="text-[#e15726] text-sm p-1"
+                          ></span>
+                        </div>
+                        <div className="d-flex flex-col w-100 bg-gray-100 p-2 rounded mb-4">
+                          <div className="d-flex flex-col text-left">
+                            <label
+                              htmlFor="order-comment"
+                              className="text-sm text-gray-600"
+                            >
+                              Ju mund të lini ndonjë koment këtu:
+                            </label>
+                            <textarea
+                              className="border rounded border-gray-100"
+                              id="order-comment"
+                              name="order-comment"
+                              rows={3}
+                              cols={60}
+                              maxLength={160}
+                            ></textarea>
+                          </div>
+                        </div>
+                      </form>
+                      <div
+                        className="buttons d-flex flex-col items-end"
+                        id="payment-info-buttons-container"
+                      >
+                        <button
+                          type="button"
+                          className="payment-info-next-step-button btn btn-primary btn-primary-hover shadow-sm"
+                          onClick={createOrderHandler}
+                        >
+                          Konfirmo
+                        </button>
+                        <div
+                          id="payment-info-please-wait"
+                          className="w-100 justify-content-center align-items-center text-xs"
+                          style={{ display: 'none' }}
+                        >
+                          Duke bërë porosinë
+                          <span className="please-wait ml-2"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
                 </ol>
               </div>
             </div>
@@ -173,7 +362,7 @@ const OnePageCheckout = () => {
                       </div>
                       <ul className="info-list text-sm text-gray-700">
                         <li className="name capitalize truncate">
-                          <span className="font-medium">Emri:</span>
+                          <span className="font-medium">Name:</span>
                           {selectedAddress?.name}
                         </li>
                         <li className="email truncate">
@@ -181,22 +370,24 @@ const OnePageCheckout = () => {
                           {selectedAddress?.email}
                         </li>
                         <li className="phone truncate">
-                          <span className="font-medium">
-                            Numri i telefonit:
-                          </span>
+                          <span className="font-medium">Telephone:</span>
                           {selectedAddress?.telephone}
                         </li>
                         <li className="address1 truncate ">
-                          <span className="font-medium">Adresa:</span>
+                          <span className="font-medium">Address:</span>
                           {selectedAddress?.address}
                         </li>
                         <li className="city-state-zip">
-                          <span className="font-medium">Qyteti:</span>
+                          <span className="font-medium">City:</span>
                           {selectedAddress?.city}
                         </li>
                         <li className="country">
-                          <span className="font-medium">Shteti:</span>
+                          <span className="font-medium">Country:</span>
                           {selectedAddress?.country}
+                        </li>
+                        <li className="country">
+                          <span className="font-medium">Payment method::</span>
+                          {paymentMethod}
                         </li>
                       </ul>
                     </div>
@@ -211,34 +402,32 @@ const OnePageCheckout = () => {
                       </div>
                       <ul className="info-list text-sm text-gray-700">
                         <li className="name truncate">
-                          <span className="font-medium">Emri:</span>
-                          bledon ibishi
+                          <span className="font-medium">Name:</span>
+                          {transportAddress?.name}
                         </li>
                         <li className="email truncate">
                           <span className="font-medium">Email:</span>
-                          bledonibishi1@gmail.com
+                          {transportAddress?.email}
                         </li>
                         <li className="phone truncate">
-                          <span className="font-medium">
-                            Numri i telefonit:
-                          </span>
-                          045224091
+                          <span className="font-medium">Telephone:</span>
+                          {transportAddress?.telephone}
                         </li>
                         <li className="address1 truncate">
-                          <span className="font-medium">Adresa:</span>
-                          hamdi gashi
-                        </li>
-                        <li className="address2 truncate">
-                          <span className="font-medium">Adresa sekondare:</span>
-                          nr 31
+                          <span className="font-medium">Address:</span>
+                          {transportAddress?.address}
                         </li>
                         <li className="city-state-zip">
-                          <span className="font-medium">Qyteti:</span>
-                          Vushtrri{' '}
+                          <span className="font-medium">City:</span>
+                          {transportAddress?.city}
                         </li>
                         <li className="country">
-                          <span className="font-medium">Shteti:</span>
-                          Kosovë
+                          <span className="font-medium">Country:</span>
+                          {transportAddress?.country}
+                        </li>
+                        <li className="country">
+                          <span className="font-medium">Transport method:</span>
+                          {shippingMethod}
                         </li>
                       </ul>
                     </div>
@@ -271,10 +460,10 @@ const OnePageCheckout = () => {
                           </div>
                           <div className="shipping-cost d-flex justify-content-between p-2 text-sm text-gray-600">
                             <span>
-                              <label>Transporti:</label>
+                              <label>Transporti:{shippingMethod}</label>
                             </span>
                             <span>
-                              <span>-</span>
+                              <span>{shippingMethod ? '0.00€' : '-'}</span>
                             </span>
                           </div>
                           <div className="tax-rate d-flex justify-content-between p-2 text-sm text-gray-600">

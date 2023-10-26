@@ -88,9 +88,6 @@ const Navigation = () => {
       setSearchResults([])
       setTest(false)
     } else {
-      // You can perform the search logic here based on the query and your Product data
-      // For example, you can filter the products array and set the results to setSearchResults
-      // This is just a sample logic:
       const filteredResults = data?.filter((product) =>
         product.title.toLowerCase().includes(query.toLowerCase())
       )
@@ -103,96 +100,12 @@ const Navigation = () => {
     event.preventDefault()
     if (searchQuery.trim() === '') return
 
-    // Redirect to the search results page with the search query
     navigate(`/search?q=${searchQuery}`)
   }
 
   return (
-    // <div className="header-container">
-    //   <div className="master-wrapper-content mx-auto p-0 d-flex header-div">
-    //     <div className="logo-header__div">
-    //       <a href="/">
-    //         <img src={Logo} alt="Logo" />
-    //       </a>
-    //     </div>
-    //     <div className="w-50">
-    //       <InputGroup>
-    //         <Input
-    //           placeholder="username"
-    //           style={{
-    //             background: '#444',
-    //             color: '#fff',
-    //             border: 'none',
-    //           }}
-    //         />
-    //         <InputGroupText
-    //           addonType="append"
-    //           className="border-none"
-    //           style={{ background: '#444', border: 'none' }}
-    //         >
-    //           <FontAwesomeIcon
-    //             icon={faSearch}
-    //             style={{ marginRight: '5px', color: '#fff' }}
-    //           />
-    //         </InputGroupText>
-    //       </InputGroup>
-    //     </div>
-
-    //     <div className="d-flex align-items-center">
-    //       {user ? (
-    //         <>
-    //           <CustomDropdown
-    //             buttonContent={user.user.name}
-    //             icon={<FontAwesomeIcon icon={faSignIn} />}
-    //             menuItems={['Profile info', 'Orders', 'Wishlist', 'Logout']}
-    //             logout={onLogout}
-    //             direction="bottom"
-    //             menuClassName="profile-menu"
-    //             align="center"
-    //             handleDeleteCartProduct={handleDeleteCartProduct}
-    //           />
-
-    //           <a href={`/customer/wishlist`} className="nav-btn">
-    //             <FontAwesomeIcon icon={faHeart} />
-    //           </a>
-
-    //           <CustomDropdown
-    //             cartItemProducts={cart?.products}
-    //             icon={<FontAwesomeIcon icon={faShoppingCart} />}
-    //             direction="bottom"
-    //             menuClassName={'my-menu'}
-    //             align="end"
-    //             handleDeleteCartProduct={handleDeleteCartProduct}
-    //           />
-    //         </>
-    //       ) : (
-    //         <>
-    //           <a
-    //             href="/login/identifier"
-    //             // onClick={() => setLoginModal(true)}
-    //             // style={{ color: '#ffffff' }}
-    //             className="pr-4 nav-btn"
-    //           >
-    //             <FontAwesomeIcon icon={faSignIn} />
-    //           </a>
-    //           <a href={`/customer/wishlist`} className="pr-4 nav-btn">
-    //             <FontAwesomeIcon icon={faHeart} />
-    //           </a>
-    //           <a
-    //             // href=''
-    //             // onClick={() => setLoginModal(true)}
-    //             // style={{ color: '#ffffff' }}
-    //             className="pr-4 nav-btn"
-    //           >
-    //             <FontAwesomeIcon icon={faShoppingCart} />
-    //           </a>
-    //         </>
-    //       )}
-    //     </div>
-    //   </div>
-    // </div>
-    <div className=" bg-black-dark sticky z-10" id="header-menu-mobile">
-      <div className="d-flex flex-col md:flex-row justify-content-center md:justify-start align-items-center bg-gray-700 p-1 md:py-0">
+    <div className="w-100 bg-black-dark sticky z-10" id="header-menu-mobile">
+      <div className="d-flex flex-col md:flex-row justify-content-center md:justify-start align-items-center bg-gray-700 md:py-0">
         <span
           id="topbar"
           className="d-flex align-items-center w-100 justify-content-center text-center text-gray-300 text-xs font-medium h-10"
@@ -201,7 +114,7 @@ const Navigation = () => {
         </span>
       </div>
       <div
-        className="py-3 d-flex md:h-66rem justify-content-between bg-black-900 responsive-wrapper text-white hover-effect md:h-auto md:items-center"
+        className="py-2 d-flex md:h-66rem justify-content-between bg-black-900 responsive-wrapper text-white hover-effect md:h-auto md:items-center"
         // style={{ height: '6.6rem' }}
         id="header-menu"
       >
