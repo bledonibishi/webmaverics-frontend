@@ -114,7 +114,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
           </li>
           <li>
             <a
-              href="/"
+              href="/changePassword"
               className={`customer-nav anchor-links link-hover-effect group customer-info ${
                 activeLink === 'changePassword'
                   ? 'active-link-effect text-primary'

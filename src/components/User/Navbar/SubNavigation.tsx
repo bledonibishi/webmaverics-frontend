@@ -26,15 +26,10 @@ import Monitor from '@/assets/images/monitorsmallbanner.png'
 import Mouse from '@/assets/images/mouseSmallBanner.png'
 import Kufje from '@/assets/images/kufjeSmallBanner.png'
 import KartelGrafike from '@/assets/images/kartelagrafikeSmallBanner.png'
-import Procesor from '@/assets/images/procesorSmallBanner.png'
+// import Procesor from '@/assets/images/procesorSmallBanner.png'
 import PllakaAme from '@/assets/images/pllakaameSmallBanner.png'
 import MemorieOperative from '@/assets/images/memorieOperativeSmallBanner.png'
 import AppleLogo from '@/assets/images/appleSmallBannerLogo.png'
-
-
-
-
-
 
 type props = {
   handleDropdownVisibility: (isVisible: boolean) => void
@@ -176,7 +171,7 @@ const SubNavigation = ({
                   },
                 },
                 {
-                  'Audio': {
+                  Audio: {
                     items: ['Gramaphone', 'Radio', 'Home'],
                     image: Audio,
                   },
@@ -320,7 +315,7 @@ const SubNavigation = ({
                   },
                 },
                 {
-                  'Monitor': {
+                  Monitor: {
                     items: ['Apple', 'Gaming', 'Office'],
                     image: Monitor,
                   },
@@ -370,7 +365,7 @@ const SubNavigation = ({
                 {
                   Procesor: {
                     items: ['PC', 'For Servers', 'Workstations'],
-                    image: Procesor,
+                    image: KartelGrafike,
                   },
                 },
                 {
@@ -465,10 +460,12 @@ const SubNavigation = ({
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
               href=""
             >
-              <img style={{ width: "30px", height: "30px" }} src={AppleLogo} alt="" />
+              <img
+                style={{ width: '30px', height: '30px' }}
+                src={AppleLogo}
+                alt=""
+              />
             </a>
-
-
           </div>
         </li>
       </ul>

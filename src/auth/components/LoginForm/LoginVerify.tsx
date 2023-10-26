@@ -70,7 +70,7 @@ const LoginVerify: FC<props> = ({
             <a
               className="link text-primary"
               defaultValue={'forgot'}
-              href="/Account/ForgotPassword"
+              href="/forgotPassword"
             >
               Forgot password?
             </a>

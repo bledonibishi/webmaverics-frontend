@@ -5,6 +5,10 @@ export type Product = {
   ratingsAverage: number
   ratingsQuantity: number
   brand: string
+  discount: number
+  tfTransport: boolean
+  warranty: string
+  isNew: boolean
   details: []
   summary: string
   description: string
@@ -87,7 +91,67 @@ export type ProductItemTypes = {
   priceDiscount: number
   ratingsAverage: number
   ratingsQuantity: number
+  discount: number
+  tfTransport: boolean
+  isNew: boolean
+  warranty: string
   stock: number
   summary: string
   title: string
+}
+
+export type Address = {
+  id: string
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: string
+}
+export type CreateAddress = {
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: string
+}
+
+export type Rating = {
+  title: string
+  userID: string | SignupUserData
+  productID: string | Product
+  description: string
+  rating: number
+  createdAt: Date
+  updatedAt: Date
+}
+export type RatingInput = {
+  title: string
+  userID: string | SignupUserData
+  productID: string | Product
+  description?: string
+  rating: number
+}
+
+export type ChangePasswordInput = {
+  passwordCurrent: string
+  password: string
+  passwordConfirm: string
+}
+
+export type AuthPromise = {
+  status: string
+  token: string
+  refreshToken: string
+  user: SignupUserData
 }

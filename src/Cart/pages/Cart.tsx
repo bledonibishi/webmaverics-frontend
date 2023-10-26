@@ -10,20 +10,24 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { useNavigate } from 'react-router-dom'
 import { getCartProducts } from '../store/cartSlice'
+import { useGetCartProductsQuery } from '../store/cartAPI'
+import { CartItemProduct, Product } from '@/helpers/types'
 
 const Cart = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.auth.user)
-  console.log('user', user)
-  const { cart } = useAppSelector((state) => state.cart)
-
-  console.log('cart', cart)
-  // const products = cart?.products
+  const {
+    data: cart,
+    refetch,
+    isLoading: cartLoading,
+  } = useGetCartProductsQuery()
 
   useEffect(() => {
     dispatch(getCartProducts())
   }, [])
+
+  console.log('cart?.products', cart?.products)
 
   const goToLogin = () => {
     navigate('/login/identifier')
@@ -31,6 +35,82 @@ const Cart = () => {
   const goToOnePageCheckout = () => {
     navigate('/onepagecheckout/opc-billing')
   }
+  const calculateTotalPrice = (items: CartItemProduct[] | undefined) => {
+    const VAT_RATE = 0.18
+
+    const priceAfterDiscount = items?.reduce(
+      (totalPrice: number, cartItem: CartItemProduct) => {
+        const discountPercentage = cartItem.product.discount || 0
+        const originalPrice = cartItem.product.price
+        const discountedPrice =
+          originalPrice - (originalPrice * discountPercentage) / 100
+        return totalPrice + discountedPrice
+      },
+      0
+    )
+
+    const discountValueInEuros = items?.reduce(
+      (totalDiscountInEuros: number, cartItem: CartItemProduct) => {
+        const discountPercentage = cartItem.product.discount || 0
+        const originalPrice = cartItem.product.price
+        const discountedPrice =
+          originalPrice - (originalPrice * discountPercentage) / 100
+        const discountInEuros = originalPrice - discountedPrice
+        return totalDiscountInEuros + discountInEuros
+      },
+      0
+    )
+
+    console.log(
+      'discount value in euros',
+      Math.floor(discountValueInEuros ? discountValueInEuros : 0)
+    )
+
+    const zbritja = 6
+
+    const totalTvsh = items
+      ? items?.reduce((total: number, cartItem: CartItemProduct) => {
+          return (
+            total +
+            cartItem.product.priceDiscount * cartItem.quantity * VAT_RATE
+          )
+        }, 0)
+      : 0
+
+    const totalPriceWithVAT = items?.reduce(
+      (total: number, cartItem: CartItemProduct) => {
+        return total + cartItem.product.priceDiscount * cartItem.quantity
+      },
+      0
+    )
+
+    const totalPriceWithoutVAT = items
+      ? items.reduce((total: number, cartItem: CartItemProduct) => {
+          const itemPrice = cartItem.product.price * cartItem.quantity
+          return total + itemPrice
+        }, 0)
+      : 0
+    const discountedTotalPriceWithoutVAT = totalPriceWithoutVAT - totalTvsh
+
+    return {
+      totalPriceWithoutVAT,
+      totalPriceWithVAT,
+      totalTvsh,
+      zbritja,
+      discountValueInEuros,
+      priceAfterDiscount,
+      discountedTotalPriceWithoutVAT,
+    }
+  }
+  const {
+    totalPriceWithoutVAT,
+    totalPriceWithVAT,
+    totalTvsh,
+    zbritja,
+    discountValueInEuros,
+    priceAfterDiscount,
+    discountedTotalPriceWithoutVAT,
+  } = calculateTotalPrice(cart?.products)
 
   return (
     <WrapperWIthSpacing>
@@ -61,555 +141,119 @@ const Cart = () => {
                   </a>
                 </li>
               </ul>
-              <div className="border-b last:border-none border-gray-300 py-4 relative px-1 md:px-2 py-3">
-                <div className="w-100 grid grid-cols-10 grid-flow-row md:grid-flow-col table-content align-items-start gap-2 position-relative">
-                  <div className=" md:col-span-4 grid grid-flow-col pb-2 md:pb-2 justify-content-start align-items-center">
-                    {/* col-span-10 */}
-                    <a
-                      className="d-flex w-16 h-16 align-items-center justify-content-center small-image-container mr-4"
-                      href="/apple-iphone-15-128gb-black"
-                    >
-                      <img
-                        className="max-w-full max-h-full position-relative"
-                        alt="Foto e Apple iPhone 15, 128GB, Black"
-                        src={Apple}
-                        // srcset="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.webp?w=64"
-                        title="Shfaq detaje për Apple iPhone 15, 128GB, Black"
-                      />
-                    </a>
-                    <div className="product text-left">
-                      <a
-                        href="/apple-iphone-15-128gb-black"
-                        className="product-name cart-product-name hover:text-primary product-title-lines text-sm"
-                      >
-                        Apple iPhone 15, 128GB, Black
-                      </a>
-                      <div className="sku pt-2 text-gray-600 text-xs">
-                        SKU: 272523app
+              {cart?.products.map((product) => {
+                const discountPercentage = product.product.discount || 0
+                const originalPrice = product.product.price
+                const discountedPrice =
+                  originalPrice - (originalPrice * discountPercentage) / 100
+                const discountValueInEurosIN = originalPrice - discountedPrice
+
+                return (
+                  <div className="border-b last:border-none border-gray-300 py-4 relative px-1 md:px-2 py-3">
+                    <div className="w-100 grid grid-cols-10 grid-flow-row md:grid-flow-col table-content align-items-start gap-2 position-relative">
+                      <div className=" md:col-span-4 grid grid-flow-col pb-2 md:pb-2 justify-content-start align-items-center">
+                        {/* col-span-10 */}
+                        <a
+                          className="d-flex w-16 h-16 align-items-center justify-content-center small-image-container mr-4"
+                          href="/apple-iphone-15-128gb-black"
+                        >
+                          <img
+                            className="max-w-full max-h-full position-relative"
+                            alt="Foto e Apple iPhone 15, 128GB, Black"
+                            src={Apple}
+                            // srcset="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.webp?w=64"
+                            title="Shfaq detaje për Apple iPhone 15, 128GB, Black"
+                          />
+                        </a>
+                        <div className="product text-left">
+                          <a
+                            href="/apple-iphone-15-128gb-black"
+                            className="product-name cart-product-name hover:text-primary product-title-lines text-sm"
+                          >
+                            {product.product.title}
+                          </a>
+                          <div className="sku pt-2 text-gray-600 text-xs">
+                            SKU: 272523app
+                          </div>
+                        </div>
+                      </div>
+                      <div className="unit-price md:col-span-2">
+                        {/*  col-span-6 */}
+                        <span className="product-unit-price font-semibold text-left text-base text-gray-700">
+                          {product.product.priceDiscount.toFixed(2)}€
+                        </span>
+
+                        {product.product.discount !== 0 && (
+                          <div className="discount text-center md:text-left d-flex md:flex-col">
+                            <span className="text-primary text-xs font-medium">
+                              * Ju kurseni:
+                            </span>
+                            <span className="text-primary text-sm font-semibold pl-3">
+                              {Math.floor(discountValueInEurosIN) || 0}.00 €
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="quantity  md:col-span-2 d-flex align-items-center  md:justify-start">
+                        {/* col-span-4 */}
+                        <input
+                          type="button"
+                          value="-"
+                          className="qty-click-input qtyminus minus outline-none border border-gray-300 bg-white text-gray-600 text-xl rounded-tl rounded-bl"
+                          data-quantity="decrease"
+                        />
+                        <input
+                          name="itemquantity216330"
+                          id="itemquantity216330"
+                          type="number"
+                          value="1"
+                          className="qty qty-input w-1/3 text-center rounded-md focus-visible:ring-primary border border-gray-300 text-gray-700 font-semibold"
+                          aria-label="Sasia"
+                          data-productid="160697"
+                          data-itemid="216330"
+                          min="1"
+                          max="1000"
+                        />
+                        <input
+                          type="button"
+                          value="+"
+                          className="qty-click-input qtyplus plus outline-none bg-white border border-gray-300 text-gray-600 text-xl rounded-tr rounded-br"
+                          data-quantity="increase"
+                        />
+                      </div>
+                      <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
+                        {/* col-span-10 */}
+                        <span className="md:hidden">Total</span>
+                        <span className="product-subtotal text-base text-gray-700 font-semibold">
+                          {product.product.priceDiscount.toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="remove-from-cart position-absolute right-0 top-0">
+                        <input
+                          type="checkbox"
+                          className="hidden"
+                          name="removefromcart"
+                          id="removefromcart216330"
+                          data-productid="160697"
+                          value="216330"
+                          aria-label="Largo"
+                        />
+                        <button
+                          name="updatecart"
+                          className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
+                          // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
+                        >
+                          <i className="icon-delete-trash text-gray-700 text-xl">
+                            <FontAwesomeIcon icon={faTrashCan} />
+                          </i>
+                        </button>
                       </div>
                     </div>
+                    <div id="product-160697" className="mt-2 md:ml-20"></div>
                   </div>
-                  <div className="unit-price md:col-span-2">
-                    {/*  col-span-6 */}
-                    <span className="product-unit-price font-semibold text-left text-base text-gray-700">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="quantity  md:col-span-2 d-flex align-items-center  md:justify-start">
-                    {/* col-span-4 */}
-                    <input
-                      type="button"
-                      value="-"
-                      className="qty-click-input qtyminus minus outline-none border border-gray-300 bg-white text-gray-600 text-xl rounded-tl rounded-bl"
-                      data-quantity="decrease"
-                    />
-                    <input
-                      name="itemquantity216330"
-                      id="itemquantity216330"
-                      type="number"
-                      value="1"
-                      className="qty qty-input w-1/3 text-center rounded-md focus-visible:ring-primary border border-gray-300 text-gray-700 font-semibold"
-                      aria-label="Sasia"
-                      data-productid="160697"
-                      data-itemid="216330"
-                      min="1"
-                      max="1000"
-                    />
-                    <input
-                      type="button"
-                      value="+"
-                      className="qty-click-input qtyplus plus outline-none bg-white border border-gray-300 text-gray-600 text-xl rounded-tr rounded-br"
-                      data-quantity="increase"
-                    />
-                  </div>
-                  <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
-                    {/* col-span-10 */}
-                    <span className="md:hidden">Total</span>
-                    <span className="product-subtotal text-base text-gray-700 font-semibold">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="remove-from-cart position-absolute right-0 top-0">
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="removefromcart"
-                      id="removefromcart216330"
-                      data-productid="160697"
-                      value="216330"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
-                      // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
-                    >
-                      <i className="icon-delete-trash text-gray-700 text-xl">
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-                <div id="product-160697" className="mt-2 md:ml-20"></div>
-              </div>
-              <div className="border-b last:border-none border-gray-300 py-4 relative px-1 md:px-2 py-3">
-                <div className="w-100 grid grid-cols-10 grid-flow-row md:grid-flow-col table-content align-items-start gap-2 position-relative">
-                  <div className=" md:col-span-4 grid grid-flow-col pb-2 md:pb-2 justify-content-start align-items-center">
-                    {/* col-span-10 */}
-                    <a
-                      className="d-flex w-16 h-16 align-items-center justify-content-center small-image-container mr-4"
-                      href="/apple-iphone-15-128gb-black"
-                    >
-                      <img
-                        className="max-w-full max-h-full position-relative"
-                        alt="Foto e Apple iPhone 15, 128GB, Black"
-                        src={Apple}
-                        // srcset="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.webp?w=64"
-                        title="Shfaq detaje për Apple iPhone 15, 128GB, Black"
-                      />
-                    </a>
-                    <div className="product text-left">
-                      <a
-                        href="/apple-iphone-15-128gb-black"
-                        className="product-name cart-product-name hover:text-primary product-title-lines text-sm"
-                      >
-                        Apple iPhone 15, 128GB, Black
-                      </a>
-                      <div className="sku pt-2 text-gray-600 text-xs">
-                        SKU: 272523app
-                      </div>
-                    </div>
-                  </div>
-                  <div className="unit-price md:col-span-2">
-                    {/*  col-span-6 */}
-                    <span className="product-unit-price font-semibold text-left text-base text-gray-700">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="quantity  md:col-span-2 d-flex align-items-center  md:justify-start">
-                    {/* col-span-4 */}
-                    <input
-                      type="button"
-                      value="-"
-                      className="qty-click-input qtyminus minus outline-none border border-gray-300 bg-white text-gray-600 text-xl rounded-tl rounded-bl"
-                      data-quantity="decrease"
-                    />
-                    <input
-                      name="itemquantity216330"
-                      id="itemquantity216330"
-                      type="number"
-                      value="1"
-                      className="qty qty-input w-1/3 text-center rounded-md focus-visible:ring-primary border border-gray-300 text-gray-700 font-semibold"
-                      aria-label="Sasia"
-                      data-productid="160697"
-                      data-itemid="216330"
-                      min="1"
-                      max="1000"
-                    />
-                    <input
-                      type="button"
-                      value="+"
-                      className="qty-click-input qtyplus plus outline-none bg-white border border-gray-300 text-gray-600 text-xl rounded-tr rounded-br"
-                      data-quantity="increase"
-                    />
-                  </div>
-                  <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
-                    {/* col-span-10 */}
-                    <span className="md:hidden">Total</span>
-                    <span className="product-subtotal text-base text-gray-700 font-semibold">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="remove-from-cart position-absolute right-0 top-0">
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="removefromcart"
-                      id="removefromcart216330"
-                      data-productid="160697"
-                      value="216330"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
-                      // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
-                    >
-                      <i className="icon-delete-trash text-gray-700 text-xl">
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-                <div id="product-160697" className="mt-2 md:ml-20"></div>
-              </div>
-              <div className="border-b last:border-none border-gray-300 py-4 relative px-1 md:px-2 py-3">
-                <div className="w-100 grid grid-cols-10 grid-flow-row md:grid-flow-col table-content align-items-start gap-2 position-relative">
-                  <div className=" md:col-span-4 grid grid-flow-col pb-2 md:pb-2 justify-content-start align-items-center">
-                    {/* col-span-10 */}
-                    <a
-                      className="d-flex w-16 h-16 align-items-center justify-content-center small-image-container mr-4"
-                      href="/apple-iphone-15-128gb-black"
-                    >
-                      <img
-                        className="max-w-full max-h-full position-relative"
-                        alt="Foto e Apple iPhone 15, 128GB, Black"
-                        src={Apple}
-                        // srcset="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.webp?w=64"
-                        title="Shfaq detaje për Apple iPhone 15, 128GB, Black"
-                      />
-                    </a>
-                    <div className="product text-left">
-                      <a
-                        href="/apple-iphone-15-128gb-black"
-                        className="product-name cart-product-name hover:text-primary product-title-lines text-sm"
-                      >
-                        Apple iPhone 15, 128GB, Black
-                      </a>
-                      <div className="sku pt-2 text-gray-600 text-xs">
-                        SKU: 272523app
-                      </div>
-                    </div>
-                  </div>
-                  <div className="unit-price md:col-span-2">
-                    {/*  col-span-6 */}
-                    <span className="product-unit-price font-semibold text-left text-base text-gray-700">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="quantity  md:col-span-2 d-flex align-items-center  md:justify-start">
-                    {/* col-span-4 */}
-                    <input
-                      type="button"
-                      value="-"
-                      className="qty-click-input qtyminus minus outline-none border border-gray-300 bg-white text-gray-600 text-xl rounded-tl rounded-bl"
-                      data-quantity="decrease"
-                    />
-                    <input
-                      name="itemquantity216330"
-                      id="itemquantity216330"
-                      type="number"
-                      value="1"
-                      className="qty qty-input w-1/3 text-center rounded-md focus-visible:ring-primary border border-gray-300 text-gray-700 font-semibold"
-                      aria-label="Sasia"
-                      data-productid="160697"
-                      data-itemid="216330"
-                      min="1"
-                      max="1000"
-                    />
-                    <input
-                      type="button"
-                      value="+"
-                      className="qty-click-input qtyplus plus outline-none bg-white border border-gray-300 text-gray-600 text-xl rounded-tr rounded-br"
-                      data-quantity="increase"
-                    />
-                  </div>
-                  <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
-                    {/* col-span-10 */}
-                    <span className="md:hidden">Total</span>
-                    <span className="product-subtotal text-base text-gray-700 font-semibold">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="remove-from-cart position-absolute right-0 top-0">
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="removefromcart"
-                      id="removefromcart216330"
-                      data-productid="160697"
-                      value="216330"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
-                      // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
-                    >
-                      <i className="icon-delete-trash text-gray-700 text-xl">
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-                <div id="product-160697" className="mt-2 md:ml-20"></div>
-              </div>
-              <div className="border-b last:border-none border-gray-300 py-4 relative px-1 md:px-2 py-3">
-                <div className="w-100 grid grid-cols-10 grid-flow-row md:grid-flow-col table-content align-items-start gap-2 position-relative">
-                  <div className=" md:col-span-4 grid grid-flow-col pb-2 md:pb-2 justify-content-start align-items-center">
-                    {/* col-span-10 */}
-                    <a
-                      className="d-flex w-16 h-16 align-items-center justify-content-center small-image-container mr-4"
-                      href="/apple-iphone-15-128gb-black"
-                    >
-                      <img
-                        className="max-w-full max-h-full position-relative"
-                        alt="Foto e Apple iPhone 15, 128GB, Black"
-                        src={Apple}
-                        // srcset="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.webp?w=64"
-                        title="Shfaq detaje për Apple iPhone 15, 128GB, Black"
-                      />
-                    </a>
-                    <div className="product text-left">
-                      <a
-                        href="/apple-iphone-15-128gb-black"
-                        className="product-name cart-product-name hover:text-primary product-title-lines text-sm"
-                      >
-                        Apple iPhone 15, 128GB, Black
-                      </a>
-                      <div className="sku pt-2 text-gray-600 text-xs">
-                        SKU: 272523app
-                      </div>
-                    </div>
-                  </div>
-                  <div className="unit-price md:col-span-2">
-                    {/*  col-span-6 */}
-                    <span className="product-unit-price font-semibold text-left text-base text-gray-700">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="quantity  md:col-span-2 d-flex align-items-center  md:justify-start">
-                    {/* col-span-4 */}
-                    <input
-                      type="button"
-                      value="-"
-                      className="qty-click-input qtyminus minus outline-none border border-gray-300 bg-white text-gray-600 text-xl rounded-tl rounded-bl"
-                      data-quantity="decrease"
-                    />
-                    <input
-                      name="itemquantity216330"
-                      id="itemquantity216330"
-                      type="number"
-                      value="1"
-                      className="qty qty-input w-1/3 text-center rounded-md focus-visible:ring-primary border border-gray-300 text-gray-700 font-semibold"
-                      aria-label="Sasia"
-                      data-productid="160697"
-                      data-itemid="216330"
-                      min="1"
-                      max="1000"
-                    />
-                    <input
-                      type="button"
-                      value="+"
-                      className="qty-click-input qtyplus plus outline-none bg-white border border-gray-300 text-gray-600 text-xl rounded-tr rounded-br"
-                      data-quantity="increase"
-                    />
-                  </div>
-                  <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
-                    {/* col-span-10 */}
-                    <span className="md:hidden">Total</span>
-                    <span className="product-subtotal text-base text-gray-700 font-semibold">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="remove-from-cart position-absolute right-0 top-0">
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="removefromcart"
-                      id="removefromcart216330"
-                      data-productid="160697"
-                      value="216330"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
-                      // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
-                    >
-                      <i className="icon-delete-trash text-gray-700 text-xl">
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-                <div id="product-160697" className="mt-2 md:ml-20"></div>
-              </div>
-              <div className="border-b last:border-none border-gray-300 py-4 relative px-1 md:px-2 py-3">
-                <div className="w-100 grid grid-cols-10 grid-flow-row md:grid-flow-col table-content align-items-start gap-2 position-relative">
-                  <div className=" md:col-span-4 grid grid-flow-col pb-2 md:pb-2 justify-content-start align-items-center">
-                    {/* col-span-10 */}
-                    <a
-                      className="d-flex w-16 h-16 align-items-center justify-content-center small-image-container mr-4"
-                      href="/apple-iphone-15-128gb-black"
-                    >
-                      <img
-                        className="max-w-full max-h-full position-relative"
-                        alt="Foto e Apple iPhone 15, 128GB, Black"
-                        src={Apple}
-                        // srcset="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.webp?w=64"
-                        title="Shfaq detaje për Apple iPhone 15, 128GB, Black"
-                      />
-                    </a>
-                    <div className="product text-left">
-                      <a
-                        href="/apple-iphone-15-128gb-black"
-                        className="product-name cart-product-name hover:text-primary product-title-lines text-sm"
-                      >
-                        Apple iPhone 15, 128GB, Black
-                      </a>
-                      <div className="sku pt-2 text-gray-600 text-xs">
-                        SKU: 272523app
-                      </div>
-                    </div>
-                  </div>
-                  <div className="unit-price md:col-span-2">
-                    {/*  col-span-6 */}
-                    <span className="product-unit-price font-semibold text-left text-base text-gray-700">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="quantity  md:col-span-2 d-flex align-items-center  md:justify-start">
-                    {/* col-span-4 */}
-                    <input
-                      type="button"
-                      value="-"
-                      className="qty-click-input qtyminus minus outline-none border border-gray-300 bg-white text-gray-600 text-xl rounded-tl rounded-bl"
-                      data-quantity="decrease"
-                    />
-                    <input
-                      name="itemquantity216330"
-                      id="itemquantity216330"
-                      type="number"
-                      value="1"
-                      className="qty qty-input w-1/3 text-center rounded-md focus-visible:ring-primary border border-gray-300 text-gray-700 font-semibold"
-                      aria-label="Sasia"
-                      data-productid="160697"
-                      data-itemid="216330"
-                      min="1"
-                      max="1000"
-                    />
-                    <input
-                      type="button"
-                      value="+"
-                      className="qty-click-input qtyplus plus outline-none bg-white border border-gray-300 text-gray-600 text-xl rounded-tr rounded-br"
-                      data-quantity="increase"
-                    />
-                  </div>
-                  <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
-                    {/* col-span-10 */}
-                    <span className="md:hidden">Total</span>
-                    <span className="product-subtotal text-base text-gray-700 font-semibold">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="remove-from-cart position-absolute right-0 top-0">
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="removefromcart"
-                      id="removefromcart216330"
-                      data-productid="160697"
-                      value="216330"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
-                      // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
-                    >
-                      <i className="icon-delete-trash text-gray-700 text-xl">
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-                <div id="product-160697" className="mt-2 md:ml-20"></div>
-              </div>
-              <div className="border-b last:border-none border-gray-300 py-4 relative px-1 md:px-2 py-3">
-                <div className="w-100 grid grid-cols-10 grid-flow-row md:grid-flow-col table-content align-items-start gap-2 position-relative">
-                  <div className=" md:col-span-4 grid grid-flow-col pb-2 md:pb-2 justify-content-start align-items-center">
-                    {/* col-span-10 */}
-                    <a
-                      className="d-flex w-16 h-16 align-items-center justify-content-center small-image-container mr-4"
-                      href="/apple-iphone-15-128gb-black"
-                    >
-                      <img
-                        className="max-w-full max-h-full position-relative"
-                        alt="Foto e Apple iPhone 15, 128GB, Black"
-                        src={Apple}
-                        // srcset="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.webp?w=64"
-                        title="Shfaq detaje për Apple iPhone 15, 128GB, Black"
-                      />
-                    </a>
-                    <div className="product text-left">
-                      <a
-                        href="/apple-iphone-15-128gb-black"
-                        className="product-name cart-product-name hover:text-primary product-title-lines text-sm"
-                      >
-                        Apple iPhone 15, 128GB, Black
-                      </a>
-                      <div className="sku pt-2 text-gray-600 text-xs">
-                        SKU: 272523app
-                      </div>
-                    </div>
-                  </div>
-                  <div className="unit-price md:col-span-2">
-                    {/*  col-span-6 */}
-                    <span className="product-unit-price font-semibold text-left text-base text-gray-700">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="quantity  md:col-span-2 d-flex align-items-center  md:justify-start">
-                    {/* col-span-4 */}
-                    <input
-                      type="button"
-                      value="-"
-                      className="qty-click-input qtyminus minus outline-none border border-gray-300 bg-white text-gray-600 text-xl rounded-tl rounded-bl"
-                      data-quantity="decrease"
-                    />
-                    <input
-                      name="itemquantity216330"
-                      id="itemquantity216330"
-                      type="number"
-                      value="1"
-                      className="qty qty-input w-1/3 text-center rounded-md focus-visible:ring-primary border border-gray-300 text-gray-700 font-semibold"
-                      aria-label="Sasia"
-                      data-productid="160697"
-                      data-itemid="216330"
-                      min="1"
-                      max="1000"
-                    />
-                    <input
-                      type="button"
-                      value="+"
-                      className="qty-click-input qtyplus plus outline-none bg-white border border-gray-300 text-gray-600 text-xl rounded-tr rounded-br"
-                      data-quantity="increase"
-                    />
-                  </div>
-                  <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
-                    {/* col-span-10 */}
-                    <span className="md:hidden">Total</span>
-                    <span className="product-subtotal text-base text-gray-700 font-semibold">
-                      1,099.50 €
-                    </span>
-                  </div>
-                  <div className="remove-from-cart position-absolute right-0 top-0">
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="removefromcart"
-                      id="removefromcart216330"
-                      data-productid="160697"
-                      value="216330"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
-                      // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
-                    >
-                      <i className="icon-delete-trash text-gray-700 text-xl">
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </i>
-                    </button>
-                  </div>
-                </div>
-                <div id="product-160697" className="mt-2 md:ml-20"></div>
-              </div>
+                )
+              })}
             </WrappingCard>
-            {/* <WrappingCard padding="12px"> */}
-            {/* </WrappingCard> */}
           </div>
           <div className="shopping-cart-flex bg-white rounded shadow-md md:p-4 p-3 w-100 d-flex justify-center text-gray-700 flex-col md:flex-row items-center mb-4">
             <i className="icon-shield-gjirafa-flex text-6xl text-primary"></i>
@@ -702,7 +346,7 @@ const Cart = () => {
                             </span>
                             <span>
                               <span className="value-summary text-gray-700">
-                                1,072.43 €
+                                {discountedTotalPriceWithoutVAT.toFixed(2)} €
                               </span>
                             </span>
                           </div>
@@ -714,20 +358,15 @@ const Cart = () => {
                               <span>-</span>
                             </span>
                           </div>
-                          <div className="tax-rate d-flex justify-content-between p-2 text-sm text-gray-600">
-                            <span>
-                              <label>TVSH 8%:</label>
-                            </span>
-                            <span>
-                              <span className="text-gray-700">8.85 €</span>
-                            </span>
-                          </div>
+
                           <div className="tax-rate d-flex justify-content-between p-2 text-sm text-gray-600">
                             <span>
                               <label>TVSH 18%:</label>
                             </span>
                             <span>
-                              <span className="text-gray-700">167.72 €</span>
+                              <span className="text-gray-700">
+                                {totalTvsh?.toFixed(2)} €
+                              </span>
                             </span>
                           </div>
                           <div className="discount-total d-flex justify-content-between p-2 text-sm text-gray-600">
@@ -740,7 +379,7 @@ const Cart = () => {
 
                                 className="value-summary text-gray-700 discount"
                               >
-                                -30.00 €
+                                -{discountValueInEuros?.toFixed(2)}€
                               </span>
                             </span>
                           </div>
@@ -750,7 +389,7 @@ const Cart = () => {
                             </label>
                             <span className="text-primary text-base font-semibold">
                               <span className="value-summary">
-                                <span>1,219.00 €</span>
+                                <span>{totalPriceWithVAT?.toFixed(2)} €</span>
                               </span>
                             </span>
                           </div>

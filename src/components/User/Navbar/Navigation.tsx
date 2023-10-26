@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Logo from '@/assets/images/gjirafa50.png'
 import { useQueryClient } from 'react-query'
 import { Input, InputGroup, InputGroupText } from 'reactstrap'
@@ -18,13 +18,20 @@ import {
 } from '@/Cart/store/cartAPI'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { useNavigate } from 'react-router-dom'
+import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
+import { Product } from '@/helpers/types'
 
 const Navigation = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  // const queryClient = useQueryClient()
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<Product[] | undefined>(
+    undefined
+  )
   const [test, setTest] = useState(false)
   const [loading, setLoading] = useState(false)
+  const { data } = useGetProductsQuery()
   const { user, isSuccess, error, message, isLoading, countries } =
     useAppSelector((state) => state.auth)
   const [deleteProduct, { isLoading: deleteProductLoading }] =
@@ -40,6 +47,20 @@ const Navigation = () => {
     dispatch(reset())
   }
 
+  useEffect(() => {
+    const closeDropdownOnOutsideClick = (event: any): void => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setTest(false)
+      }
+    }
+
+    document.addEventListener('click', closeDropdownOnOutsideClick)
+
+    return () => {
+      document.removeEventListener('click', closeDropdownOnOutsideClick)
+    }
+  }, [])
+
   const handleDeleteCartProduct = async (productId: number | string) => {
     console.log('productId', productId)
 
@@ -53,6 +74,37 @@ const Navigation = () => {
 
   const goToLogin = () => {
     navigate('/login/identifier')
+  }
+
+  const searchHandler = () => {
+    navigate('/search')
+  }
+
+  const handleSearchChange = (event: any) => {
+    const query = event.target.value
+    setSearchQuery(query)
+
+    if (query.trim() === '') {
+      setSearchResults([])
+      setTest(false)
+    } else {
+      // You can perform the search logic here based on the query and your Product data
+      // For example, you can filter the products array and set the results to setSearchResults
+      // This is just a sample logic:
+      const filteredResults = data?.filter((product) =>
+        product.title.toLowerCase().includes(query.toLowerCase())
+      )
+      setSearchResults(filteredResults)
+      setTest(true)
+    }
+  }
+
+  const handleSearchSubmit = (event: any) => {
+    event.preventDefault()
+    if (searchQuery.trim() === '') return
+
+    // Redirect to the search results page with the search query
+    navigate(`/search?q=${searchQuery}`)
   }
 
   return (
@@ -617,10 +669,9 @@ const Navigation = () => {
         // style={{ top: '3.6rem' }}
         >
           <form
-            method="get"
             id="small-search-box-form"
             className="d-flex justify-content-between align-items-center w-100"
-            action="/search"
+            onSubmit={handleSearchSubmit}
           >
             <input
               type="text"
@@ -630,18 +681,13 @@ const Navigation = () => {
               name="q"
               placeholder="Kërko produkte"
               aria-label="Kërko produkte"
-              onChange={() => {
-                setLoading(true)
-                setTest(true)
-                setTimeout(() => {
-                  setLoading(false)
-                }, 5000)
-              }}
-              // value=""
+              onChange={handleSearchChange}
+              value={searchQuery}
             />
             <button
               title="Kërko"
               style={{ border: 'none' }}
+              type="submit"
               className="icon-search-find-alt text-2xl cursor-pointer w-10 h-10"
             >
               <FontAwesomeIcon icon={faSearch} />
@@ -649,29 +695,53 @@ const Navigation = () => {
           </form>
         </div>
         {test && (
-<<<<<<< Updated upstream
+          <div ref={dropdownRef}>
+  <<<<<<< Updated upstream
           <ul
-            id="ui-id-1"
-            className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
-            style={{ width: '512px', top: '54.5px', left: '384px' }}
-          >
-            {loading ? (
-              <LoadingBar height="50px" size={'50px'} />
-            ) : (
-              <li className="ui-menu-item">
-                <a
-                  className="bg-white rounded border border-transparent hover:border-primary ui-menu-item-wrapper"
-                  id="ui-id-26"
-                  tabIndex={-1}
-                >
-                  <span className=" mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
-                    <img src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg" />{' '}
-                  </span>
-                  <span>Apple 20W USB-C Power Adapter</span>
-                </a>
-              </li>
-            )}
-          </ul>
+              id="ui-id-1"
+              className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
+              style={{ width: '512px', top: '54.5px', left: '384px' }}
+            >
+              {loading ? (
+                <LoadingBar height="50px" size={'50px'} />
+              ) : // <li className="ui-menu-item">
+              //   <a
+              //     className="bg-white rounded border border-transparent hover:border-primary ui-menu-item-wrapper"
+              //     id="ui-id-26"
+              //     tabIndex={-1}
+              //   >
+              //     <span className=" mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
+              //       <img src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg" />{' '}
+              //     </span>
+              //     <span>Apple 20W USB-C Power Adapter</span>
+              //   </a>
+              // </li>
+              searchResults?.length ? (
+                searchResults?.map((result) => (
+                  <li className="ui-menu-item" key={result.id}>
+                    <a
+                      className="bg-white rounded border border-transparent hover:border-primary ui-menu-item-wrapper"
+                      id={`ui-id-${result.id}`}
+                      tabIndex={-1}
+                    >
+                      <span className="mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
+                        {/* <img src={result.imageCover} alt={result.title} /> */}
+                        <img
+                          src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg"
+                          alt={result.title}
+                        />
+                      </span>
+                      <span>{result.title}</span>
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li className="ui-menu-item text-center py-3">
+                  Cannot find anything!
+                </li>
+              )}
+            </ul>
+          </div>
 =======
           <div ref={dropdownRef}>
             <ul

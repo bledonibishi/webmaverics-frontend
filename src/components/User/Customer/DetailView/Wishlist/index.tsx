@@ -18,6 +18,7 @@ import { getWishlistProducts } from '@/wishlist/store/wishlistSlice'
 import { RootState } from '@/store'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import AppleImage from '@/assets/images/Img1Big.png'
+import { toast } from 'react-toastify'
 
 const Wishlist = () => {
   const dispatch = useAppDispatch()
@@ -33,8 +34,9 @@ const Wishlist = () => {
 
   const deleteProductHandler = async (productID: string) => {
     try {
-      removeProduct(productID)
+      await removeProduct(productID)
       refetch()
+      toast.success('Product deleted from wishlist successfuly!')
     } catch (error) {
       console.log('error', error)
     }
@@ -137,7 +139,7 @@ const Wishlist = () => {
                       <div className="picture position-relative px-4 pt-4">
                         <a
                           className="relative block"
-                          href="/apple-iphone-15-128gb-black"
+                          href={`/product/${item.id}`}
                           title="Apple iPhone 15, 128GB, Black"
                         >
                           <img
@@ -161,7 +163,7 @@ const Wishlist = () => {
                         <div className="add-info">
                           <div className="prices d-flex flex-col h-12 my-2">
                             <span className="price actual-price font-semibold text-gray-700 text-base md:text-xl">
-                              {item.price}.50 €
+                              {item.price.toFixed(2)} €
                             </span>
                           </div>
                         </div>
