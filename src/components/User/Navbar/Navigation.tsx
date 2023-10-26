@@ -614,7 +614,7 @@ const Navigation = () => {
 
         <div
           className="position-absolute m-auto left-4 right-4 md:top-36rem md:top-auto md:left-0 md:right-0 search-box-inp  md:w-1/2 transition-all duration-300 z-50"
-          // style={{ top: '3.6rem' }}
+        // style={{ top: '3.6rem' }}
         >
           <form
             method="get"
@@ -649,6 +649,7 @@ const Navigation = () => {
           </form>
         </div>
         {test && (
+<<<<<<< Updated upstream
           <ul
             id="ui-id-1"
             className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
@@ -671,6 +672,55 @@ const Navigation = () => {
               </li>
             )}
           </ul>
+=======
+          <div ref={dropdownRef}>
+            <ul
+              id="ui-id-1"
+              className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
+              style={{ width: '512px', top: '54.5px', left: '384px' }}
+            >
+              {loading ? (
+                <LoadingBar height="50px" size={'50px'} />
+              ) : // <li className="ui-menu-item">
+                //   <a
+                //     className="bg-white rounded border border-transparent hover:border-primary ui-menu-item-wrapper"
+                //     id="ui-id-26"
+                //     tabIndex={-1}
+                //   >
+                //     <span className=" mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
+                //       <img src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg" />{' '}
+                //     </span>
+                //     <span>Apple 20W USB-C Power Adapter</span>
+                //   </a>
+                // </li>
+                searchResults?.length ? (
+                  searchResults?.map((result) => (
+                    <li className="ui-menu-item" key={result.id}>
+                      <a
+                        className="bg-white rounded border border-transparent hover:border-primary ui-menu-item-wrapper"
+                        id={`ui-id-${result.id}`}
+                        tabIndex={-1}
+                      >
+                        <span className="mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
+                          {/* <img src={result.imageCover} alt={result.title} /> */}
+                          <img
+                            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg"
+                            alt={result.title}
+                          />
+                        </span>
+                        <span>{result.title}</span>
+
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  <li className="ui-menu-item text-center py-3">
+                    Cannot find anything!
+                  </li>
+                )}
+            </ul>
+          </div>
+>>>>>>> Stashed changes
         )}
       </div>
       <div

@@ -2,8 +2,73 @@ import React from 'react'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+<<<<<<< Updated upstream
 
 const SearchComponent = () => {
+=======
+import { useLocation } from 'react-router-dom'
+import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
+import { Product, addToCartType } from '@/helpers/types'
+import LoadingBar from '@/ui/Loading/LoadingBar'
+import { Dropdown, DropdownButton } from 'react-bootstrap'
+import CustomDropdown from './customDropdown'
+import { useAddToCartQueryMutation, useGetCartProductsQuery } from '@/Cart/store/cartAPI'
+import { toast } from 'react-toastify'
+import useSocket from '@/hooks/useSocket'
+import { useCreateProductMutation } from '@/wishlist/store/wishlistAPI'
+import { title } from 'process'
+
+const SearchComponent = () => {
+  const socket = useSocket();
+  const location = useLocation()
+  const searchQuery = new URLSearchParams(location.search).get('q') || ''
+  const { data, error, isLoading } = useGetProductsQuery()
+  const [addToCartQuery, { isError, isSuccess }] =
+    useAddToCartQueryMutation()
+  const {
+    data: cart,
+    refetch,
+    isLoading: cartLoading,
+  } = useGetCartProductsQuery()
+  const [createProduct] = useCreateProductMutation()
+
+
+  if (isLoading) {
+    return <LoadingBar />
+  }
+  const addToCartHandler = (items: addToCartType) => {
+    console.log('items', items)
+    addToCartQuery(items)
+      // .unwrap()
+      .then(() => {
+        toast.success('Product added to cart!')
+        refetch()
+      })
+      .catch((err) => console.log('err', err))
+  }
+
+  const createWishlistProductHandler = (productId: string) => {
+    createProduct(productId)
+      // .unwrap()
+      .then(() => {
+        socket?.emit('createWishlistProduct', { productId })
+        toast.success('Product added to wishlist!')
+      })
+      .catch((err: any) => {
+        console.log('err', error)
+      })
+  }
+
+
+  if (error) {
+    return <div>Error</div>
+  }
+
+  const searchResults = data?.filter((product: any) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+>>>>>>> Stashed changes
   return (
     <div
       className="master-wrapper-content px-2 md:px-0 mx-auto"
@@ -1197,9 +1262,91 @@ const SearchComponent = () => {
                             className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
                             data-productid="74551"
                           >
+<<<<<<< Updated upstream
                             <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
                               <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
                                 -17%
+=======
+                            <div
+                              className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                              data-productid="74551"
+                            >
+                              <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                                <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                  -17%
+                                </div>
+                              </div>
+                              <div className="picture position-relative px-4 pt-6">
+                                <a
+                                  className="position-relative block"
+                                  href={`product/${result.id}`}
+                                  title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                >
+                                  <img
+                                    loading="lazy"
+                                    className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                    alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                    src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                    srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                  />
+                                </a>
+                              </div>
+                              <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                                <h2 className="product-title">
+                                  <a
+                                    className="text-gray-700  md:text-base product-title-lines hover:underline"
+                                    title="Apple iPhone 15, 128GB, Black"
+                                    //  onclick="produceClickedProductEvent('',160697)"
+                                    href={`product/${result.id}`}
+                                  >
+                                    {title}
+                                  </a>
+                                </h2>
+                                <div className="prices d-flex flex-col h-12 position-relative">
+                                  <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                    {result.priceDiscount.toFixed(2)} €
+                                  </span>
+                                  <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                    {result.price.toFixed(2)} €
+                                  </span>
+                                </div>
+                                <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                  <span className="text-xs text-gray-600">
+                                    Përfshirë TVSH
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="buttons d-flex justify-evenly gap-2">
+                                <button
+
+                                  onClick={() =>
+                                    addToCartHandler({ productId: result.id, quantity: 1, price: result.priceDiscount })
+                                  }
+                                  aria-label="Shto në shportë"
+                                  id="add-to-cart-(74551)"
+                                  className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                                >
+                                  <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                  </i>
+                                  <span className="hidden md:grid text-xs font-medium">
+                                    Shto në shportë
+                                  </span>
+                                </button>
+                                <button
+                                  type="button"
+                                  id="add-to-wishlisht-(74551)"
+                                  value="Shto në listën e dëshirave"
+                                  title="Shto në listën e dëshirave"
+                                  style={{ border: 'none' }}
+                                  onClick={() => createWishlistProductHandler(result.id)}
+                                  className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                                >
+                                  <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                    <FontAwesomeIcon icon={faHeart} />
+                                  </i>
+                                </button>
+>>>>>>> Stashed changes
                               </div>
                             </div>
                             <div className="picture position-relative px-4 pt-6">
