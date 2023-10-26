@@ -2,10 +2,6 @@ import React from 'react'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
-<<<<<<< Updated upstream
-
-const SearchComponent = () => {
-=======
 import { useLocation } from 'react-router-dom'
 import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
 import { Product, addToCartType } from '@/helpers/types'
@@ -68,7 +64,6 @@ const SearchComponent = () => {
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
->>>>>>> Stashed changes
   return (
     <div
       className="master-wrapper-content px-2 md:px-0 mx-auto"
@@ -1232,932 +1227,929 @@ const SearchComponent = () => {
                             className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
                             data-productid="74551"
                           >
-<<<<<<< Updated upstream
+                            {searchResults?.map((result) => (
+                              <div
+                                className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                                data-productid="74551"
+                              >
+                                <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                                  <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                    -17%
+                                  </div>
+                                </div>
+                                <div className="picture position-relative px-4 pt-6">
+                                  <a
+                                    className="position-relative block"
+                                    href={`product/${result.id}`}
+                                    title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  >
+                                    <img
+                                      loading="lazy"
+                                      className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                      alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                      src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                      srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                    />
+                                  </a>
+                                </div>
+                                <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                                  <h2 className="product-title">
+                                    <a
+                                      className="text-gray-700  md:text-base product-title-lines hover:underline"
+                                      title="Apple iPhone 15, 128GB, Black"
+                                      //  onclick="produceClickedProductEvent('',160697)"
+                                      href={`product/${result.id}`}
+                                    >
+                                      {title}
+                                    </a>
+                                  </h2>
+                                  <div className="prices d-flex flex-col h-12 position-relative">
+                                    <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                      {result.priceDiscount.toFixed(2)} €
+                                    </span>
+                                    <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                      {result.price.toFixed(2)} €
+                                    </span>
+                                  </div>
+                                  <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                    <span className="text-xs text-gray-600">
+                                      Përfshirë TVSH
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="buttons d-flex justify-evenly gap-2">
+                                  <button
+
+                                    onClick={() =>
+                                      addToCartHandler({ productId: result.id, quantity: 1, price: result.priceDiscount })
+                                    }
+                                    aria-label="Shto në shportë"
+                                    id="add-to-cart-(74551)"
+                                    className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                                  >
+                                    <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                      <FontAwesomeIcon icon={faShoppingCart} />
+                                    </i>
+                                    <span className="hidden md:grid text-xs font-medium">
+                                      Shto në shportë
+                                    </span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    id="add-to-wishlisht-(74551)"
+                                    value="Shto në listën e dëshirave"
+                                    title="Shto në listën e dëshirave"
+                                    style={{ border: 'none' }}
+                                    onClick={() => createWishlistProductHandler(result.id)}
+                                    className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                                  >
+                                    <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                      <FontAwesomeIcon icon={faHeart} />
+                                    </i>
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
                             <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
                               <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
                                 -17%
-=======
-                            <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href={`product/${result.id}`}
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700  md:text-base product-title-lines hover:underline"
-            title="Apple iPhone 15, 128GB, Black"
-            //  onclick="produceClickedProductEvent('',160697)"
-            href={`product/${result.id}`}
-          >
-            {title}
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            {result.priceDiscount.toFixed(2)} €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            {result.price.toFixed(2)} €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-
-          onClick={() =>
-            addToCartHandler({ productId: result.id, quantity: 1, price: result.priceDiscount })
-          }
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          style={{ border: 'none' }}
-          onClick={() => createWishlistProductHandler(result.id)}
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
->>>>>>> Stashed changes
-      </div>
-    </div>
-    <div className="picture position-relative px-4 pt-6">
-      <a
-        className="position-relative block"
-        href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-        title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-      >
-        <img
-          loading="lazy"
-          className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-          alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-          src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-          srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-        />
-      </a>
-    </div>
-    <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-      <h2 className="product-title">
-        <a
-          className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-          title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-        >
-          Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-          AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-          GeForce RTX 3060, i zi
-        </a>
-      </h2>
-      <div className="prices d-flex flex-col h-12 position-relative">
-        <span className="price font-semibold text-gray-700 text-base md:text-xl">
-          999.50 €
-        </span>
-        <span className="price old-price text-gray-600 font-medium text-sm line-through">
-          1,192.50 €
-        </span>
-      </div>
-      <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-        <span className="text-xs text-gray-600">
-          Përfshirë TVSH
-        </span>
-      </div>
-    </div>
-    <div className="buttons d-flex justify-evenly gap-2">
-      <button
-        aria-label="Shto në shportë"
-        id="add-to-cart-(74551)"
-        className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-      >
-        <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-          <FontAwesomeIcon icon={faShoppingCart} />
-        </i>
-        <span className="hidden md:grid text-xs font-medium">
-          Shto në shportë
-        </span>
-      </button>
-      <button
-        type="button"
-        id="add-to-wishlisht-(74551)"
-        value="Shto në listën e dëshirave"
-        title="Shto në listën e dëshirave"
-        className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-      >
-        <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-          <FontAwesomeIcon icon={faHeart} />
-        </i>
-      </button>
-    </div>
-  </div>
-</div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
-    className="item-box"
-    id="item-box-74551"
-    data-position="1"
-  >
-    <div
-      className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
-      data-productid="74551"
-    >
-      <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-        <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-          -17%
-        </div>
-      </div>
-      <div className="picture position-relative px-4 pt-6">
-        <a
-          className="position-relative block"
-          href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-        >
-          <img
-            loading="lazy"
-            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-            alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-            srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
-          />
-        </a>
-      </div>
-      <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-        <h2 className="product-title">
-          <a
-            className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
-            title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-            href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
-          >
-            Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
-            AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
-            GeForce RTX 3060, i zi
-          </a>
-        </h2>
-        <div className="prices d-flex flex-col h-12 position-relative">
-          <span className="price font-semibold text-gray-700 text-base md:text-xl">
-            999.50 €
-          </span>
-          <span className="price old-price text-gray-600 font-medium text-sm line-through">
-            1,192.50 €
-          </span>
-        </div>
-        <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
-          <span className="text-xs text-gray-600">
-            Përfshirë TVSH
-          </span>
-        </div>
-      </div>
-      <div className="buttons d-flex justify-evenly gap-2">
-        <button
-          aria-label="Shto në shportë"
-          id="add-to-cart-(74551)"
-          className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
-        >
-          <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </i>
-          <span className="hidden md:grid text-xs font-medium">
-            Shto në shportë
-          </span>
-        </button>
-        <button
-          type="button"
-          id="add-to-wishlisht-(74551)"
-          value="Shto në listën e dëshirave"
-          title="Shto në listën e dëshirave"
-          className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
-        >
-          <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
-            <FontAwesomeIcon icon={faHeart} />
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-box"
+                          id="item-box-74551"
+                          data-position="1"
+                        >
+                          <div
+                            className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between"
+                            data-productid="74551"
+                          >
+                            <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
+                              <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                -17%
+                              </div>
+                            </div>
+                            <div className="picture position-relative px-4 pt-6">
+                              <a
+                                className="position-relative block"
+                                href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                              >
+                                <img
+                                  loading="lazy"
+                                  className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+                                  alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
+                                  srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
+                                />
+                              </a>
+                            </div>
+                            <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                              <h2 className="product-title">
+                                <a
+                                  className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
+                                  title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
+                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                >
+                                  Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'',
+                                  AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA
+                                  GeForce RTX 3060, i zi
+                                </a>
+                              </h2>
+                              <div className="prices d-flex flex-col h-12 position-relative">
+                                <span className="price font-semibold text-gray-700 text-base md:text-xl">
+                                  999.50 €
+                                </span>
+                                <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                  1,192.50 €
+                                </span>
+                              </div>
+                              <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
+                                <span className="text-xs text-gray-600">
+                                  Përfshirë TVSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="buttons d-flex justify-evenly gap-2">
+                              <button
+                                aria-label="Shto në shportë"
+                                id="add-to-cart-(74551)"
+                                className="product-box-add-to-cart-button d-flex gap-2 align-items-center btn-primary-hover hover:bg-primary hover:text-white justify-content-center md:flex-grow w-1/2 focus:outline-none focus:border-none focus:text-white btn-simple btn-secondary"
+                              >
+                                <i className="icon-cart-shopping icon-line-height text-2xl md:hidden">
+                                  <FontAwesomeIcon icon={faShoppingCart} />
+                                </i>
+                                <span className="hidden md:grid text-xs font-medium">
+                                  Shto në shportë
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                id="add-to-wishlisht-(74551)"
+                                value="Shto në listën e dëshirave"
+                                title="Shto në listën e dëshirave"
+                                className="group hover:bg-primary w-1/2 md:w-auto add-to-wishlist-button btn-primary-hover hover:text-white focus:outline-none btn btn-secondary focus:text-white"
+                              >
+                                <i className="icon-heart icon-line-height text-2xl group-hover:text-white">
+                                  <FontAwesomeIcon icon={faHeart} />
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div >
 
-  <div className="skeleton-item-grid grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-5">
-    <template id="card-template">
-      <div className="item-box">
-        <div className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between skeleton">
-          <div className="picture position-relative rounded bg-gray-100 mb-1 skeleton-animation bg-gray-300">
-            <a className="position-relative block bg-gray-100 z-10 skeleton-animation">
-              <img
-                className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full bg-gray-100 skeleton-animation object-contain"
-                src=""
-              />
-            </a>
-          </div>
-          <div className="details d-flex flex-col h-100 justify-content-between pb-2">
-            <span className="h-8 bg-gray-100 block rounded skeleton-animation mb-2"></span>
-            <div className="prices d-flex flex-col w-1/2">
-              <span className="block bg-gray-100 h-4 mb-2 rounded skeleton-animation"></span>
-              <span className="block bg-gray-100 h-4 mb-2 rounded skeleton-animation"></span>
-            </div>
-            <div className="block bg-gray-100 h-4 rounded skeleton-animation"></div>
-          </div>
-          <div className="buttons d-flex justify-evenly gap-2">
-            <button className="product-box-add-to-cart-button d-flex gap-2 align-items-center justify-content-center md:flex-grow w-1/2 btn-simple btn-secondary h-10 skeleton-animation"></button>
-            <button
-              type="button"
-              className="w-1/2 md:w-auto add-to-wishlist-button btn btn-secondary h-10 skeleton-animation"
-            ></button>
-          </div>
-        </div>
-      </div>
-    </template>
-  </div>
+                      <div className="skeleton-item-grid grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-5">
+                        <template id="card-template">
+                          <div className="item-box">
+                            <div className="product-item bg-white p-2 md:p-3 position-relative shadow-sm hover:shadow-md rounded h-100 overflow-hidden d-flex flex-col justify-content-between skeleton">
+                              <div className="picture position-relative rounded bg-gray-100 mb-1 skeleton-animation bg-gray-300">
+                                <a className="position-relative block bg-gray-100 z-10 skeleton-animation">
+                                  <img
+                                    className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full bg-gray-100 skeleton-animation object-contain"
+                                    src=""
+                                  />
+                                </a>
+                              </div>
+                              <div className="details d-flex flex-col h-100 justify-content-between pb-2">
+                                <span className="h-8 bg-gray-100 block rounded skeleton-animation mb-2"></span>
+                                <div className="prices d-flex flex-col w-1/2">
+                                  <span className="block bg-gray-100 h-4 mb-2 rounded skeleton-animation"></span>
+                                  <span className="block bg-gray-100 h-4 mb-2 rounded skeleton-animation"></span>
+                                </div>
+                                <div className="block bg-gray-100 h-4 rounded skeleton-animation"></div>
+                              </div>
+                              <div className="buttons d-flex justify-evenly gap-2">
+                                <button className="product-box-add-to-cart-button d-flex gap-2 align-items-center justify-content-center md:flex-grow w-1/2 btn-simple btn-secondary h-10 skeleton-animation"></button>
+                                <button
+                                  type="button"
+                                  className="w-1/2 md:w-auto add-to-wishlist-button btn btn-secondary h-10 skeleton-animation"
+                                ></button>
+                              </div>
+                            </div>
+                          </div>
+                        </template>
+                      </div>
                     </div >
                   </div >
                 </div >
