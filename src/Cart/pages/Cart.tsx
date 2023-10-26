@@ -10,7 +10,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { useNavigate } from 'react-router-dom'
 import { getCartProducts } from '../store/cartSlice'
-import { useGetCartProductsQuery } from '../store/cartAPI'
+import { useDeleteCartProductMutation, useGetCartProductsQuery } from '../store/cartAPI'
 import { CartItemProduct, Product } from '@/helpers/types'
 
 const Cart = () => {
@@ -29,6 +29,19 @@ const Cart = () => {
 
   console.log('cart?.products', cart?.products)
 
+  const [deleteProduct, { isLoading: deleteProductLoading }] =
+    useDeleteCartProductMutation()
+
+  const handleDeleteCartProduct = async (productId: number | string) => {
+    console.log('productId', productId)
+
+    try {
+      await deleteProduct(productId)
+      refetch()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
   const goToLogin = () => {
     navigate('/login/identifier')
   }
@@ -70,11 +83,11 @@ const Cart = () => {
 
     const totalTvsh = items
       ? items?.reduce((total: number, cartItem: CartItemProduct) => {
-          return (
-            total +
-            cartItem.product.priceDiscount * cartItem.quantity * VAT_RATE
-          )
-        }, 0)
+        return (
+          total +
+          cartItem.product.priceDiscount * cartItem.quantity * VAT_RATE
+        )
+      }, 0)
       : 0
 
     const totalPriceWithVAT = items?.reduce(
@@ -86,9 +99,9 @@ const Cart = () => {
 
     const totalPriceWithoutVAT = items
       ? items.reduce((total: number, cartItem: CartItemProduct) => {
-          const itemPrice = cartItem.product.price * cartItem.quantity
-          return total + itemPrice
-        }, 0)
+        const itemPrice = cartItem.product.price * cartItem.quantity
+        return total + itemPrice
+      }, 0)
       : 0
     const discountedTotalPriceWithoutVAT = totalPriceWithoutVAT - totalTvsh
 
@@ -134,7 +147,7 @@ const Cart = () => {
                     <i
                       title="Largo te gjitha produktet nga shporta"
                       className="icon-delete-trash text-gray-700 text-xl"
-                      //  onclick="sendRemoveListEvent('[{&quot;Sku&quot;:&quot;272523app&quot;,&quot;VendorName&quot;:&quot;&quot;,&quot;Picture&quot;:{&quot;Id&quot;:0,&quot;ImageUrl&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.jpeg&quot;,&quot;ThumbImageUrl&quot;:null,&quot;FullSizeImageUrl&quot;:null,&quot;ImageUrlWithoutExt&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb&quot;,&quot;Title&quot;:&quot;Shfaq detaje për Apple iPhone 15, 128GB, Black&quot;,&quot;AlternateText&quot;:&quot;Foto e Apple iPhone 15, 128GB, Black&quot;,&quot;CustomProperties&quot;:{}},&quot;ProductId&quot;:160697,&quot;ProductName&quot;:&quot;Apple iPhone 15, 128GB, Black&quot;,&quot;ProductSeName&quot;:&quot;apple-iphone-15-128gb-black&quot;,&quot;UnitPrice&quot;:&quot;1,099.50 €&quot;,&quot;UnitPriceWithoutDiscount&quot;:null,&quot;SubTotal&quot;:&quot;1,099.50 €&quot;,&quot;Discount&quot;:null,&quot;MaximumDiscountedQty&quot;:null,&quot;Quantity&quot;:1,&quot;AllowedQuantities&quot;:[],&quot;AttributeInfo&quot;:&quot;&quot;,&quot;RecurringInfo&quot;:null,&quot;RentalInfo&quot;:null,&quot;AllowItemEditing&quot;:false,&quot;DisableRemoval&quot;:false,&quot;Warnings&quot;:[],&quot;HasWarranty&quot;:true,&quot;SciHasWarranty&quot;:null,&quot;WarrantyPrice&quot;:null,&quot;SciWarrantyPrice&quot;:&quot;0.00 €&quot;,&quot;IsValid&quot;:true,&quot;Id&quot;:216330,&quot;CustomProperties&quot;:{}},{&quot;Sku&quot;:&quot;304984&quot;,&quot;VendorName&quot;:&quot;&quot;,&quot;Picture&quot;:{&quot;Id&quot;:0,&quot;ImageUrl&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87.jpeg&quot;,&quot;ThumbImageUrl&quot;:null,&quot;FullSizeImageUrl&quot;:null,&quot;ImageUrlWithoutExt&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87&quot;,&quot;Title&quot;:&quot;Shfaq detaje për Maus Logitech G Pro X Superlight, i bardhë&quot;,&quot;AlternateText&quot;:&quot;Foto e Maus Logitech G Pro X Superlight, i bardhë&quot;,&quot;CustomProperties&quot;:{}},&quot;ProductId&quot;:14559,&quot;ProductName&quot;:&quot;Maus Logitech G Pro X Superlight, i bardhë&quot;,&quot;ProductSeName&quot;:&quot;maus-logitech-g-pro-x-superlight-i-bardhe&quot;,&quot;UnitPrice&quot;:&quot;119.50 €&quot;,&quot;UnitPriceWithoutDiscount&quot;:&quot;149.50 €&quot;,&quot;SubTotal&quot;:&quot;119.50 €&quot;,&quot;Discount&quot;:&quot;30.00 €&quot;,&quot;MaximumDiscountedQty&quot;:null,&quot;Quantity&quot;:1,&quot;AllowedQuantities&quot;:[],&quot;AttributeInfo&quot;:&quot;&quot;,&quot;RecurringInfo&quot;:null,&quot;RentalInfo&quot;:null,&quot;AllowItemEditing&quot;:false,&quot;DisableRemoval&quot;:false,&quot;Warnings&quot;:[],&quot;HasWarranty&quot;:true,&quot;SciHasWarranty&quot;:null,&quot;WarrantyPrice&quot;:&quot;9.50 €&quot;,&quot;SciWarrantyPrice&quot;:&quot;0.00 €&quot;,&quot;IsValid&quot;:true,&quot;Id&quot;:216334,&quot;CustomProperties&quot;:{}}]','cart')"
+                    //  onclick="sendRemoveListEvent('[{&quot;Sku&quot;:&quot;272523app&quot;,&quot;VendorName&quot;:&quot;&quot;,&quot;Picture&quot;:{&quot;Id&quot;:0,&quot;ImageUrl&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb.jpeg&quot;,&quot;ThumbImageUrl&quot;:null,&quot;FullSizeImageUrl&quot;:null,&quot;ImageUrlWithoutExt&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/56e7f672-9169-49cf-ac52-f99809bd64bb/56e7f672-9169-49cf-ac52-f99809bd64bb&quot;,&quot;Title&quot;:&quot;Shfaq detaje për Apple iPhone 15, 128GB, Black&quot;,&quot;AlternateText&quot;:&quot;Foto e Apple iPhone 15, 128GB, Black&quot;,&quot;CustomProperties&quot;:{}},&quot;ProductId&quot;:160697,&quot;ProductName&quot;:&quot;Apple iPhone 15, 128GB, Black&quot;,&quot;ProductSeName&quot;:&quot;apple-iphone-15-128gb-black&quot;,&quot;UnitPrice&quot;:&quot;1,099.50 €&quot;,&quot;UnitPriceWithoutDiscount&quot;:null,&quot;SubTotal&quot;:&quot;1,099.50 €&quot;,&quot;Discount&quot;:null,&quot;MaximumDiscountedQty&quot;:null,&quot;Quantity&quot;:1,&quot;AllowedQuantities&quot;:[],&quot;AttributeInfo&quot;:&quot;&quot;,&quot;RecurringInfo&quot;:null,&quot;RentalInfo&quot;:null,&quot;AllowItemEditing&quot;:false,&quot;DisableRemoval&quot;:false,&quot;Warnings&quot;:[],&quot;HasWarranty&quot;:true,&quot;SciHasWarranty&quot;:null,&quot;WarrantyPrice&quot;:null,&quot;SciWarrantyPrice&quot;:&quot;0.00 €&quot;,&quot;IsValid&quot;:true,&quot;Id&quot;:216330,&quot;CustomProperties&quot;:{}},{&quot;Sku&quot;:&quot;304984&quot;,&quot;VendorName&quot;:&quot;&quot;,&quot;Picture&quot;:{&quot;Id&quot;:0,&quot;ImageUrl&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87.jpeg&quot;,&quot;ThumbImageUrl&quot;:null,&quot;FullSizeImageUrl&quot;:null,&quot;ImageUrlWithoutExt&quot;:&quot;https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87&quot;,&quot;Title&quot;:&quot;Shfaq detaje për Maus Logitech G Pro X Superlight, i bardhë&quot;,&quot;AlternateText&quot;:&quot;Foto e Maus Logitech G Pro X Superlight, i bardhë&quot;,&quot;CustomProperties&quot;:{}},&quot;ProductId&quot;:14559,&quot;ProductName&quot;:&quot;Maus Logitech G Pro X Superlight, i bardhë&quot;,&quot;ProductSeName&quot;:&quot;maus-logitech-g-pro-x-superlight-i-bardhe&quot;,&quot;UnitPrice&quot;:&quot;119.50 €&quot;,&quot;UnitPriceWithoutDiscount&quot;:&quot;149.50 €&quot;,&quot;SubTotal&quot;:&quot;119.50 €&quot;,&quot;Discount&quot;:&quot;30.00 €&quot;,&quot;MaximumDiscountedQty&quot;:null,&quot;Quantity&quot;:1,&quot;AllowedQuantities&quot;:[],&quot;AttributeInfo&quot;:&quot;&quot;,&quot;RecurringInfo&quot;:null,&quot;RentalInfo&quot;:null,&quot;AllowItemEditing&quot;:false,&quot;DisableRemoval&quot;:false,&quot;Warnings&quot;:[],&quot;HasWarranty&quot;:true,&quot;SciHasWarranty&quot;:null,&quot;WarrantyPrice&quot;:&quot;9.50 €&quot;,&quot;SciWarrantyPrice&quot;:&quot;0.00 €&quot;,&quot;IsValid&quot;:true,&quot;Id&quot;:216334,&quot;CustomProperties&quot;:{}}]','cart')"
                     >
                       <FontAwesomeIcon icon={faTrashCan} />
                     </i>
@@ -222,6 +235,8 @@ const Cart = () => {
                         />
                       </div>
                       <div className="subtotal grid grid-flow-col  md:col-span-2 justify-content-between bg-gray-100 md:bg-white rounded p-2 md:p-0">
+
+
                         {/* col-span-10 */}
                         <span className="md:hidden">Total</span>
                         <span className="product-subtotal text-base text-gray-700 font-semibold">
@@ -242,9 +257,12 @@ const Cart = () => {
                           name="updatecart"
                           className="border border-transparent rounded p-1 btn-secondary btn-secondary-hover"
                           // onclick="SendDeleteFromCartEvent('160697',`Apple iPhone 15, 128GB, Black`,'1,099.50 €','1','cart');$('#removefromcart216330').attr('checked', true).change();"
+                          onClick={() => handleDeleteCartProduct(product.product.id)}
                         >
                           <i className="icon-delete-trash text-gray-700 text-xl">
-                            <FontAwesomeIcon icon={faTrashCan} />
+                            <FontAwesomeIcon icon={faTrashCan}
+
+                            />
                           </i>
                         </button>
                       </div>

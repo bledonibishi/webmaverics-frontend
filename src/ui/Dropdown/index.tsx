@@ -15,8 +15,9 @@ import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { CartItemProduct } from '@/helpers/types'
-import { useDeleteCartProductMutation } from '@/Cart/store/cartAPI'
+import { useDeleteCartProductMutation, useGetCartProductsQuery } from '@/Cart/store/cartAPI'
 import { useNavigate } from 'react-router-dom'
+import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice';
 
 type DropdownProps = {
   children?: ReactNode
@@ -51,6 +52,11 @@ const CustomDropdown = ({
   const ref = useRef(null)
   const [isOpen, setOpen] = useState(false)
   const anchorProps = useClick(isOpen, setOpen)
+  const {
+    data: cart,
+    refetch,
+    isLoading: cartLoading,
+  } = useGetCartProductsQuery()
 
   // ... rest of your component ...
 
@@ -70,6 +76,17 @@ const CustomDropdown = ({
     navigate('/cart')
     setOpen(false)
   }
+
+
+  const totalPriceInfo = CalculateTotalPrice(cart?.products)
+  const {
+    totalPriceWithoutVAT,
+    totalPriceWithVAT,
+    totalTvsh,
+    discountValueInEuros,
+    priceAfterDiscount,
+    discountedTotalPriceWithoutVAT,
+  } = totalPriceInfo
 
   console.log('menuClassName', menuClassName)
 
@@ -159,7 +176,9 @@ const CustomDropdown = ({
               >
                 Total:
                 <p className="text-gray-700 fw-bold pl-2">
-                  {cartItemProducts.map((item) => item.price)}
+                  {/* version original */}
+                  {/* {cartItemProducts.map((item) => item.price)} */}
+                  {totalPriceWithVAT?.toFixed(2)} €
                 </p>
               </div>
               <div className="buttons d-flex justify-content-center px-4 ">
