@@ -16,7 +16,6 @@ const fetchOrders = async () => {
 const createOrder = async (body: OrderInput): Promise<Order> => {
   try {
     const response = await axiosInstance.post(API_URL, body)
-    console.log('response in service', response)
     return response.data
   } catch (error: any) {
     throw new Error(error)
