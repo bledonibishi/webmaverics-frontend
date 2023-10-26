@@ -1233,9 +1233,12 @@ const SearchComponent = () => {
                                 data-productid="74551"
                               >
                                 <div className="position-absolute h-6 top-2.5 left-0 pr-3 pl-3 tablet:pl-0 d-flex tablet:flex-row gap-1 tablet:gap-0 tablet:items-center tablet:flex-wrap z-10 w-100 flex-row">
-                                  <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
-                                    -17%
-                                  </div>
+                                  {result.discount && (
+
+                                    <div className="w-10 h-[19px] bg-primary discount__label d-flex justify-content-center align-items-center rounded position-absolute right-3 top-[1px] shadow-sm text-white text-xs font-medium">
+                                      -{result.discount}%
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="picture position-relative px-4 pt-6">
                                   <a
