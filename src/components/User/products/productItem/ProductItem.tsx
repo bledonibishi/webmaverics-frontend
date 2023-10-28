@@ -50,6 +50,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   isNew,
   tfTransport,
   warranty,
+  imageCover,
 }) => {
   const socket = useSocket()
   const dispatch = useDispatch()
@@ -58,6 +59,8 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   const [createProduct, { error }] = useCreateProductMutation()
   const [addToCartQuery, { isError, isLoading, isSuccess }] =
     useAddToCartQueryMutation()
+
+  console.log('imageCover', imageCover)
 
   {
     console.log('typeofdiscount', typeof discount)
@@ -138,7 +141,11 @@ const ProductItem: React.FC<ProductItemTypes> = ({
           </div>
           <div className="picture relative px-4 pt-6">
             <a href={`/product/${id}`} className="position-relative d-block">
-              <img src="" alt="product-image" className="w-100 h-100" />
+              <img
+                src={`http://127.0.0.1:5000/img/products/${imageCover}`}
+                alt="product-image"
+                className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
+              />
             </a>
           </div>
           <div className="details d-flex flex-col h-full justify-content-between pb-2">
@@ -156,7 +163,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
               {discount !== 0 ? (
                 <>
                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                    {priceDiscount.toFixed(2)} €
+                    {priceDiscount?.toFixed(2)} €
                   </span>
                   <small>
                     <del>{price.toFixed(2)} $</del>
@@ -213,44 +220,6 @@ const ProductItem: React.FC<ProductItemTypes> = ({
           </div>
         </div>
       </div>
-
-      {shoppingCartModal && (
-        <Modal
-          className="modal-dialog-centered"
-          isOpen={shoppingCartModal}
-          toggle={toggleShoppingCartModal}
-          size="lg"
-        >
-          <ModalHeader toggle={toggleShoppingCartModal}>
-            <p>Producti u shtua ne shporte</p>
-          </ModalHeader>
-          <ModalBody>
-            <div className="d-flex align-items-center">
-              <div className="content-image col-1">
-                {/* <img
-                  className="w-75 h-75 "
-                  src={thumbnail && thumbnail}
-                  alt=""
-                /> */}
-              </div>
-              <strong className="col-9">{description && description}</strong>
-              <p className="col-2">1 x ${price && price}</p>
-            </div>
-          </ModalBody>
-          <ModalFooter className="addToCartModalFooter">
-            <div>
-              <p>Ju keni 1 product(e) ne shporten tuaj</p>
-              <Button className="secondary" onClick={toggleShoppingCartModal}>
-                Kthehu tek produktet
-              </Button>
-            </div>
-            <div className="footer_div">
-              <strong>Totali ne shporte ${price && price}</strong>
-              <Button color="warning">Beje porosine</Button>
-            </div>
-          </ModalFooter>
-        </Modal>
-      )}
     </>
   )
 }

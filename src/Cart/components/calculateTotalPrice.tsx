@@ -10,6 +10,8 @@ interface CartItemProduct {
 const CalculateTotalPrice = (items: CartItemProduct[] | undefined) => {
   const VAT_RATE = 0.18
 
+  console.log('items', items)
+
   const priceAfterDiscount = items?.reduce(
     (totalPrice: number, cartItem: CartItemProduct) => {
       const discountPercentage = cartItem.product.discount || 0

@@ -114,8 +114,15 @@ const OnePageCheckout = () => {
     // setLoading(true)
 
     let addressID: string | Address
-
+    let billingAddress: string | Address
+    let totalPrice: number
     let transportMode: string
+
+    if (totalPriceWithVAT) {
+      totalPrice = totalPriceWithVAT
+    } else {
+      totalPrice = 0
+    }
 
     if (shippingMethod) {
       transportMode = shippingMethod
@@ -128,13 +135,18 @@ const OnePageCheckout = () => {
     } else {
       addressID = ''
     }
+    if (transportAddress) {
+      billingAddress = transportAddress?.id
+    } else {
+      billingAddress = ''
+    }
 
     console.log('addressID', addressID)
     console.log('transportMode', transportMode)
 
     if (cart && cart.products) {
       const products = cart.products.map((item) => ({
-        productID: item.product.id,
+        product: item.product.id,
         quantity: item.quantity,
       }))
 
@@ -142,11 +154,16 @@ const OnePageCheckout = () => {
         products: products.flat(),
         status: 'pending',
         addressID,
+        billingAddress,
         // addressID: selectedAddress?.id,
         transportMode,
         paymentMethod: paymentMethod,
         arrivalDate: '2023-10-31',
-        orderCode: 'test6',
+        totalOrderPrice: totalPrice,
+        transportModeStatus: 'Nuk është transportuar ende',
+        paymentMethodStatus: 'Në pritje',
+        tvsh: totalTvsh,
+        orderCode: 'test9',
       }
 
       console.log('body', body)

@@ -9,17 +9,78 @@ export type Product = {
   tfTransport: boolean
   warranty: string
   isNew: boolean
-  details: []
+  details: Detail[]
   summary: string
   description: string
-  imageCover: string
+  imageCover: string | null
   images: []
   price: number
   category: string
   stock: number
   priceDiscount: number
   thumbnail: string
-  productDetails: []
+  relatedProducts: string[]
+  tags: []
+  productStatus: string
+  createdBy: string
+}
+
+type Detail = {
+  key: string
+  value: string
+}
+
+type ProductDetail = {
+  key: string
+  value: string
+}
+
+type Variant = {
+  name: string
+  price: number
+  stock: number
+  isAvailable: boolean
+}
+
+type Review = {
+  rating: number
+  text: string
+  user: string
+}
+export type ProductInput = {
+  title: string
+  rating?: number
+  ratingsAverage?: number
+  ratingsQuantity?: number
+  brand: string
+  discount: number
+  tfTransport: boolean
+  warranty: string
+  isNew: boolean
+  details: Detail[]
+  summary: string
+  description: string
+  imageCover: File | null
+  images: File[] | FileList | []
+  price: number
+  category: string
+  stock: number
+  priceDiscount?: number
+  thumbnail?: string
+  relatedProducts: string[]
+  tags: []
+  productStatus: string
+  createdBy: string
+}
+
+export type ProductCategory = {
+  _id: string
+  name: string
+  description: string
+}
+export type ProductCategoryInput = {
+  name: string
+  description: string
 }
 
 export type User = {
@@ -83,7 +144,7 @@ export type addToCartType = {
 export type ProductItemTypes = {
   category: string
   description: string
-  details: []
+  details: Detail[]
   id: string
   imageCover: string
   images: []
@@ -157,7 +218,7 @@ export type AuthPromise = {
 }
 
 export type OrderProduct = {
-  productID: string | Product
+  product: string | Product
   quantity: number
 }
 
@@ -167,11 +228,16 @@ export type Order = {
   products: OrderProduct[]
   status: 'pending' | 'processed' | 'completed' | 'admin'
   addressID: string | Address
+  billingAddress: string | Address
   transportMode: string
+  transportModeStatus: string
   paymentMethod: string
+  paymentMethodStatus: string
   comments: string | null
   orderDate: string
   arrivalDate: string
+  totalOrderPrice: number
+  tvsh: number
   orderCode: string
   createdAt: string
   updatedAt: string
@@ -181,10 +247,21 @@ export type OrderInput = {
   // status: 'pending' | 'processed' | 'completed' | 'admin'
   status: string
   addressID: string | Address
+  billingAddress: string | Address
   transportMode: string
+  transportModeStatus: string
   paymentMethod: string
+  paymentMethodStatus: string
   comments?: string | null
+  totalOrderPrice: number
+  tvsh: number
   orderDate?: string
   arrivalDate: string
   orderCode: string
+}
+
+export type ImageHelperTypes = {
+  src: string
+  alt: string
+  className: string
 }

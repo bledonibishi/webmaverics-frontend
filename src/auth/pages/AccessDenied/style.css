@@ -1,0 +1,33 @@
+/* AccessDenied.css */
+.access-denied-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.access-denied-content {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.access-denied-container h2 {
+  color: #ff0000;
+}
+
+.access-denied-container p {
+  margin: 10px 0;
+}
+
+.access-denied-container Link {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.access-denied-container Link:hover {
+  text-decoration: underline;
+}

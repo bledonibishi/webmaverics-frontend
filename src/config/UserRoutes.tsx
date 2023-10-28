@@ -17,6 +17,7 @@ import ForgotPassword from '@/auth/pages/ForgotPassword'
 import ResetPassword from '@/auth/pages/ResetPassword'
 import ChangePassword from '@/auth/pages/ChangePassword'
 import CheckoutCompleted from '@/pages/CheckoutCompleted'
+import AccessDenied from '@/auth/pages/AccessDenied'
 const UserRoutes = () => {
   const currentPath = useLocation().pathname
   const isLoginPage =
@@ -45,6 +46,7 @@ const UserRoutes = () => {
         <Route path="/customer/:type/:id?" element={<Customer />} />
         <Route path="/onepagecheckout" element={<OnePageCheckout />} />
         <Route path="/search" element={<SearchComponent />} />
+        <Route path="/access-denied" element={<AccessDenied />} />
       </Routes>
       {showHeaderAndFooter && <Footer />}
     </>

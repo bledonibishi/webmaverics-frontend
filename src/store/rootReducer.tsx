@@ -8,6 +8,7 @@ import { reducer as formReducer } from 'redux-form'
 import cartSlice from '@/Cart/store/cartSlice'
 import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
 import addressesSlice from './addresses/addressesSlice'
+import orderSlice from './orders/orderSlice'
 
 const rootReducer = combineReducers({
   // todos: todosReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   cart: cartSlice,
   wishlist: wishlistSlice,
   address: addressesSlice,
+  orders: orderSlice,
   [productsAPI.reducerPath]: productsAPI.reducer,
   [cartsAPI.reducerPath]: cartsAPI.reducer,
   [wishlistsAPI.reducerPath]: wishlistsAPI.reducer,

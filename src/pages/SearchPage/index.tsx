@@ -8,6 +8,7 @@ import { Product } from '@/helpers/types'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { Dropdown, DropdownButton } from 'react-bootstrap'
 import CustomDropdown from './customDropdown'
+import { Image } from '@/helpers/helpers'
 
 const SearchComponent = () => {
   const location = useLocation()
@@ -1201,12 +1202,12 @@ const SearchComponent = () => {
                                   href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
                                   title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
                                 >
-                                  <img
-                                    loading="lazy"
+                                  <Image
+                                    src={
+                                      result.imageCover ? result.imageCover : ''
+                                    }
+                                    alt="cover image"
                                     className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
-                                    alt="Foto e Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-                                    src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/thumb/489504.jpeg"
-                                    srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/489504/489504.webp?w=190"
                                   />
                                 </a>
                               </div>
@@ -1222,10 +1223,10 @@ const SearchComponent = () => {
                                 </h2>
                                 <div className="prices d-flex flex-col h-12 position-relative">
                                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                                    {result.priceDiscount.toFixed(2)} €
+                                    {result.priceDiscount?.toFixed(2)} €
                                   </span>
                                   <span className="price old-price text-gray-600 font-medium text-sm line-through">
-                                    {result.price.toFixed(2)} €
+                                    {result.price?.toFixed(2)} €
                                   </span>
                                 </div>
                                 <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">

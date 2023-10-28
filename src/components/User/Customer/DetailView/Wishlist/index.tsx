@@ -19,6 +19,7 @@ import { RootState } from '@/store'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import AppleImage from '@/assets/images/Img1Big.png'
 import { toast } from 'react-toastify'
+import { Image } from '@/helpers/helpers'
 
 const Wishlist = () => {
   const dispatch = useAppDispatch()
@@ -142,11 +143,16 @@ const Wishlist = () => {
                           href={`/product/${item.id}`}
                           title="Apple iPhone 15, 128GB, Black"
                         >
-                          <img
+                          {/* <img
                             loading="lazy"
                             src={AppleImage}
                             className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
                             alt="Foto e Apple iPhone 15, 128GB, Black"
+                          /> */}
+                          <Image
+                            src={item.imageCover ? item.imageCover : ''}
+                            alt="image cover"
+                            className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
                           />
                         </a>
                       </div>

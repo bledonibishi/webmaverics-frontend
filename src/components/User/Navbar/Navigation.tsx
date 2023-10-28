@@ -20,6 +20,7 @@ import LoadingBar from '@/ui/Loading/LoadingBar'
 import { useNavigate } from 'react-router-dom'
 import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
 import { Product } from '@/helpers/types'
+import { Image } from '@/helpers/helpers'
 
 const Navigation = () => {
   const navigate = useNavigate()
@@ -638,9 +639,14 @@ const Navigation = () => {
                     >
                       <span className="mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
                         {/* <img src={result.imageCover} alt={result.title} /> */}
-                        <img
+                        {/* <img
                           src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg"
                           alt={result.title}
+                        /> */}
+                        <Image
+                          src={result.imageCover ? result.imageCover : ''}
+                          alt="imageCover"
+                          className=""
                         />
                       </span>
                       <span>{result.title}</span>

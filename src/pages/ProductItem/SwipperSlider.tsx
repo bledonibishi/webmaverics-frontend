@@ -34,7 +34,11 @@ declare global {
   }
 }
 
-const SwipperSlider = () => {
+type sliderPropTypes = {
+  images?: []
+}
+
+const SwipperSlider: React.FC<sliderPropTypes> = ({ images }) => {
   const props = {
     width: 700,
     height: 700,
@@ -68,7 +72,16 @@ const SwipperSlider = () => {
           className="mySwiper"
           modules={[Navigation, Thumbs]}
         >
-          <SwiperSlide>
+          {images?.map((imageUrl, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={`http://127.0.0.1:5000/img/products/${imageUrl}`}
+                alt={`Image ${index}`}
+              />
+            </SwiperSlide>
+          ))}
+
+          {/* <SwiperSlide>
             <img src={Img1} />
           </SwiperSlide>
           <SwiperSlide>
@@ -97,7 +110,7 @@ const SwipperSlider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <img src={Img10} />
-          </SwiperSlide>
+          </SwiperSlide> */}
         </Swiper>
         {/* <div className="d-flex position-relative mt-4 justify-center hidden md:flex">
           <div className="swiper-button-next"></div>
@@ -112,59 +125,14 @@ const SwipperSlider = () => {
           className="mySwiper2"
           // modules={[FreeMode, Navigation, Thumbs]}
         >
-          <SwiperSlide>
-            {/* <ReactImageZoom {...props} img={Img1} /> */}
-            {/* <ReactImageMagnify
-              {...{
-                smallImage: {
-                  alt: 'Wristwatch by Ted Baker London',
-                  isFluidWidth: true,
-                  src: Img1,
-                  sizes:
-                    '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px',
-                },
-                largeImage: {
-                  src: Img1Big,
-                  width: 1200,
-                  height: 1800,
-                },
-              }}
-            /> */}
-            <img src={Img1} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img2} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img3} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img4} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img5} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img6} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img7} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img8} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={Img9} />
-          </SwiperSlide>
-          <SwiperSlide>
-            {/* {({ isActive }) => (
-              <div>
-                Current slide is {isActive ? 'active' : 'not active'}
-                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-              </div>
-            )} */}
-            <img src={Img10} alt="" />
-          </SwiperSlide>
+          {images?.map((imageUrl, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={`http://127.0.0.1:5000/img/products/${imageUrl}`}
+                alt={`Image ${index}`}
+              />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </>

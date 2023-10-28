@@ -36,6 +36,13 @@
 .mySwiper2 {
   height: 100%;
   width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mySwiper2 .swiper-slide img {
+  width: 100%;
+  align-items: center;
 }
 
 .mySwiper {

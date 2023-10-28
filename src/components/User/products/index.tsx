@@ -9,6 +9,7 @@ import './style.css'
 
 function ProductList() {
   const { data, error, isLoading } = useGetProductsQuery()
+  console.log('data', data)
 
   return (
     <div className="master-wrapper-content mx-auto p-0">
@@ -43,7 +44,7 @@ function ProductList() {
                 priceDiscount={product.priceDiscount}
                 summary={product.summary}
                 details={product.details}
-                imageCover={product.imageCover}
+                imageCover={product.imageCover || ''}
                 ratingsAverage={product.ratingsAverage}
                 discount={product.discount}
                 isNew={product.isNew}

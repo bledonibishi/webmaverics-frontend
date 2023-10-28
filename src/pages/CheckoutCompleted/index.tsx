@@ -99,7 +99,7 @@ const CheckoutCompleted = () => {
                         href="/set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
                         className="product-name-opc text-sm hover:text-primary"
                       >
-                        {product.productID.title}
+                        {product.product.title}
                       </a>
                     </div>
                     <div className="d-flex flex-col w-100">
@@ -107,7 +107,7 @@ const CheckoutCompleted = () => {
                         SKU: 213486
                       </span>
                       <span className="product-unit-price text-xs text-gray-600">
-                        {product.productID.priceDiscount.toFixed(2)} €
+                        {product.product.priceDiscount.toFixed(2)} €
                       </span>
                     </div>
                   </div>

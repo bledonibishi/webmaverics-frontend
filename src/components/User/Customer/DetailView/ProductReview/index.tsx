@@ -42,7 +42,7 @@ const ProductReview = () => {
                         src={
                           typeof item.productID === 'string'
                             ? ''
-                            : item.productID.imageCover
+                            : item.productID.imageCover || undefined
                         }
                         className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
                         alt="Foto e Apple iPhone 15, 128GB, Black"

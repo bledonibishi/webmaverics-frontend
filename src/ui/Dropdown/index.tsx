@@ -15,9 +15,13 @@ import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { CartItemProduct } from '@/helpers/types'
-import { useDeleteCartProductMutation, useGetCartProductsQuery } from '@/Cart/store/cartAPI'
+import {
+  useDeleteCartProductMutation,
+  useGetCartProductsQuery,
+} from '@/Cart/store/cartAPI'
 import { useNavigate } from 'react-router-dom'
-import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice';
+import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
+import { Image } from '@/helpers/helpers'
 
 type DropdownProps = {
   children?: ReactNode
@@ -76,7 +80,6 @@ const CustomDropdown = ({
     navigate('/cart')
     setOpen(false)
   }
-
 
   const totalPriceInfo = CalculateTotalPrice(cart?.products)
   const {
@@ -145,23 +148,38 @@ const CustomDropdown = ({
               </div>
               {cartItemProducts?.map((item, index) => (
                 <MenuItem key={index} className={cartItemClassName}>
-                  <div className="d-flex justify-content-between align-items-center w-100">
-                    <div className="product-image col-3 position-relative d-block">
-                      <img
-                        src={item.product.imageCover}
+                  <div className="d-flex justify-content-between text-xs align-items-center w-100">
+                    <div className="product-image position-relative d-block">
+                      {/* <img
+                        src={item.product.imageCover || undefined}
                         alt="IMG"
                         className="w-100 h-100"
-                      />
+                      /> */}
+                      <a
+                        className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
+                        href="/maus-logitech-g-pro-x-superlight-i-bardhe"
+                        title="Shfaq detaje për Maus Logitech G Pro X Superlight, i bardhë"
+                      >
+                        <Image
+                          src={
+                            item.product.imageCover
+                              ? item.product.imageCover
+                              : ''
+                          }
+                          alt="img"
+                          className="max-h-full max-w-full position-relative"
+                        />
+                      </a>
                     </div>
                     <div
                       className="col-8 pr-1"
                       style={{ display: 'flex', flexDirection: 'column' }}
                     >
-                      <h6>{item.product.title}</h6>
+                      <h6 className="text-sm">{item.product.title}</h6>
                       <small>Qmimi per njesi: {item.product.price}€</small>
                       <small>Sasia: {item.quantity}</small>
                     </div>
-                    <div className="cartItem_action">
+                    <div className="cartItem_action text-md">
                       <FontAwesomeIcon
                         icon={faTrashCan}
                         onClick={() => handleDeleteCartProduct(item.product.id)}

@@ -1,4 +1,10 @@
-import { Product, Rating, RatingInput } from '@/helpers/types'
+import {
+  Product,
+  ProductCategory,
+  ProductInput,
+  Rating,
+  RatingInput,
+} from '@/helpers/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const productsAPI = createApi({
@@ -20,9 +26,9 @@ export const productsAPI = createApi({
     getProductById: builder.query<Product, string>({
       query: (id) => `/products/${id}`,
     }),
-    createProduct: builder.mutation<Product, Product>({
-      query: (product) => ({
-        url: '/products',
+    createProduct: builder.mutation<Product, ProductInput>({
+      query: (product: ProductInput) => ({
+        url: '/products/createProduct',
         method: 'POST',
         body: product,
       }),
@@ -40,6 +46,9 @@ export const productsAPI = createApi({
     getRatingWithProductId: builder.query<Rating[], string>({
       query: (id) => `/ratings/${id}`,
     }),
+    getProductCategories: builder.query<ProductCategory[], void>({
+      query: () => `/products/categories`,
+    }),
   }),
 })
 
@@ -50,4 +59,5 @@ export const {
   useCreateRatingMutation,
   useGetRatingWithProductIdQuery,
   useGetRatingsWithUserIdQuery,
+  useGetProductCategoriesQuery,
 } = productsAPI

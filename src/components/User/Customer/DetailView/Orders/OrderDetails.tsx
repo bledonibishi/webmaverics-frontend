@@ -1,3 +1,12 @@
+import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
+import {
+  formatDateToDDMMYYYY,
+  formatISODateRange,
+  formatISODateToDayOfWeek,
+} from '@/helpers/helpers'
+import { Order, OrderProduct } from '@/helpers/types'
+import { useAppDispatch } from '@/hooks/hooks'
+import { getOrderWithUserID } from '@/store/orders/orderSlice'
 import WrappingCard from '@/ui/WrappingCard'
 import {
   faBackward,
@@ -5,65 +14,39 @@ import {
   faReorder,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dropdown } from 'react-bootstrap'
+import { useLocation, useParams } from 'react-router-dom'
 const Asus = require('@/assets/images/asus.png')
 
 const OrderDetails = () => {
-  const order = {
-    id: '212527',
-    date: '12.03.2022',
-    shipmentDate: '13 mars - 14 mars',
-    image: 'test.png',
-    description: 'Dëgjuese QCY T1C, të zeza',
-    price: 19.5,
-    quantity: 1,
-    transport: 'Free transport',
-    total: 39.0,
-    discount: 20.0,
-    tax: 2.97,
-    gjirafaFlex: 1.5,
-  }
+  const location = useLocation()
+  const { id } = useParams()
+  const dispatch = useAppDispatch()
+  const orderResponse = location.state.orders
 
-  const transportMode = {
-    status: 'submitted',
-    mode: 'gjirafaSwift',
-  }
+  const order1 = orderResponse.find((order: Order) => order._id === id)
+  console.log('order', order1)
 
-  const paymentMode = {
-    status: 'payed',
-    mode: 'Paguaj me para në dorë',
-  }
+  const totalPriceInfo = CalculateTotalPrice(order1?.products)
+  const {
+    totalPriceWithoutVAT,
+    totalPriceWithVAT,
+    totalTvsh,
+    discountValueInEuros,
+    priceAfterDiscount,
+    discountedTotalPriceWithoutVAT,
+  } = totalPriceInfo
 
-  const transportAddress = {
-    name: 'Bledon',
-    lastname: 'Ibishi',
-    address: 'Hamdi gashi',
-    city: 'vushtrri',
-    country: 'kosove',
-    email: 'bledonibishi1@gmail.com',
-    telephone: '045223091',
-  }
-  const billingAddress = {
-    name: 'Bledon',
-    lastname: 'Ibishi',
-    address: 'Hamdi gashi',
-    city: 'vushtrri',
-    country: 'kosove',
-    email: 'bledonibishi1@gmail.com',
-    telephone: '045223091',
-  }
-
-  const commentAboutOrder = {
-    comment: 'bledonibishi',
-  }
   return (
     <>
       <WrappingCard marginBtm="20px" padding="12px">
         <div className="d-flex align-items-center justify-content-between">
           <p className="text-lg">
             Porosia:{' '}
-            <span className="text-primary font-semibold">#{order.id}</span>
+            <span className="text-primary font-semibold">
+              #{order1.orderCode}
+            </span>
           </p>
           <div className="d-flex">
             <button className="btn btn-primary btn-primary-hover">
@@ -100,8 +83,14 @@ const OrderDetails = () => {
           >
             Order status
           </p>
-          <p>Order date: {order.date}</p>
-          <p>Date of shipment: {order.shipmentDate}</p>
+          <p>
+            Order date:{' '}
+            <strong>{formatDateToDDMMYYYY(order1.orderDate)}</strong>
+          </p>
+          <p>
+            Date of shipment:{' '}
+            <strong>{formatISODateRange(order1.arrivalDate, 3)}</strong>
+          </p>
         </div>
       </WrappingCard>
       <WrappingCard marginBtm="20px" padding="12px">
@@ -109,86 +98,97 @@ const OrderDetails = () => {
           <p className="text-lg">Products</p>
           <p className="text-lg">Price</p>
         </div>
-        <div className="d-flex justify-content-between product-details-div align-items-center pt-2">
-          <div className="d-flex align-items-center">
-            <img src={Asus} alt="" className="" />
-            <div className="d-flex pl-3" style={{ flexDirection: 'column' }}>
-              <p className="font-normal text-lg">{order.description}</p>
-              <p className=" text-sm">Sasia: {order.quantity}</p>
+        {order1.products.map((product: OrderProduct) => (
+          <div className="d-flex justify-content-between product-details-div align-items-center py-2">
+            <div className="d-flex align-items-center">
+              <img src={Asus} alt="" className="" style={{ width: '100px' }} />
+              <div className="d-flex pl-3" style={{ flexDirection: 'column' }}>
+                <p className="font-normal text-lg">
+                  {typeof product.product === 'string'
+                    ? ''
+                    : product.product.title}
+                </p>
+                <p className=" text-sm">Sasia: {product.quantity}</p>
+              </div>
+            </div>
+            <div
+              className="d-flex text-end"
+              style={{ flexDirection: 'column' }}
+            >
+              <p className="font-normal text-lg">
+                {typeof product.product === 'string'
+                  ? ''
+                  : product.product.price.toFixed(2)}{' '}
+                €
+              </p>
             </div>
           </div>
-          <div className="d-flex text-end" style={{ flexDirection: 'column' }}>
-            <p className="font-normal text-lg">{order.price} $</p>
-            <p className="text-primary text-sm">
-              GjirafaFLEX({order.gjirafaFlex + '$'})
-            </p>
-          </div>
-        </div>
+        ))}
       </WrappingCard>
       <WrappingCard marginBtm="20px" padding="12px">
         <div className="border-bottom">
           <div className="d-flex justify-content-between pb-3">
             <p>Subtotal:</p>
-            <p>{order.total.toFixed(2)} $</p>
+            <p>{discountedTotalPriceWithoutVAT.toFixed(2)} €</p>
           </div>
           <div className="d-flex justify-content-between pb-3">
             <p>Discount:</p>
-            <p>-{order.discount.toFixed(2)} $</p>
+            <p>-{discountValueInEuros?.toFixed(2)} €</p>
           </div>
           <div className="d-flex justify-content-between pb-3">
             <p>Transport:</p>
-            <p className="text-success">{order.transport}</p>
+            <p className="text-success">{order1.transportMode}</p>
           </div>
           <div className="d-flex justify-content-between pb-3">
             <p>TAX:</p>
-            <p>{order.tax} $</p>
-          </div>
-          <div className="d-flex justify-content-between pb-3">
-            <p>GjirafaFlex:</p>
-            <p>{order.gjirafaFlex} $</p>
+            <p>{order1.tvsh.toFixed(2)} €</p>
           </div>
         </div>
         <div className="d-flex justify-content-between pb-3">
           <p>Total:</p>
-          <p className="text-primary">21.00 $</p>
+          <p className="text-primary">{order1.totalOrderPrice.toFixed(2)} €</p>
         </div>
       </WrappingCard>
       <WrappingCard padding="12px">
         <div className="order-details-transport">
           <div>
             <p className="font-semibold pb-2">Transport mode:</p>
-            <p>{transportMode.mode}</p>
-            <p>{transportMode.status}</p>
+            <p>{order1.transportMode}</p>
+            <p>{order1.transportModeStatus}</p>
           </div>
           <div>
             <p className="font-semibold pb-2">Payment method:</p>
-            <p>{paymentMode.mode}</p>
-            <p>{paymentMode.status}</p>
+            <p>{order1.paymentMethod}</p>
+            <p>{order1.paymentMethodStatus}</p>
           </div>
           <div>
             <p className="font-semibold pb-2">Transport address:</p>
-            <p>{transportAddress.name + ' ' + transportAddress.lastname}</p>
-            <p>{transportAddress.address}</p>
-            <p>{transportAddress.city}</p>
-            <p>{transportAddress.country}</p>
-            <p>{transportAddress.email}</p>
-            <p>{transportAddress.telephone}</p>
+            <p>{order1.addressID.name + ' ' + order1.addressID.surname}</p>
+            <p>{order1.addressID.address}</p>
+            <p>{order1.addressID.city}</p>
+            <p>{order1.addressID.country}</p>
+            <p>{order1.addressID.email}</p>
+            <p>{order1.addressID.telephone}</p>
           </div>
           <div>
             <p className="font-semibold pb-2">Billing address:</p>
-            <p>{billingAddress.name + ' ' + billingAddress.lastname}</p>
-            <p>{billingAddress.address}</p>
-            <p>{billingAddress.city}</p>
-            <p>{billingAddress.country}</p>
-            <p>{billingAddress.email}</p>
-            <p>{billingAddress.telephone}</p>
+            <p>
+              {order1.billingAddress.name + ' ' + order1.billingAddress.surname}
+            </p>
+            <p>{order1.billingAddress.address}</p>
+            <p>{order1.billingAddress.city}</p>
+            <p>{order1.billingAddress.country}</p>
+            <p>{order1.billingAddress.email}</p>
+            <p>{order1.billingAddress.telephone}</p>
           </div>
         </div>
         <div className="gap-2 bg-gray-100 rounded text-gray-700 p-3 mt-3">
           <div className="text text-sm font-semibold">
             Koment rreth porosisë:
           </div>
-          <div className="text-sm">{commentAboutOrder.comment}</div>
+          <div className="text-sm">
+            {order1.comment ? order1.comment : 'No comment'}
+          </div>
         </div>
       </WrappingCard>
     </>

@@ -22,9 +22,19 @@ const createOrder = async (body: OrderInput): Promise<Order> => {
   }
 }
 
+const fetchOrderWithUserID = async () => {
+  try {
+    const response = await axiosInstance.get(API_URL + '/user')
+    return response.data
+  } catch (error: any) {
+    throw new Error(error)
+  }
+}
+
 const OrderService = {
   createOrder,
   fetchOrders,
+  fetchOrderWithUserID,
 }
 
 export default OrderService

@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import WrappingCard from '../../../../../ui/WrappingCard'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { Form, FormSelect, InputGroup } from 'react-bootstrap'
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
+import { getOrderWithUserID } from '@/store/orders/orderSlice'
+import { Order, OrderProduct } from '@/helpers/types'
+import { formatDateToDDMMYYYY } from '@/helpers/helpers'
 const AsusImage = require('../../../../../assets/images/asus.png')
 
 type OrderCardProps = {
   id: string
   sericalNumber: string
-  completionDate: Date
+  completionDate: string
   status: string
   price: Number
+  products: OrderProduct[]
+  orders: Order[]
 }
 
 const OrderCard = ({
@@ -21,11 +27,13 @@ const OrderCard = ({
   completionDate,
   status,
   price,
+  products,
+  orders,
 }: OrderCardProps) => {
   const navigate = useNavigate()
 
   const handleDetails = (id: string) => {
-    navigate(`/customer/orderdetails/${id}`)
+    navigate(`/customer/orderdetails/${id}`, { state: { orders: orders } })
   }
 
   return (
@@ -33,9 +41,11 @@ const OrderCard = ({
       <div className="d-flex align-items-center justify-content-between border-primary-gray">
         <div className="d-flex order-info-div">
           <p>#{sericalNumber}</p>
-          <p>{completionDate.toLocaleDateString()}</p>
+
+          <p>{formatDateToDDMMYYYY(completionDate)}</p>
+          {/* <p>{completionDate.toLocaleDateString()}</p> */}
           <p>{status}</p>
-          <p>{price.toFixed(2)}</p>
+          {price && <p>{price.toFixed(2)}</p>}
         </div>
         <p
           className="d-flex align-items-center hover-primary cursor-pointer"
@@ -45,7 +55,16 @@ const OrderCard = ({
         </p>
       </div>
       <div className="order-card-content w-100">
-        <img src={AsusImage} />
+        {products.map((prod) => (
+          <img
+            src={
+              typeof prod.product === 'string'
+                ? ''
+                : prod.product.imageCover || undefined
+            }
+            alt=""
+          />
+        ))}
       </div>
     </>
   )
@@ -53,7 +72,14 @@ const OrderCard = ({
 
 const Orders = () => {
   const completionDate = new Date()
+  const dispatch = useAppDispatch()
   const price = 21.0
+  const { orders } = useAppSelector((state) => state.orders)
+  console.log('orders', orders)
+
+  useEffect(() => {
+    dispatch(getOrderWithUserID())
+  }, [])
   return (
     <div>
       <WrappingCard marginBtm="20px" padding="12px">
@@ -104,24 +130,19 @@ const Orders = () => {
           </div>
         </div>
       </WrappingCard>
-      <WrappingCard marginBtm={'20px'} padding="12px">
-        <OrderCard
-          id="e1abb490-c5f4-45d9-b440-eea625d50709"
-          sericalNumber="212527"
-          completionDate={completionDate}
-          status="Completed"
-          price={price}
-        />
-      </WrappingCard>
-      <WrappingCard marginBtm={'20px'} padding="12px">
-        <OrderCard
-          id="e1abb490-c5f4-45d9-b440"
-          sericalNumber="212527"
-          completionDate={completionDate}
-          status="Completed"
-          price={price}
-        />
-      </WrappingCard>
+      {orders.map((order) => (
+        <WrappingCard marginBtm={'20px'} padding="12px">
+          <OrderCard
+            id={order._id}
+            sericalNumber={order.orderCode}
+            completionDate={order.arrivalDate}
+            status={order.status}
+            price={order.totalOrderPrice}
+            products={order.products}
+            orders={orders}
+          />
+        </WrappingCard>
+      ))}
       <WrappingCard padding="12px">Pagination</WrappingCard>
     </div>
   )
