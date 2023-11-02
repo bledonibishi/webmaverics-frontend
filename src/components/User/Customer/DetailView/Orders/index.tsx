@@ -8,7 +8,7 @@ import { Form, FormSelect, InputGroup } from 'react-bootstrap'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { getOrderWithUserID } from '@/store/orders/orderSlice'
 import { Order, OrderProduct } from '@/helpers/types'
-import { formatDateToDDMMYYYY } from '@/helpers/helpers'
+import { Image, formatDateToDDMMYYYY } from '@/helpers/helpers'
 const AsusImage = require('../../../../../assets/images/asus.png')
 
 type OrderCardProps = {
@@ -36,6 +36,8 @@ const OrderCard = ({
     navigate(`/customer/orderdetails/${id}`, { state: { orders: orders } })
   }
 
+  console.log('products', products)
+
   return (
     <>
       <div className="d-flex align-items-center justify-content-between border-primary-gray">
@@ -44,8 +46,8 @@ const OrderCard = ({
 
           <p>{formatDateToDDMMYYYY(completionDate)}</p>
           {/* <p>{completionDate.toLocaleDateString()}</p> */}
-          <p>{status}</p>
-          {price && <p>{price.toFixed(2)}</p>}
+          <p className={`${status} fw-bold`}>{status}</p>
+          {price && <p>{price.toFixed(2)} €</p>}
         </div>
         <p
           className="d-flex align-items-center hover-primary cursor-pointer"
@@ -54,18 +56,51 @@ const OrderCard = ({
           Details <FontAwesomeIcon icon={faArrowRight} className="pl-1 w-75" />
         </p>
       </div>
-      <div className="order-card-content w-100">
+
+      <div className="d-flex justify-content-start flex-wrap gap-3 p-3 md:p-4 p-3 md:-4 ">
         {products.map((prod) => (
-          <img
+          <div
+            title="Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6        "
+            className="d-flex align-items-center justify-content-center rounded bg-white w-16 h-16 p-1 border border-gray-300"
+          >
+            <a
+              href="set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
+              className="d-flex justify-content-center align-items-center w-100 h-100"
+            >
+              <Image
+                src={
+                  typeof prod.product === 'string'
+                    ? ''
+                    : prod.product.imageCover || ''
+                }
+                alt="imageCover"
+                className="max-w-full max-h-full"
+              />
+            </a>
+          </div>
+        ))}
+      </div>
+      {/* <div className="order-card-content w-100">
+        {products.map((prod) => (
+          // <img
+          //   src={
+          //     typeof prod.product === 'string'
+          //       ? ''
+          //       : prod.product.imageCover || undefined
+          //   }
+          //   alt=""
+          // />
+          <Image
             src={
               typeof prod.product === 'string'
                 ? ''
-                : prod.product.imageCover || undefined
+                : prod.product.imageCover || ''
             }
-            alt=""
+            alt="imageCover"
+            className=""
           />
         ))}
-      </div>
+      </div> */}
     </>
   )
 }
@@ -81,7 +116,7 @@ const Orders = () => {
     dispatch(getOrderWithUserID())
   }, [])
   return (
-    <div>
+    <div className="orders-list">
       <WrappingCard marginBtm="20px" padding="12px">
         <div className="d-flex justify-content-between orders-header">
           <p className="text-lg">Porosite</p>

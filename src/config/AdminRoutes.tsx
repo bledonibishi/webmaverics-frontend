@@ -10,6 +10,7 @@ import Header from '@/components/User/Header/Header'
 import Footer from '@/components/User/Footer'
 import UpdateProduct from '@/components/Admin/product/updateProduct'
 import { useAppSelector } from '@/hooks/hooks'
+import ReturningRequests from '@/components/Admin/ReturningRequests'
 
 const AdminRoutes = () => {
   const { user } = useAppSelector((state) => state.auth)
@@ -28,6 +29,7 @@ const AdminRoutes = () => {
         />
         <Route path="/create-product" element={<CreateProduct />} />
         <Route path="/update-product" element={<UpdateProduct />} />
+        <Route path="/return-requests" element={<ReturningRequests />} />
       </Routes>
       <Footer />
     </>

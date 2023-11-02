@@ -1,7 +1,7 @@
 import axiosInstance from '@/api/axiosInstance'
 import { Order, OrderInput } from '@/helpers/types'
 
-const API_URL = '/api/v1/orders'
+const API_URL = 'api/v1/orders'
 
 const fetchOrders = async () => {
   try {

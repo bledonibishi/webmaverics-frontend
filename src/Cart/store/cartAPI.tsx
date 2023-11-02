@@ -42,6 +42,12 @@ export const cartsAPI = createApi({
         method: 'DELETE',
       }),
     }),
+    clearCart: builder.mutation({
+      query: () => ({
+        url: `/api/v1/cart/clear/cart`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 })
 
@@ -49,4 +55,5 @@ export const {
   useGetCartProductsQuery,
   useDeleteCartProductMutation,
   useAddToCartQueryMutation,
+  useClearCartMutation,
 } = cartsAPI

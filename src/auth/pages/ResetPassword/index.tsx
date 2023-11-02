@@ -1,6 +1,43 @@
-import React from 'react'
+import axiosInstance from '@/api/axiosInstance'
+import React, { ChangeEvent, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const ResetPassword = () => {
+  const { token } = useParams()
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    password: '',
+    passwordConfirm: '',
+  })
+
+  console.log('formData', formData)
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    setFormData({ ...formData, [name]: value })
+  }
+
+  const submitReset = (e: any) => {
+    e.preventDefault()
+
+    try {
+      axiosInstance
+        .patch(`api/v1/users/resetPassword/${token}`, formData)
+        .then((data) => {
+          if (data.data.status === 'success') {
+            toast.success('Password changed successfuly')
+            setTimeout(() => {
+              navigate('/login/identifier')
+            }, 1000)
+          }
+        })
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
   return (
     <div className="auth-main-container">
       <div className="auth-wrapper">
@@ -21,69 +58,24 @@ const ResetPassword = () => {
                 Your new password must be different from previous used password.
               </p>
             </div>
-            <form id="resetPasswordForm" className="form-horizontal">
-              <input
-                type="hidden"
-                id="Code"
-                name="Code"
-                value="Q2ZESjhPak1ZaHhZa1U1T3FiN2xzcW5XT2Fldm81RU8vZXdwbnUra2VCMHBoMk1JcThyNGtIQjBDQTczK0FXN2Q3ZkxlaDdEVVRlYWJud1VDWTdPcC9ZVklQMnJZSVJzVmpHTStDdFEwaVR4dmIzTVZqOVRRbXRnWDdKQ00ya1dGandGdXBpQVBqSys2ZVVTeTVnTFhNL1B5WkxhL1kxWFZ5d3pMRFJIM3YzT1dZbzNuZjMwcWwxL3ZMUlhUejhKREJOYUdPMzZmVUNYNTMvM3dMWEJzZnJDdGNlZkFjek9uZE9qcjFIS1ZJdS9TY0ZQVEhVdTlIbzJjcUJyVU4zNHlTc2l0dz09"
-              />
-              <input
-                type="hidden"
-                id="ReturnUrl"
-                name="ReturnUrl"
-                value="/connect/authorize/callback?client_id=80b05d04-adf1-409f-afca-337769ebbdd6&amp;redirect_uri=https%3A%2F%2Fgjirafa50.com%2F&amp;response_type=code&amp;scope=openid%20gjirafa50_api%20profile%20email&amp;code_challenge=cDNsw3lpwpIkLznIShJ9dEqy7r0Qh6_k61d9Wudy5_I&amp;code_challenge_method=S256&amp;response_mode=form_post&amp;nonce=638334795330148298.ZjBkZDkxODYtMDljZS00ZjFmLWJlNzMtYTg4NGZmMzFmZDRiYmJjY2ViNDAtNTQxZS00YWNhLTgzOWYtNGNjNzRjN2Y4MjVk&amp;state=CfDJ8BavmJPrX4dBnzAs_5ATawxv9FGZyuLEIJyUc7N1iYUhWtGYb8q_oGKmQZvTh5xNRf2Shm5J2YWNvmG4lTrVd7xMRvVIPopLK-uAHXGZ4-n94CtlYMLPOP-v5q6XrZVA3x5Q-PJNOEaxQ2bBi2yMA_onx1SpiwrbOPPdon_3rhg0qpi139rdaB5DdwSAmCuZ25q2xdBeQilaz_hifSBOuVW4WEZ--3bww5eOOoDn0-LiNFm7YohEt9hRp3j-TYYpqFjTbx_fi4Bg4VZdIh1ug-2_ZO8Cqdbgrt3Xzi2urDAJr4ri4Z3Scmtw20WQSo6-cNTD0UCHt7kE7ywNdue_eiVRasmJmh3vfkitgRv2LuXHFSgBoh9fNMvQQ74Nj-BynKdFGCaQ5k6vviIFV5x6aHA&amp;x-client-SKU=ID_NETSTANDARD2_0&amp;x-client-ver=6.15.1.0"
-              />
-              <input
-                type="hidden"
-                data-val="true"
-                data-val-required="The IsSentFromAdmin field is required."
-                id="IsSentFromAdmin"
-                name="IsSentFromAdmin"
-                value="False"
-              />
-              <input
-                type="hidden"
-                value="908b88a2-1319-4091-8164-7b9792b15fbc"
-                id="UrlId"
-                name="UrlId"
-              />
-              <input
-                type="hidden"
-                value="bledonibishi1@gmail.com"
-                data-val="true"
-                data-val-email="The Email field is not a valid e-mail address."
-                data-val-required="Email is required."
-                id="Email"
-                name="Email"
-              />
-              <input
-                type="hidden"
-                value="Bledon"
-                id="FirstName"
-                name="FirstName"
-              />
-              <input
-                type="hidden"
-                value="Ibishi"
-                id="LastName"
-                name="LastName"
-              />
-              <input
-                type="hidden"
-                name="RequiredLength"
-                id="requiredLength"
-                value="8"
-              />
+            <form
+              id="resetPasswordForm"
+              onSubmit={submitReset}
+              className="form-horizontal"
+            >
               <div className="form-item">
+                <label className="password" htmlFor="ConfirmPassword">
+                  Password
+                </label>
                 <input
                   id="psw-input"
                   className="form-control checkCapsLock"
                   placeholder=" "
                   data-val-required="Password is required."
+                  onChange={handleChange}
                   type="password"
                   data-val="true"
-                  name="Password"
+                  name="password"
                   aria-autocomplete="list"
                 />
                 {/* // onkeyup="IsCapsLockOn(event)"  */}
@@ -153,6 +145,9 @@ const ResetPassword = () => {
                 </div>
               </div>
               <div className="form-item">
+                <label className="form-label" htmlFor="passwordConfirm">
+                  Confirm Password
+                </label>
                 <input
                   placeholder=" "
                   className="form-control checkCapsLock"
@@ -160,13 +155,12 @@ const ResetPassword = () => {
                   data-val="true"
                   data-val-equalto="The password and confirmation password do not match."
                   data-val-required="Password is required."
+                  onChange={handleChange}
                   data-val-equalto-other="*.Password"
                   id="ConfirmPassword"
-                  name="ConfirmPassword"
+                  name="passwordConfirm"
                 />
-                <label className="form-label" htmlFor="ConfirmPassword">
-                  Confirm Password
-                </label>
+
                 <span
                   className="error-message mt-1 field-validation-valid"
                   data-valmsg-for="ConfirmPassword"

@@ -230,3 +230,11 @@ input.qtyminus {
   height: 14px;
   /* background: url(../images/rating2.png) repeat-x; */
 }
+#add-to-cart-button {
+  width: 100%;
+}
+@media (max-width: 811px) {
+  #add-to-cart-button {
+    width: 70px !important;
+  }
+}

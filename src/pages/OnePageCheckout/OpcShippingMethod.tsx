@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 type OpcShippingMethodPropTypes = {
   handleContinue: (activeStep: string) => void
@@ -12,6 +13,13 @@ const OpcShippingMethod: React.FC<OpcShippingMethodPropTypes> = ({
   setShippingMethod,
   shippingMethod,
 }) => {
+  const continueHandler = () => {
+    if (!shippingMethod) {
+      return toast.error('You have to select one shipping address')
+    } else {
+      handleContinue('opc-payment_method')
+    }
+  }
   return (
     <>
       <form id="co-shipping-method-form" action="">
@@ -107,7 +115,7 @@ const OpcShippingMethod: React.FC<OpcShippingMethodPropTypes> = ({
             type="button"
             className="shipping-method-next-step-button btn btn-primary btn-primary-hover shadow-sm"
             // onclick="ShippingMethod.save(); sendTransportMethodEvent();"
-            onClick={() => handleContinue('opc-payment_method')}
+            onClick={continueHandler}
           >
             Vazhdo
           </button>

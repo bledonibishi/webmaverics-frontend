@@ -2,8 +2,7 @@ import { Product, ProductInput } from '@/helpers/types'
 import { useAppDispatch } from '@/hooks/hooks'
 import { WithContext as ReactTags } from 'react-tag-input'
 import { TagsInput } from 'react-tag-input-component'
-// import TagsInput from 'react-tagsinput'
-// import 'react-tagsinput/react-tagsinput.css'
+import './style.css'
 import {
   useCreateProductMutation,
   useGetProductCategoriesQuery,
@@ -11,18 +10,10 @@ import {
 } from '@/store/products/RTKProductSlice'
 import React, { ChangeEvent, useState } from 'react'
 import axiosInstance from '@/api/axiosInstance'
+import { Button, Col, Row } from 'react-bootstrap'
 const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
 const CreateProduct = () => {
-  const dispatch = useAppDispatch()
-  const [file, setFile] = useState<any>(null)
-  const handleUpload = (e: any) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    axiosInstance
-      .post('/api/v1/products/createProduct', formData)
-      .then((res) => console.log('res', res))
-  }
   const { data: products } = useGetProductsQuery()
   const { data: categories } = useGetProductCategoriesQuery()
   const [createProduct] = useCreateProductMutation()
@@ -32,7 +23,7 @@ const CreateProduct = () => {
     title: '',
     details: [],
     brand: '',
-    discount: 0,
+    discount: null,
     tfTransport: false,
     warranty: '',
     isNew: false,
@@ -51,7 +42,6 @@ const CreateProduct = () => {
 
   const handleChange = (e: any) => {
     const { name, type, checked, files } = e.target
-    console.log('type', type)
     let inputValue
 
     if (type === 'checkbox') {
@@ -92,37 +82,15 @@ const CreateProduct = () => {
     }
     setFormData({ ...formData, details: updatedDetails })
   }
-  // const handleVariantChange = (
-  //   e: ChangeEvent<HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   const { name, value } = e.target
-  //   const updatedVariants = [...formData.variants]
-  //   updatedVariants[index] = {
-  //     ...updatedVariants[index],
-  //     [name]: value,
-  //   }
-  //   setFormData({ ...formData, variants: updatedVariants })
-  // }
 
-  // const addVariant = () => {
-  //   const newVariant = [
-  //     ...formData.variants,
-  //     { name: '', price: 0, stock: 0, isAvailable: true },
-  //   ]
-  //   setFormData({ ...formData, variants: newVariant })
-  // }
-
-  // const removeVariant = (index: number) => {
-  //   const updatedVariants = [...formData.variants]
-  //   updatedVariants.splice(index, 1)
-  //   setFormData({ ...formData, variants: updatedVariants })
-  // }
+  const removeDetail = (index: number) => {
+    const updatedDetails = [...formData.details]
+    updatedDetails.splice(index, 1)
+    setFormData({ ...formData, details: updatedDetails })
+  }
   const handleRelatedProductsChange = (selectedProducts: any) => {
     setFormData({ ...formData, relatedProducts: selectedProducts })
   }
-
-  console.log('formData', formData)
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
@@ -168,250 +136,265 @@ const CreateProduct = () => {
       console.log('error', error)
     }
 
-    // setFormData({
-    //   title: '',
-    //   details: [],
-    //   brand: '',
-    //   discount: 0,
-    //   tfTransport: false,
-    //   warranty: '',
-    //   isNew: false,
-    //   summary: '',
-    //   description: '',
-    //   imageCover: null,
-    //   images: [],
-    //   price: 0,
-    //   category: '',
-    //   stock: 0,
-    //   variants: [],
-    //   relatedProducts: [],
-    //   tags: [],
-    //   productStatus: '',
-    //   createdBy: '',
-    // })
+    setFormData({
+      title: '',
+      details: [],
+      brand: '',
+      discount: null,
+      tfTransport: false,
+      warranty: '',
+      isNew: false,
+      summary: '',
+      description: '',
+      imageCover: null,
+      images: [],
+      price: 0,
+      category: '',
+      stock: 0,
+      relatedProducts: [],
+      tags: [],
+      productStatus: '',
+      createdBy: '',
+    })
   }
 
   return (
-    <div className="master-wrapper-content mx-auto p-0">
-      <h2>Create a New Product</h2>
-      <div
-        className="item-grid grid grid-cols-6 gap-2 md:grid-cols-6 lg:grid-cols-6 position-relative w-100 p-0"
-        style={{ marginLeft: '1px' }}
-      >
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="title">Title:</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="details">Details:</label>
-            <button type="button" onClick={addDetail}>
-              Add Detail
-            </button>
-          </div>
-          {formData.details.map((detail, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                name="key"
-                value={detail.key}
-                onChange={(e) => handleDetailChange(e, index)}
-                placeholder="Key"
-              />
-              <input
-                type="text"
-                name="value"
-                value={detail.value}
-                onChange={(e) => handleDetailChange(e, index)}
-                placeholder="Value"
-              />
+    <div className="master-wrapper-content px-2 md:px-0 mx-auto">
+      <div className="master-column-wrapper my-6">
+        <div
+          // item-grid d-grid grid-cols-6 gap-2 md:grid-cols-6 lg:grid-cols-6 position-relative w-100 p-0
+          className="create-product "
+          style={{ marginLeft: '1px' }}
+        >
+          <h2>Create a New Product</h2>
+
+          {/* <form onSubmit={handleSubmit}> */}
+          <Row>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="title">Title:</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+
+                <p
+                  className={`text-danger pb-2 text-xs ${
+                    formData.title !== '' ? 'hidden' : ''
+                  } `}
+                >
+                  Hapësira 'title' nuk duhet të jetë e zbrazët!
+                </p>
+              </div>
+            </Col>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="ratingsAverage">Brand:</label>
+                <input
+                  type="text"
+                  id="brand"
+                  name="brand"
+                  value={formData.brand}
+                  onChange={handleChange}
+                />
+              </div>
+            </Col>
+          </Row>
+          <Col md="12">
+            <div className="personal-info__input">
+              <label htmlFor="details">Details:</label>
+              <div className="d-flex justify-content-between py-1">
+                <Button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={addDetail}
+                >
+                  Add Detail
+                </Button>
+                <Button
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={(e: any) => removeDetail(e)}
+                >
+                  Remove Detail
+                </Button>
+              </div>
             </div>
-          ))}
-          <div>
-            <label htmlFor="ratingsAverage">Brand:</label>
-            <input
-              type="text"
-              id="brand"
-              name="brand"
-              value={formData.brand}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="ratingsAverage">Discount:</label>
-            <input
-              type="number"
-              id="discount"
-              name="discount"
-              value={formData.discount}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="tfTransport">TF Transport:</label>
-            <input
-              type="checkbox"
-              id="tfTransport"
-              name="tfTransport"
-              checked={formData.tfTransport}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="warranty">Warranty:</label>
-            <input
-              type="text"
-              id="warranty"
-              name="warranty"
-              value={formData.warranty}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="isNew">Is new:</label>
-            <input
-              type="checkbox"
-              id="isNew"
-              name="isNew"
-              checked={formData.isNew}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
+            {formData.details.map((detail, index) => (
+              <Row key={index} className="product-details personal-info__input">
+                <Col md="6">
+                  <input
+                    type="text"
+                    name="key"
+                    value={detail.key}
+                    onChange={(e) => handleDetailChange(e, index)}
+                    placeholder="Key"
+                  />
+                </Col>
+                <Col md="6">
+                  <input
+                    type="text"
+                    name="value"
+                    value={detail.value}
+                    onChange={(e) => handleDetailChange(e, index)}
+                    placeholder="Value"
+                  />
+                </Col>
+              </Row>
+            ))}
+          </Col>
+          <Row>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="ratingsAverage">Discount:</label>
+                <input
+                  type="number"
+                  id="discount"
+                  name="discount"
+                  value={
+                    formData.discount !== null &&
+                    formData.discount !== undefined
+                      ? formData.discount
+                      : ''
+                  }
+                  onChange={handleChange}
+                />
+              </div>
+            </Col>
+            <Col md="6">
+              <div>
+                <label htmlFor="warranty">Warranty:</label>
+                <input
+                  type="text"
+                  id="warranty"
+                  name="warranty"
+                  value={formData.warranty}
+                  onChange={handleChange}
+                />
+              </div>
+            </Col>
+          </Row>
+
+          <div className="personal-info__input">
             <label htmlFor="summary">Summary:</label>
-            <input
-              type="text"
+            <textarea
+              cols={5}
+              rows={10}
+              // type="text"
+              className="w-100"
               id="summary"
               name="summary"
               value={formData.summary}
               onChange={handleChange}
-            />
+            ></textarea>
           </div>
-          <div>
+          <div className="personal-info__input">
             <label htmlFor="description">Description:</label>
-            <input
-              type="text"
+            <textarea
+              cols={5}
+              rows={10}
+              className="w-100"
               id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
-            />
+            ></textarea>
           </div>
-          <div>
-            <label htmlFor="imageCover">Image cover:</label>
-            <input
-              type="file"
-              id="imageCover"
-              name="imageCover"
-              onChange={(e) => {
-                const files = e.target.files
-                if (files && files.length > 0) {
-                  setImageCover(files[0])
-                } else {
-                  setImageCover(null)
-                }
-              }}
-            />
-          </div>
-          <div>
-            <label htmlFor="images">Additional Images:</label>
-            <input
-              type="file"
-              id="images"
-              name="images"
-              multiple
-              onChange={(e) => {
-                const files = e.target.files
-                if (files) {
-                  const fileArray = Array.from(files)
-                  setImages(fileArray)
-                } else {
-                  setImages([])
-                }
-              }}
-            />
-          </div>
-          <div>
-            <label htmlFor="price">Price:</label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="category">Category:</label>
-
-            <select
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-            >
-              <option value="">Select a category</option>
-              {categories?.map((category, index) => (
-                <option key={index} value={category._id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="stock">Stock:</label>
-            <input
-              type="number"
-              id="stock"
-              name="stock"
-              value={formData.stock}
-              onChange={handleChange}
-            />
-          </div>
-          {/* <div>
-            <label>Product Variants:</label>
-            {formData.variants.map((variant, index) => (
-              <div key={index}>
+          <Row>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="imageCover" className="custom-file-upload">
+                  <i className="fa fa-cloud-upload"></i> Image cover
+                </label>
                 <input
-                  type="text"
-                  name="name"
-                  value={variant.name}
-                  onChange={(e) => handleVariantChange(e, index)}
-                  placeholder="Variant Name"
+                  type="file"
+                  id="imageCover"
+                  name="imageCover"
+                  className="custom-file-upload"
+                  onChange={(e) => {
+                    const files = e.target.files
+                    if (files && files.length > 0) {
+                      setImageCover(files[0])
+                    } else {
+                      setImageCover(null)
+                    }
+                  }}
                 />
+              </div>
+            </Col>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="images" className="custom-file-upload">
+                  <i className="fa fa-cloud-upload"></i> Additional images
+                </label>
+                <input
+                  type="file"
+                  id="images"
+                  name="images"
+                  className="custom-file-upload"
+                  multiple
+                  onChange={(e) => {
+                    const files = e.target.files
+                    if (files) {
+                      const fileArray = Array.from(files)
+                      setImages(fileArray)
+                    } else {
+                      setImages([])
+                    }
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
+          <Row md="6">
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="price">Price:</label>
                 <input
                   type="number"
+                  id="price"
                   name="price"
-                  value={variant.price}
-                  onChange={(e) => handleVariantChange(e, index)}
-                  placeholder="Variant Price"
+                  value={formData.price}
+                  onChange={handleChange}
                 />
-                <button type="button" onClick={() => removeVariant(index)}>
-                  Remove
-                </button>
               </div>
-            ))}
-            <button type="button" onClick={addVariant}>
-              Add Variant
-            </button>
-          </div> */}
-          {/* <div>
-            <label htmlFor="reviews">Reviews:</label>
-            <input
-              type="text"
-              id="reviews"
-              name="reviews"
-              value={formData.reviews.join(', ')}
-              onChange={handleChange}
-            />
-          </div> */}
-          <div>
+            </Col>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="stock">Stock:</label>
+                <input
+                  type="number"
+                  id="stock"
+                  name="stock"
+                  value={formData.stock}
+                  onChange={handleChange}
+                />
+              </div>
+            </Col>
+          </Row>
+          <Col md="12">
+            <div className="personal-info__input">
+              <label htmlFor="category">Category:</label>
+
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              >
+                <option value="">Select a category</option>
+                {categories?.map((category, index) => (
+                  <option key={index} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </Col>
+          <div className="personal-info__input">
             <label htmlFor="relatedProducts">Related Products:</label>
             <select
               multiple
@@ -433,45 +416,95 @@ const CreateProduct = () => {
               ))}
             </select>
           </div>
-          <div>
+          <div className="personal-info__input">
             <label htmlFor="tags">Tags:</label>
             <TagsInput
               value={formData.tags}
               //   id="tags"
+              // classNames={'tags'}
               onChange={handleChangeTags}
               name="tags"
             />
           </div>
+          <Row>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="productStatus">Product Status:</label>
+                <select
+                  id="productStatus"
+                  name="productStatus"
+                  value={formData.productStatus}
+                  onChange={handleChange}
+                >
+                  <option value="">Select product status</option>
+                  <option value="active">Active</option>
+                  <option value="outofstock">Out of stock</option>
+                  <option value="discontinued">Discontinued</option>
+                </select>
+              </div>
+            </Col>
+            <Col md="6">
+              <div className="personal-info__input">
+                <label htmlFor="createdBy">Created By:</label>
+                <input
+                  type="text"
+                  id="createdBy"
+                  name="createdBy"
+                  value={formData.createdBy}
+                  onChange={handleChange}
+                />
+              </div>
+            </Col>
+          </Row>
+          {/* <Row> */}
+          {/* <div className=" d-flex align-items-center justify-content-between position-relative"> */}
+          <div className="personal-info__input">
+            <div className="d-flex align-items-center justify-content-between position-relative mb-4">
+              <span className="text-sm">24H</span>
+              <div className="toggle-btn-wrapper">
+                <input
+                  type="checkbox"
+                  id="tfTransport"
+                  className="toggle-btn"
+                  name="tfTransport"
+                  checked={formData.tfTransport}
+                  onChange={handleChange}
+                />
+                <div className="knobs"></div>
+                <div className="layer"></div>
+              </div>
+            </div>
+          </div>
 
+          <div className="personal-info__input">
+            <div className="d-flex align-items-center  justify-content-between position-relative">
+              <span className="text-sm">New</span>
+              <div className="toggle-btn-wrapper">
+                <input
+                  id="isNew"
+                  type="checkbox"
+                  className="toggle-btn"
+                  name="isNew"
+                  checked={formData.isNew}
+                  onChange={handleChange}
+                />
+                <div className="knobs"></div>
+                <div className="layer"></div>
+              </div>
+            </div>
+          </div>
+          {/* </div> */}
+          {/* </Row> */}
           <div>
-            <label htmlFor="productStatus">Product Status:</label>
-            <select
-              id="productStatus"
-              name="productStatus"
-              value={formData.productStatus}
-              onChange={handleChange}
+            <button
+              type="submit"
+              className="btn btn-primary btn-primary-hover w-100"
             >
-              <option value="">Select product status</option>
-              <option value="active">Active</option>
-              <option value="outofstock">Out of stock</option>
-              <option value="discontinued">Discontinued</option>
-            </select>
+              Create Product
+            </button>
           </div>
-
-          <div>
-            <label htmlFor="createdBy">Created By:</label>
-            <input
-              type="text"
-              id="createdBy"
-              name="createdBy"
-              value={formData.createdBy}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <button type="submit">Create Product</button>
-          </div>
-        </form>
+          {/* </form> */}
+        </div>
       </div>
     </div>
   )

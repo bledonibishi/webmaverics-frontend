@@ -51,6 +51,7 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   tfTransport,
   warranty,
   imageCover,
+  brand,
 }) => {
   const socket = useSocket()
   const dispatch = useDispatch()

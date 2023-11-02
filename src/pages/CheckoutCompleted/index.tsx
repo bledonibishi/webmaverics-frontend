@@ -1,12 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SuccessImage from '@/assets/images/wired-flat-1103-confetti.png'
 import './style.css'
 import { useLocation } from 'react-router-dom'
+import axiosInstance from '@/api/axiosInstance'
+import { Image } from '@/helpers/helpers'
+import { useStripe } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import { OrderData } from '@/helpers/types'
 
 const CheckoutCompleted = () => {
   const location = useLocation()
-  const orderResponse = location.state.orderResponse.payload
-  console.log('orderResponse', orderResponse)
+  const stripe = useStripe()
+  const orderResponse = location.state?.orderResponse.payload
+  const searchParams = new URLSearchParams(location.search)
+  const sessionId = searchParams.get('sessionId')
+
+  const [orderData, setOrderData] = useState<OrderData | null>(null)
+  const [productsData, setProductsData] = useState([])
+  console.log('productsData', productsData)
+
+  console.log('orderData', orderData)
+
+  // useEffect(() => {
+  //   axiosInstance.get('api/v1/orders')
+  // }, [])
+
+  useEffect(() => {
+    async function fetchSessionData() {
+      if (sessionId) {
+        try {
+          const response = await axiosInstance.get(
+            `api/v1/payments/retrieve-session/${sessionId}`
+          )
+
+          const orderCodeResponse = await axiosInstance.get(
+            `/api/v1/orders/orderCode/${response.data.client_reference_id}`
+          )
+
+          console.log('orderCodeResponse', orderCodeResponse)
+          console.log('response', response)
+          setProductsData(orderCodeResponse.data)
+          setOrderData(response.data.line_items)
+        } catch (error) {
+          console.error('Error fetching session data:', error)
+        }
+      }
+    }
+
+    fetchSessionData()
+  }, [sessionId])
   return (
     <div className="master-wrapper-content px-2 md:px-0 mx-auto">
       <div className="master-column-wrapper my-6">
@@ -74,58 +116,152 @@ const CheckoutCompleted = () => {
         <div className="side-3 sticky top-28 mb-4 md:mb-0 mt-4 md:mt-0">
           <div className="w-100 rounded shadow-md bg-white">
             <span className="d-flex border-b w-100 p-3 md:p-4 text-sm text-gray-700 font-medium">
-              Produktet e blera: ({orderResponse.products.length})
+              Produktet e blera: ({orderResponse?.products.length})
             </span>
             <div className="px-4 pb-2 max-h-80 overflow-y-scroll scrollbar-modifier">
-              {orderResponse.products.map((product: any, index: any) => (
-                <div
-                  key={index}
-                  className="d-flex border-b border-gray-300 justify-content-between align-items-center table-content flex-row position-relative py-2 gap-4"
-                >
-                  <a
-                    href="/set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
-                    className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
-                  >
-                    <img
-                      className="max-h-full max-w-full position-relative"
-                      alt="Foto e Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6        "
-                      src="https://iqq6kf0xmf.gjirafa.net/images/2962/2962.jpeg"
-                      title="Shfaq detaje për Set montimi Solarix M6, 4 dado, 4 bulona, 4 rondele, SM6        "
-                    />
-                  </a>
-                  <div className="d-flex justify-content-between align-items-start flex-col w-100">
-                    <div className="product product-title-lines">
-                      <a
-                        href="/set-montimi-solarix-m6-4-dado-4-bulona-4-rondele-sm6"
-                        className="product-name-opc text-sm hover:text-primary"
+              {
+                orderResponse?.products.length
+                  ? orderResponse?.products.map((product: any, index: any) => (
+                      <div
+                        key={index}
+                        className="d-flex border-b border-gray-300 justify-content-between align-items-center table-content flex-row position-relative py-2 gap-4"
                       >
-                        {product.product.title}
-                      </a>
-                    </div>
-                    <div className="d-flex flex-col w-100">
-                      <span className="product-quantity text-xs text-gray-600">
-                        SKU: 213486
-                      </span>
-                      <span className="product-unit-price text-xs text-gray-600">
-                        {product.product.priceDiscount.toFixed(2)} €
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                        <a
+                          href={`/product/${product.product.id}`}
+                          className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
+                        >
+                          <Image
+                            src={
+                              product.product.imageCover
+                                ? product.product.imageCover
+                                : ''
+                            }
+                            alt="product image"
+                            className="max-h-full max-w-full position-relative"
+                          />
+                        </a>
+                        <div className="d-flex justify-content-between align-items-start flex-col w-100">
+                          <div className="product product-title-lines">
+                            <a
+                              href={`/product/${product.product.id}`}
+                              className="product-name-opc text-sm hover:text-primary"
+                            >
+                              {product.product.title}
+                            </a>
+                          </div>
+                          <div className="d-flex flex-col w-100">
+                            <span className="product-quantity text-xs text-gray-600">
+                              SKU: 213486
+                            </span>
+                            <span className="product-unit-price text-xs text-gray-600">
+                              {product.product.priceDiscount.toFixed(2)} €
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  : productsData &&
+                    productsData.map((productData: any, index: any) => (
+                      <div
+                        key={index}
+                        className="d-flex border-b border-gray-300 justify-content-between align-items-center table-content flex-row position-relative py-2 gap-4"
+                      >
+                        {productData.products.map(
+                          (productItem: any, itemIndex: any) => (
+                            <>
+                              <a
+                                href={`/product/${productItem.product.id}`}
+                                className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
+                              >
+                                <Image
+                                  src={
+                                    productItem.product.imageCover
+                                      ? productItem.product.imageCover
+                                      : ''
+                                  }
+                                  alt="product image"
+                                  className="max-h-full max-w-full position-relative"
+                                />
+                              </a>
+                              <div
+                                key={itemIndex}
+                                className="d-flex justify-content-between align-items-start flex-col w-100"
+                              >
+                                <a
+                                  href={`/product/${productItem.product.id}`}
+                                  className="product-name-opc text-sm hover:text-primary"
+                                >
+                                  {productItem.product.title}
+                                </a>
+                                <span className="product-quantity text-xs text-gray-600">
+                                  Quantity: {productItem.quantity}
+                                </span>
+                                <span className="product-unit-price text-xs text-gray-600">
+                                  Price:
+                                  {productItem.product.priceDiscount?.toFixed(
+                                    2
+                                  )}
+                                  €
+                                </span>
+                              </div>
+                            </>
+                          )
+                        )}
+                      </div>
+                    ))
+
+                // productsData &&
+                //   productsData?.map((product: any, index: any) => (
+
+                //     <div
+                //       key={index}
+                //       className="d-flex border-b border-gray-300 justify-content-between align-items-center table-content flex-row position-relative py-2 gap-4"
+                //     >
+                //       <a
+                //         href={`/product/${product.id}`}
+                //         className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
+                //       >
+                //         <Image
+                //           src={product.imageCover ? product.imageCover : ''}
+                //           alt="product image"
+                //           className="max-h-full max-w-full position-relative"
+                //         />
+                //       </a>
+                //       <div className="d-flex justify-content-between align-items-start flex-col w-100">
+                //         <div className="product product-title-lines">
+                //           <a
+                //             href={`/product/${product.id}`}
+                //             className="product-name-opc text-sm hover:text-primary"
+                //           >
+                //             {product.title}
+                //           </a>
+                //         </div>
+                //         <div className="d-flex flex-col w-100">
+                //           <span className="product-quantity text-xs text-gray-600">
+                //             SKU: 213486
+                //           </span>
+                //           <span className="product-unit-price text-xs text-gray-600">
+                //             {product.priceDiscount?.toFixed(2)} €
+                //           </span>
+                //         </div>
+                //       </div>
+                //     </div>
+                // )
+                // )
+              }
             </div>
             <div className="p-3 md:p-4">
               <div className="d-flex justify-content-between mb-2">
                 <button className="btn btn-secondary btn-secondary-hover border-none w-50 mr-1">
                   <a
                     className="text-xs text-gray-600"
-                    href="/orderdetails/349333"
+                    href={`/customer/orderdetails/${orderResponse?.id}`}
                   >
                     Detajet e porosisë
                   </a>
                 </button>
                 <button className="btn btn-secondary btn-secondary-hover w-50 ml-1">
-                  <a className="text-xs text-gray-600" href="/order/history">
+                  <a className="text-xs text-gray-600" href="/customer/orders">
                     Porositë
                   </a>
                 </button>

@@ -24,28 +24,9 @@ export type Product = {
   productStatus: string
   createdBy: string
 }
-
 type Detail = {
   key: string
   value: string
-}
-
-type ProductDetail = {
-  key: string
-  value: string
-}
-
-type Variant = {
-  name: string
-  price: number
-  stock: number
-  isAvailable: boolean
-}
-
-type Review = {
-  rating: number
-  text: string
-  user: string
 }
 export type ProductInput = {
   title: string
@@ -53,7 +34,7 @@ export type ProductInput = {
   ratingsAverage?: number
   ratingsQuantity?: number
   brand: string
-  discount: number
+  discount: number | null
   tfTransport: boolean
   warranty: string
   isNew: boolean
@@ -147,6 +128,7 @@ export type ProductItemTypes = {
   details: Detail[]
   id: string
   imageCover: string
+  brand: string
   images: []
   price: number
   priceDiscount: number
@@ -264,4 +246,34 @@ export type ImageHelperTypes = {
   src: string
   alt: string
   className: string
+}
+
+export type ReturnRequest = {
+  _id: string
+  order: string
+  requestId: string
+  reason: string
+  productsDetails: ReturnRequestProductDetail[]
+  requestDate: string
+  returningAction: string
+  returningStatus: string
+}
+
+export type ReturnRequestProductDetail = {
+  product: Product
+  quantity: number
+}
+
+export type ReturnRequestInput = {
+  order: string
+  reason: string
+  productsDetails: ReturnRequestProductDetail[] | ReturnRequestProductDetail
+  returningAction: string
+  returningStatus?: string
+}
+export type OrderData = {
+  data: any[]
+  hasMore: boolean
+  object: string
+  url: string
 }
