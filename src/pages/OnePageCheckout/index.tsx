@@ -7,7 +7,10 @@ import OpcShippingMethod from './OpcShippingMethod'
 import OpcPaymentMethod from './OpcPaymentMethod'
 import OpcPaymentInfo from './OpcPaymentInfo'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
-import { useGetCartProductsQuery } from '@/Cart/store/cartAPI'
+import {
+  useClearCartMutation,
+  useGetCartProductsQuery,
+} from '@/Cart/store/cartAPI'
 import { getCartProducts } from '@/Cart/store/cartSlice'
 import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import OpcShipping from './OpcShipping'
@@ -18,9 +21,14 @@ import axiosInstance from '@/api/axiosInstance'
 import { toast } from 'react-toastify'
 import { Address } from '@/helpers/types'
 import { createOrder } from '@/store/orders/orderSlice'
+import { Image, generateOrderCode } from '@/helpers/helpers'
+import { useStripe } from '@stripe/react-stripe-js'
+import { useElements } from '@stripe/react-stripe-js'
 
 const OnePageCheckout = () => {
   const dispatch = useAppDispatch()
+  const stripe = useStripe()
+  const elements = useElements()
   const stepRef = useRef(null)
   const navigate = useNavigate()
   const {
@@ -28,6 +36,7 @@ const OnePageCheckout = () => {
     refetch,
     isLoading: cartLoading,
   } = useGetCartProductsQuery()
+  const [clearCart] = useClearCartMutation()
   const { addresses, loading } = useAppSelector((state) => state.address)
   const [activeStep, setActiveStep] = useState<string>('opc-billing')
   const [stepChanges, setStepChanges] = useState<string[]>([])
@@ -40,6 +49,14 @@ const OnePageCheckout = () => {
   )
   const [shippingMethod, setShippingMethod] = useState<string | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<string>('TEB Bank')
+
+  useEffect(() => {
+    dispatch(getAllAddresses())
+  }, [])
+
+  useEffect(() => {
+    setSelectedAddress(addresses[0])
+  }, [])
 
   const handleAddressSelection = (address: string) => {
     const selAddress = addresses.find((item) => item.id === address)
@@ -57,10 +74,6 @@ const OnePageCheckout = () => {
       setTransportAddress(selectedAddress)
     }
   }, [sameAddress])
-
-  useEffect(() => {
-    dispatch(getAllAddresses())
-  }, [])
 
   useEffect(() => {
     dispatch(getCartProducts())
@@ -149,6 +162,7 @@ const OnePageCheckout = () => {
         product: item.product.id,
         quantity: item.quantity,
       }))
+      const orderCode = generateOrderCode()
 
       const body = {
         products: products.flat(),
@@ -158,18 +172,46 @@ const OnePageCheckout = () => {
         // addressID: selectedAddress?.id,
         transportMode,
         paymentMethod: paymentMethod,
-        arrivalDate: '2023-10-31',
+        arrivalDate: '2023-11-3',
         totalOrderPrice: totalPrice,
         transportModeStatus: 'Nuk është transportuar ende',
         paymentMethodStatus: 'Në pritje',
         tvsh: totalTvsh,
-        orderCode: 'test9',
+        orderCode: orderCode,
       }
 
       console.log('body', body)
       try {
-        const response = await dispatch(createOrder(body))
-        navigate('/checkout/completed', { state: { orderResponse: response } })
+        if (body.paymentMethod === 'Paguaj me para në dorë') {
+          const response = await dispatch(createOrder(body))
+          console.log('response', response)
+          if (response.meta.requestStatus === 'fulfilled') {
+            clearCart({})
+            refetch()
+            navigate('/checkout/completed', {
+              state: { orderResponse: response },
+            })
+          }
+        } else {
+          // if (!stripe || !elements) {
+          //   return
+          // }
+
+          console.log('here')
+
+          const session = await axiosInstance.post(
+            `api/v1/payments/checkout-session`,
+            body
+          )
+          // const session = await axiosInstance.get(
+          //   `api/v1/payments/checkout-session/${id}`
+          // )
+          console.log('session', session)
+
+          await stripe.redirectToCheckout({
+            sessionId: session.data.session.id,
+          })
+        }
       } catch (error) {
         console.log('error', error)
       }
@@ -198,6 +240,7 @@ const OnePageCheckout = () => {
                   >
                     <OpcBilling
                       handleContinue={handleContinue}
+                      selectedAddress={selectedAddress}
                       handleAddressSelection={handleAddressSelection}
                       setSameAddress={setSameAddress}
                       sameAddress={sameAddress}
@@ -214,6 +257,7 @@ const OnePageCheckout = () => {
                     <OpcShipping
                       handleContinue={handleContinue}
                       handleTransportAddress={handleTransportAddress}
+                      transportAddress={transportAddress}
                     />
                   </OrderDropdown>
                   <OrderDropdown
@@ -244,20 +288,6 @@ const OnePageCheckout = () => {
                       setPaymentMethod={setPaymentMethod}
                     />
                   </OrderDropdown>
-                  {/* <OrderDropdown
-                    isActive={activeStep === 'opc-payment_info'}
-                    number={5}
-                    urlLink="opc-payment_info"
-                    title="Address and payment info"
-                    isChangable={stepChanges.includes('opc-payment_info')}
-                    onChange={handleStepChange}
-                  >
-                    <OpcPaymentInfo
-                      handleContinue={handleContinue}
-                      paymentMethod={paymentMethod}
-                      createOrderHandler={createOrderHandler}
-                    />
-                  </OrderDropdown> */}
                   <li
                     id="opc-billing"
                     className={`tab-section allow bg-white  shadow-md active`}
@@ -269,22 +299,6 @@ const OnePageCheckout = () => {
                           Address and payment infp
                         </h6>
                       </div>
-                      <p className="back-link">
-                        {/* {isChangable && (
-            <a
-              href={urlLink}
-              className={`text-primary font-medium m-2 p-2 editbutton ${
-                isChangable ? '' : 'hidden'
-              }`}
-              //   onClick={(e) => {
-              //     e.preventDefault()
-              //     onChange(urlLink)
-              //   }}
-            >
-              Change
-            </a>
-          )} */}
-                      </p>
                     </div>
                     <div id="checkout-step-billing" className="step a-item p-4">
                       <form action="" id="co-payment-info-form">
@@ -408,7 +422,7 @@ const OnePageCheckout = () => {
                           {selectedAddress?.country}
                         </li>
                         <li className="country">
-                          <span className="font-medium">Payment method::</span>
+                          <span className="font-medium">Payment method:</span>
                           {paymentMethod}
                         </li>
                       </ul>
@@ -503,10 +517,7 @@ const OnePageCheckout = () => {
                               <label>Duke përfshirë zbritjen:</label>
                             </span>
                             <span>
-                              <span
-                                // discount="-36.00 €"
-                                className="value-summary text-gray-700 discount"
-                              >
+                              <span className="value-summary text-gray-700 discount">
                                 -{discountValueInEuros?.toFixed(2)} €
                               </span>
                             </span>
@@ -546,24 +557,29 @@ const OnePageCheckout = () => {
 
                     <div className="px-4 pb-2 max-h-80 overflow-y-scroll scrollbar-modifier">
                       {cart?.products.map((item, index) => (
-                        <div className="d-flex  border-b last:border-none border-gray-300 justify-content-between align-items-center flex-row position-relative py-2 gap-4 product-info">
+                        <div
+                          key={index}
+                          className="d-flex  border-b last:border-none border-gray-300 justify-content-between align-items-center flex-row position-relative py-2 gap-4 product-info"
+                        >
                           <a
                             href={`/product/${item.product.id}`}
                             className="w-10 h-10 d-flex small-image-container d-flex justify-content-center align-items-center"
                           >
-                            <img
+                            <Image
+                              src={
+                                item.product.imageCover
+                                  ? item.product.imageCover
+                                  : ''
+                              }
+                              alt="product image"
                               className="max-w-full max-h-full position-relative"
-                              alt="Foto e Maus Logitech G Pro X Superlight, i bardhë"
-                              src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87.jpeg"
-                              srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87.webp?w=40"
-                              title="Shfaq detaje për Maus Logitech G Pro X Superlight, i bardhë"
                             />
                           </a>
                           <div className="d-flex  justify-content-between align-items-start flex-col w-100">
                             <div className="product product-title-lines">
                               <a
                                 product-id="14559"
-                                href="/maus-logitech-g-pro-x-superlight-i-bardhe"
+                                href={`/product/${item.product.id}`}
                                 className="text-sm hover:text-primary product-name"
                               >
                                 {item.product.title}
@@ -585,12 +601,6 @@ const OnePageCheckout = () => {
                       ))}
                     </div>
                   </div>
-
-                  <input
-                    name="__RequestVerificationToken"
-                    type="hidden"
-                    value="CfDJ8BavmJPrX4dBnzAs_5ATawwHPykg0gXIYO62KjlilBNhEXfUXgAX_jvFltKrN_-1wchzPDPXxjwWhTeBDXv9oS-nhDDCwtkMibUZzwzVMZAC_8W95OIRsQiFn1icstkFeMEa8IYFri8mFh4kj91dOzeEJ-fjOy-OeW1Q76qy_Mx7Or_YiFyrk5od7D6Xfqe-VQ"
-                  />
                 </form>
               </div>
             </div>

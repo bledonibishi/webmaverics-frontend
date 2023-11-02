@@ -79,21 +79,21 @@ const Costumer = () => {
   return (
     <WrapperWIthSpacing>
       {/* <div style={{ padding: '20px 0' }}> */}
-      <div className="d-flex test">
-        <div className="costumer-sidebar__container shadow-md">
-          <WrappingCard padding="12px">
-            <Sidebar onLinkClick={handleLinkClick} activeLink={activeLink} />
-          </WrappingCard>
-        </div>
-        <div className="costumer-main ">
-          {/* <WrappingCard marginBtm={'20px'}>{headerComponent}</WrappingCard> */}
-          {contentComponent.type.name === 'Orders' ||
-          contentComponent.type.name === 'Addresses' ||
-          contentComponent.type.name === 'OrderDetails'
-            ? contentComponent
-            : contentComponent}
-        </div>
+      {/* <div className="d-flex test"> */}
+      <div className="costumer-sidebar__container shadow-md">
+        <WrappingCard padding="12px">
+          <Sidebar onLinkClick={handleLinkClick} activeLink={activeLink} />
+        </WrappingCard>
       </div>
+      <div className="costumer-main ">
+        {/* <WrappingCard marginBtm={'20px'}>{headerComponent}</WrappingCard> */}
+        {contentComponent.type.name === 'Orders' ||
+        contentComponent.type.name === 'Addresses' ||
+        contentComponent.type.name === 'OrderDetails'
+          ? contentComponent
+          : contentComponent}
+      </div>
+      {/* </div> */}
       {/* </div> */}
     </WrapperWIthSpacing>
   )

@@ -9,6 +9,7 @@ import cartSlice from '@/Cart/store/cartSlice'
 import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
 import addressesSlice from './addresses/addressesSlice'
 import orderSlice from './orders/orderSlice'
+import { returnRequestsAPI } from './returnRequests/returnRequestAPI'
 
 const rootReducer = combineReducers({
   // todos: todosReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   [productsAPI.reducerPath]: productsAPI.reducer,
   [cartsAPI.reducerPath]: cartsAPI.reducer,
   [wishlistsAPI.reducerPath]: wishlistsAPI.reducer,
+  [returnRequestsAPI.reducerPath]: returnRequestsAPI.reducer,
 })
 
 export default rootReducer

@@ -2,6 +2,7 @@ import WrappingCard from '@/ui/WrappingCard'
 import {
   faChain,
   faHeart,
+  faHeartBroken,
   faTrash,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
@@ -211,10 +212,24 @@ const Wishlist = () => {
                 ))}
               </div>
             ) : (
-              <div className="item-box h-auto">
-                <p className=" text-center">
-                  Nuk keni asnje product ne wishlist
+              <div className="no-data px-4 py-12 bg-white flex-col  rounded d-flex justify-content-between align-items-center ">
+                <div className="d-flex justify-content-center align-items-center bg-with-opacity bg-opacity-25 rounded-full w-32 h-32 mb-5">
+                  <i
+                    className="icon-heart text-primary text-6xl"
+                    style={{ opacity: '1' }}
+                  >
+                    <FontAwesomeIcon icon={faHeartBroken} />
+                  </i>
+                </div>
+                <p className="font-medium text-base tablet:text-lg text-center break-words">
+                  Your wishlist is empty!
                 </p>
+                <a
+                  className="text-primary font-semibold text-base hover:underline"
+                  href="/"
+                >
+                  Return to dashboard
+                </a>
               </div>
             )}
           </form>

@@ -8,9 +8,11 @@ import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import { getAllAddresses } from '@/store/addresses/addressesSlice'
 import { fetchCountries } from '@/store/auth/authSlice'
 import { Address } from '@/helpers/types'
+import { toast } from 'react-toastify'
 
 type OpcBillinPropTypes = {
   handleContinue: (activeStep: string) => void
+  selectedAddress: Address | undefined
   handleAddressSelection: (address: string) => void
   sameAddress: boolean
   setSameAddress: React.Dispatch<React.SetStateAction<boolean>>
@@ -21,6 +23,7 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
   handleAddressSelection,
   sameAddress,
   setSameAddress,
+  selectedAddress,
 }) => {
   const navigate = useNavigate()
   const [newAddress, setNewAddress] = useState<boolean>(false)
@@ -54,8 +57,12 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
     }
   }
 
-  const handleSkip = () => {
-    navigate('#opc-shipping_method')
+  const continueHandler = () => {
+    if (!selectedAddress) {
+      return toast.error('You have to select one billing address')
+    } else {
+      handleContinue(sameAddress ? 'opc-shipping_method' : 'opc-shipping')
+    }
   }
 
   return (
@@ -579,9 +586,7 @@ const OpcBilling: React.FC<OpcBillinPropTypes> = ({
           name="save"
           className="new-address-next-step-button btn btn-primary btn-primary-hover mt-3 shadow-sm"
           // onclick="Billing.save(); sendSelectedAddressEvent('invoice')"
-          onClick={() =>
-            handleContinue(sameAddress ? 'opc-shipping_method' : 'opc-shipping')
-          }
+          onClick={continueHandler}
         >
           Vazhdo
         </button>

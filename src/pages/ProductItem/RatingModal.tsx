@@ -69,7 +69,7 @@ const RatingModal: FC<RatingModalProps> = ({
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Rate</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="shadow-bottom p-4 d-flex align-items-center">
@@ -136,7 +136,7 @@ const RatingModal: FC<RatingModalProps> = ({
           className="w-100"
           onClick={handleCreateRating}
         >
-          Save Changes
+          Rate
         </Button>
       </Modal.Footer>
     </Modal>

@@ -4,10 +4,8 @@ import Header from '@/components/User/Header/Header'
 import Footer from '@/components/User/Footer'
 import Dashboard from '../components/User/dashboard'
 import Customer from '../pages/Costumer/Costumer'
-import UserInfo from '../components/User/Customer/DetailView/UserInfo'
 import LoginPage from '@/auth/pages/LoginPage'
 import Wishlist from '@/components/User/Customer/DetailView/Wishlist'
-import ProductDetailPage from '@/components/User/products/ProductDetailsPage/ProductDetailPage'
 import RegisterPage from '@/auth/pages/SignupPage'
 import ProductItem from '@/pages/ProductItem/ProductItem'
 import Cart from '@/Cart/pages/Cart'
@@ -36,7 +34,7 @@ const UserRoutes = () => {
         <Route path="/login/:type" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/resetPassword" element={<ResetPassword />} />
+        <Route path="/resetPassword/:token" element={<ResetPassword />} />
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/product/:id" element={<ProductItem />} />
         <Route path="/checkout/completed" element={<CheckoutCompleted />} />

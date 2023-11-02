@@ -1,5 +1,6 @@
 import { ImageHelperTypes } from './types'
 import React from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 export function getImage(filename: string) {
   return `src/assets/images/${filename}`
@@ -41,10 +42,30 @@ export function formatISODateRange(
 
   return `${startDay} ${startMonth} - ${endDay} ${endMonth}`
 }
+export function formatISODateRange2dates(
+  numberOfDays1: number,
+  numberOfDays2: number
+) {
+  const today = new Date()
+  const futureDate1 = new Date(today)
+  futureDate1.setDate(today.getDate() + numberOfDays1)
+  const futureDate2 = new Date(today)
+  futureDate2.setDate(today.getDate() + numberOfDays2)
+
+  const startDay1 = futureDate1.getUTCDate()
+  const startMonth1 = futureDate1.toLocaleString('default', { month: 'long' })
+  const startDay2 = futureDate2.getUTCDate()
+  const startMonth2 = futureDate2.toLocaleString('default', { month: 'long' })
+
+  return `${startDay1} ${startMonth1} - ${startDay2} ${startMonth2}`
+}
 
 export const Image = ({ src, alt, className, ...props }: ImageHelperTypes) => {
   const baseUrl = 'http://127.0.0.1:5000/img/products/'
   return (
     <img src={`${baseUrl}${src}`} alt={alt} className={className} {...props} />
   )
+}
+export const generateOrderCode = () => {
+  return uuidv4()
 }

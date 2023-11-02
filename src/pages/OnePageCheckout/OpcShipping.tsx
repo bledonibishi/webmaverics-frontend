@@ -7,8 +7,11 @@ import { getCartProducts } from '@/Cart/store/cartSlice'
 import { CalculateTotalPrice } from '@/Cart/components/calculateTotalPrice'
 import { getAllAddresses } from '@/store/addresses/addressesSlice'
 import { fetchCountries } from '@/store/auth/authSlice'
+import { Address } from '@/helpers/types'
+import { toast } from 'react-toastify'
 
 type OpcShippingPropTypes = {
+  transportAddress: Address | undefined
   handleContinue: (activeStep: string) => void
   handleTransportAddress: (address: string) => void
 }
@@ -16,6 +19,7 @@ type OpcShippingPropTypes = {
 const OpcShipping: React.FC<OpcShippingPropTypes> = ({
   handleContinue,
   handleTransportAddress,
+  transportAddress,
 }) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -34,6 +38,14 @@ const OpcShipping: React.FC<OpcShippingPropTypes> = ({
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedType(event.target.value)
+  }
+
+  const continueHandler = () => {
+    if (!transportAddress) {
+      return toast.error('You have to select one transport address')
+    } else {
+      handleContinue('opc-shipping_method')
+    }
   }
 
   const {
@@ -518,44 +530,17 @@ const OpcShipping: React.FC<OpcShippingPropTypes> = ({
         <input name="ShipToSameAddress" type="hidden" value="false" />
       </form>
       <div
-        className="buttons d-flex align-items-end flex-col"
+        className="buttons d-flex align-items-end flex-col mt-3"
         id="billing-buttons-container"
         style={{ opacity: '1' }}
       >
-        <button
-          id="edit-address-button"
-          type="button"
-          className="button-1 bg-primary rounded h-10 text-white uppercase text-base w-100 shadow-sm"
-          style={{ display: 'none' }}
-          // onClick="Billing.editAddress('https://gjirafa50.com/checkout/GetAddressById/'); return false;"
-        >
-          Ndrysho
-        </button>
-        <button
-          id="delete-address-button"
-          type="button"
-          className="button-1 bg-primary rounded h-10 text-white uppercase text-base w-100 shadow-sm"
-          style={{ display: 'none' }}
-          //  onclick="Billing.deleteAddress('https://gjirafa50.com/checkout/DeleteEditAddress/'); return false;"
-        >
-          Fshij
-        </button>
-        <button
-          id="save-address-button"
-          type="button"
-          className="button-1 bg-primary rounded h-10 text-white uppercase text-base w-100 shadow-sm"
-          style={{ display: 'none' }}
-          //  onclick="Billing.saveEditAddress('https://gjirafa50.com/checkout/SaveEditAddress/'); return false;"
-        >
-          Ruaj
-        </button>
         <button
           id="next-step"
           type="button"
           name="save"
           className="new-address-next-step-button btn btn-primary btn-primary-hover  shadow-sm"
           // onclick="Billing.save(); sendSelectedAddressEvent('invoice')"
-          onClick={() => handleContinue('opc-shipping_method')}
+          onClick={continueHandler}
         >
           Vazhdo
         </button>
