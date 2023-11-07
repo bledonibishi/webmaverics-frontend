@@ -12,7 +12,7 @@ interface AuthState {
   user: User | null
   authPromise: AuthPromise | null
   isAuthenticated: boolean
-  countries: any[] | null // Replace 'any' with the actual type of your countries data
+  countries: any[] | null
   isLoading: boolean
   isSuccess: boolean
   error: string | null
@@ -41,7 +41,7 @@ const initialState: AuthState = {
 
 export const signup = createAsyncThunk(
   'auth/signup',
-  async (user: User, thunkAPI) => {
+  async (user: SignupUserData, thunkAPI) => {
     try {
       return await authService.signup(user)
     } catch (error: any) {
@@ -189,6 +189,8 @@ const authSlice = createSlice({
         state.isSuccess = true
         state.error = null
         state.message = ''
+
+        console.log('Signup successful:', action.payload)
       })
       .addCase(signup.rejected, (state, action) => {
         state.user = null

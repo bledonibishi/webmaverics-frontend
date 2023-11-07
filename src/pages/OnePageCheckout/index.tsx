@@ -172,7 +172,7 @@ const OnePageCheckout = () => {
         // addressID: selectedAddress?.id,
         transportMode,
         paymentMethod: paymentMethod,
-        arrivalDate: '2023-11-3',
+        arrivalDate: '2023-11-8',
         totalOrderPrice: totalPrice,
         transportModeStatus: 'Nuk është transportuar ende',
         paymentMethodStatus: 'Në pritje',

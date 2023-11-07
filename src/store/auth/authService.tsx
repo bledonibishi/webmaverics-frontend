@@ -15,17 +15,15 @@ type UserValidationResponse = {
   message: string
 }
 
-const signup = async (userData: User): Promise<User> => {
-  const response = await axiosInstance.post(`${API_URL}/signup`, userData)
-
-  console.log('response.data', response.data)
+const signup = async (userData: SignupUserData): Promise<User> => {
+  const response = await axiosInstance.post(`${API_URL}signup`, userData)
 
   if (response.data) {
     // localStorage.setItem('access_token', response.data.token)
     localStorage.setItem('user', JSON.stringify(response.data))
   }
 
-  return response.data as User
+  return response.data
 }
 
 const login = async (userData: LoginUserData) => {

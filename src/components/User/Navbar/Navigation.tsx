@@ -44,8 +44,13 @@ const Navigation = () => {
   } = useGetCartProductsQuery()
 
   const onLogout = () => {
+    setLoading(true)
     dispatch(logout())
     dispatch(reset())
+    setTimeout(() => {
+      navigate('/')
+      setLoading(false)
+    }, 1500)
   }
 
   useEffect(() => {
@@ -89,7 +94,7 @@ const Navigation = () => {
       setSearchResults([])
       setTest(false)
     } else {
-      const filteredResults = data?.filter((product) =>
+      const filteredResults = data?.filter((product: Product) =>
         product.title.toLowerCase().includes(query.toLowerCase())
       )
       setSearchResults(filteredResults)
@@ -115,7 +120,7 @@ const Navigation = () => {
         </span>
       </div>
       <div
-        className="py-2 d-flex md:h-66rem justify-content-between bg-black-900 responsive-wrapper text-white hover-effect md:h-auto md:items-center"
+        className="position-relative py-2 d-flex md:h-66rem justify-content-between bg-black-900 responsive-wrapper text-white hover-effect md:h-auto md:items-center"
         // style={{ height: '6.6rem' }}
         id="header-menu"
       >
@@ -144,18 +149,6 @@ const Navigation = () => {
             style={{ width: '55%' }}
           >
             <div className="header-links mr-4 md:mr-0 d-flex authenticated">
-              {/* <div
-                id="account__dropdown"
-                className="d-flex max-w-username align-items-center cursor-pointer i-bg-effect px-1"
-                title="Llogaria ime"
-              >
-                <i className="icon-account-profile-user-circle text-3xl">
-                  <FontAwesomeIcon icon={faSignIn} />
-                </i>
-                <span className="text-sm hidden md:inline-block overflow-hidden text-ellipsis capitalize ml-1">
-                  {user.user.name}
-                </span>
-              </div> */}
               <div
                 id="account__dropdown"
                 className="d-flex max-w-username align-items-center cursor-pointer i-bg-effect px-1"
@@ -183,18 +176,6 @@ const Navigation = () => {
                   <FontAwesomeIcon icon={faHeart} />
                 </span>
               </a>
-              {/* <span
-                title="Shporta e blerjes"
-                id="topcartlink"
-                className="ico-cart nav-i-animation i-bg-effect position-relative"
-              >
-                <span className="icon-cart-shopping text-white md:text-white text-3xl">
-                  <FontAwesomeIcon icon={faShoppingCart} />
-                </span>
-                <span className="cart-qty animate-flip bg-primary rounded-full position-absolute top-0 right-0">
-                  2
-                </span>
-              </span> */}
               <CustomDropdown
                 cartItemProducts={cart?.products}
                 icon={<FontAwesomeIcon icon={faShoppingCart} />}
@@ -384,7 +365,7 @@ const Navigation = () => {
                 <span className="text-sm hidden md:inline-block overflow-hidden text-ellipsis capitalize ml-1"></span>
               </div>
 
-              <a
+              {/* <a
                 title="Lista e dëshirave"
                 href={`/customer/wishlist`}
                 aria-label="Check the items in your wishlist"
@@ -393,27 +374,15 @@ const Navigation = () => {
                 <span className="wishlist-label icon-heart text-white text-3xl px-1">
                   <FontAwesomeIcon icon={faHeart} />
                 </span>
-              </a>
-              {/* <span
-                title="Shporta e blerjes"
-                id="topcartlink"
-                className="ico-cart nav-i-animation i-bg-effect position-relative"
-              >
-                <span className="icon-cart-shopping text-white md:text-white text-3xl">
-                  <FontAwesomeIcon icon={faShoppingCart} />
-                </span>
-                <span className="cart-qty animate-flip bg-primary rounded-full position-absolute top-0 right-0">
-                  2
-                </span>
-              </span> */}
-              <CustomDropdown
+              </a> */}
+              {/* <CustomDropdown
                 cartItemProducts={cart?.products}
                 icon={<FontAwesomeIcon icon={faShoppingCart} />}
                 direction="bottom"
                 menuClassName={'my-menu'}
                 align="end"
                 handleDeleteCartProduct={handleDeleteCartProduct}
-              />
+              /> */}
               <div
                 id="account__card"
                 className="account-card rounded shadow-md bg-white hidden"
@@ -457,124 +426,6 @@ const Navigation = () => {
                 </div>
               </div>
             </div>
-            {/* <div
-              id="flyout-cart"
-              className="flyout-cart rounded bg-white shadow-md hidden"
-            >
-              <div className="d-flex count text-xs text-gray-600 border-b border-gray-300 px-4 pt-4 pb-2 mb-2">
-                Ju keni <a href="/cart">&nbsp;2 produkt(e)&nbsp; </a> në
-                shportën tuaj.{' '}
-              </div>
-              <div className="item first d-flex align-items-center px-4 pb-2">
-                <a
-                  className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
-                  href="/degjuese-ugreen-hitune-t3-te-bardha"
-                  title="Shfaq detaje për Dëgjuese UGREEN HiTune T3, të bardha"
-                >
-                  <img
-                    className="max-h-full max-w-full position-relative"
-                    alt="Foto e Dëgjuese UGREEN HiTune T3, të bardha"
-                    src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/587b8f29-bea5-4a53-b8b0-a09fc4b248de/587b8f29-bea5-4a53-b8b0-a09fc4b248de.jpeg"
-                    srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/587b8f29-bea5-4a53-b8b0-a09fc4b248de/587b8f29-bea5-4a53-b8b0-a09fc4b248de.webp?w=40"
-                    title="Shfaq detaje për Dëgjuese UGREEN HiTune T3, të bardha"
-                  />
-                </a>
-                <div className="product d-flex flex-col w-100 pl-2">
-                  <div className="name d-flex justify-content-between">
-                    <a
-                      title="Dëgjuese UGREEN HiTune T3, të bardha"
-                      className="text-sm text-gray-700 truncate hover:underline w-60"
-                      href="/degjuese-ugreen-hitune-t3-te-bardha"
-                    >
-                      Dëgjuese UGREEN HiTune T3, të bardha
-                    </a>
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="flyout-removefromcart"
-                      id="flyout-removefromcart216586"
-                      data-productid="145969"
-                      value="216586"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="icon-delete-trash text-xl text-gray-700 icon-line-height hover:text-primary"
-                    ></button>
-                  </div>
-                  <div className="d-flex flex-col justify-content-between text-xs text-gray-600">
-                    <div className="price">
-                      Çmimi për njësi:{' '}
-                      <span className="text-gray-700">19.50 €</span>
-                    </div>
-                    <div className="quantity">
-                      Sasia: <span className="text-gray-700">1</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="item d-flex align-items-center px-4 pb-2">
-                <a
-                  className="w-10 h-10 d-flex justify-content-center align-items-center small-image-container"
-                  href="/maus-logitech-g-pro-x-superlight-i-bardhe"
-                  title="Shfaq detaje për Maus Logitech G Pro X Superlight, i bardhë"
-                >
-                  <img
-                    className="max-h-full max-w-full position-relative"
-                    alt="Foto e Maus Logitech G Pro X Superlight, i bardhë"
-                    src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87.jpeg"
-                    srcSet="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4b2bb16f-11a7-482f-a01c-4cc873512f87/4b2bb16f-11a7-482f-a01c-4cc873512f87.webp?w=40"
-                    title="Shfaq detaje për Maus Logitech G Pro X Superlight, i bardhë"
-                  />
-                </a>
-                <div className="product d-flex flex-col w-100 pl-2">
-                  <div className="name d-flex justify-content-between">
-                    <a
-                      title="Maus Logitech G Pro X Superlight, i bardhë"
-                      className="text-sm text-gray-700 truncate hover:underline w-60"
-                      href="/maus-logitech-g-pro-x-superlight-i-bardhe"
-                    >
-                      Maus Logitech G Pro X Superlight, i bardhë
-                    </a>
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      name="flyout-removefromcart"
-                      id="flyout-removefromcart216583"
-                      data-productid="14559"
-                      value="216583"
-                      aria-label="Largo"
-                    />
-                    <button
-                      name="updatecart"
-                      className="icon-delete-trash text-xl text-gray-700 icon-line-height hover:text-primary"
-                    ></button>
-                  </div>
-                  <div className="d-flex flex-col justify-content-between text-xs text-gray-600">
-                    <div className="price">
-                      Çmimi për njësi:{' '}
-                      <span className="text-gray-700">119.50 €</span>
-                    </div>
-                    <div className="quantity">
-                      Sasia: <span className="text-gray-700">1</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center align-items-center py-2 border-t border-gray-300 text-gray-600 text-xs">
-                Total:{' '}
-                <span className="text-sm font-semibold text-gray-700 pl-1">
-                  138.99 €
-                </span>
-              </div>
-              <div className="buttons d-flex justify-content-center px-4 pb-4">
-                <input
-                  type="button"
-                  value="Shko në shportë"
-                  className="cart-button w-100 btn btn-primary btn-primary-hover text-sm"
-                />
-              </div>
-            </div> */}
           </div>
         )}
 
@@ -609,40 +460,29 @@ const Navigation = () => {
           </form>
         </div>
         {test && (
-          <div ref={dropdownRef}>
+          <div
+            ref={dropdownRef}
+            className="position-absolute m-auto left-4 right-4  md:left-0 md:right-0 search-box-inp md:w-1/2 transition-all duration-300 z-50"
+            style={{ top: '100%' }}
+          >
             <ul
               id="ui-id-1"
-              className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
-              style={{ width: '512px', top: '54.5px', left: '384px' }}
+              className="ui-menu ui-widget ui-widget-content w-100 ui-autocomplete ui-front scrollbar-modifier"
+              // style={{ width: '512px', top: '54.5px', left: '384px' }}
+              style={{ top: '100%' }}
             >
               {loading ? (
                 <LoadingBar height="50px" size={'50px'} />
-              ) : // <li className="ui-menu-item">
-              //   <a
-              //     className="bg-white rounded border border-transparent hover:border-primary ui-menu-item-wrapper"
-              //     id="ui-id-26"
-              //     tabIndex={-1}
-              //   >
-              //     <span className=" mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
-              //       <img src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg" />{' '}
-              //     </span>
-              //     <span>Apple 20W USB-C Power Adapter</span>
-              //   </a>
-              // </li>
-              searchResults?.length ? (
-                searchResults?.map((result) => (
+              ) : searchResults?.length ? (
+                searchResults?.slice(0, 10).map((result) => (
                   <li className="ui-menu-item" key={result.id}>
                     <a
                       className="bg-white rounded border border-transparent hover:border-primary ui-menu-item-wrapper"
                       id={`ui-id-${result.id}`}
+                      href={`/product/${result.id}`}
                       tabIndex={-1}
                     >
                       <span className="mr-2 d-flex align-items-center justify-content-center search-autocomplete-image">
-                        {/* <img src={result.imageCover} alt={result.title} /> */}
-                        {/* <img
-                          src="https://hhstsyoejx.gjirafa.net/gjirafa50core/images/4de9dff8-29d0-4e59-a87e-4bbc89d17e30/thumb/4de9dff8-29d0-4e59-a87e-4bbc89d17e30.jpeg"
-                          alt={result.title}
-                        /> */}
                         <Image
                           src={result.imageCover ? result.imageCover : ''}
                           alt="imageCover"

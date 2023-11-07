@@ -57,7 +57,7 @@ const RelatedProducts: React.FC<RelatedProductsType> = ({ product }) => {
                 >
                   <a
                     className="position-relative d-block"
-                    href="/gaming-16/aksesore-90/maus-2/aksesore-92/mauspad/mauspad-yenkee-speed-top-s-i-zi"
+                    href={`/product/${item.id}`}
                     title="Shfaq detaje për Mauspad Yenkee SPEED TOP, S, i zi"
                   >
                     <Image

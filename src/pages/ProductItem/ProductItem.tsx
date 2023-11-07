@@ -131,7 +131,7 @@ const ProductItem = () => {
         <ProductWrapper className="p-4">
           <div className="d-flex flex-col product-info-all md:flex-row">
             <div
-              className="w-100 md:w-50 d-flex align-items-center justify-content-center position-relative md:pr-3"
+              className="w-100 md:w-1/2 d-flex align-items-center justify-content-center position-relative md:pr-3"
               id="product-img-wrapper"
             >
               <div className="position-absolute top-0 left-0 md:left-16 d-flex align-items-center justify-content-center z-10">
@@ -141,7 +141,11 @@ const ProductItem = () => {
               <span className="w-36 position-absolute top-0 right-0 md:right-6 d-flex align-items-center justify-content-center z-10">
                 <img src={BestPrice} alt="" style={{ width: '100px' }} />
               </span>
-              <SwipperSlider images={product?.images} />
+
+              <SwipperSlider
+                images={product?.images}
+                stock={product?.stock ? product.stock : 0}
+              />
             </div>
 
             <div className="overview product-details w-100 md:w-50 text-gray-700 md:pl-3">
@@ -200,17 +204,17 @@ const ProductItem = () => {
               <div className="prices w-100 py-1 d-flex rounded product-price text-gray-700">
                 <div className="d-flex flex-col justify-content-start">
                   <div className="d-flex flex-col pr-2">
-                    {product && product?.priceDiscount < product?.price ? (
+                    {product && product?.priceDiscount !== null ? (
                       <>
                         <div className="non-discounted-price line-through text-sm text-gray-600 price-without-discount-value-160697">
-                          {product?.price.toFixed(2)} €
+                          {product?.price?.toFixed(2)} €
                         </div>
                         <div className="min-w-[100px]">
                           <div
                             id="price-value-160697"
                             className="product-price-160697  text-2xl fw-bold text-gray-700 price-value-160697"
                           >
-                            {product?.priceDiscount.toFixed(2)} €
+                            {product?.priceDiscount?.toFixed(2)} €
                           </div>
                         </div>
                       </>
@@ -220,7 +224,7 @@ const ProductItem = () => {
                           id="price-value-160697"
                           className="product-price-160697  text-2xl fw-bold text-gray-700 price-value-160697"
                         >
-                          {product?.price.toFixed(2)} €
+                          {product?.price.toLocaleString('en-US')}.00 €
                         </div>
                       </div>
                     )}
@@ -243,7 +247,7 @@ const ProductItem = () => {
                 <div className="d-flex align-items-center gap-2 text-xs font-medium text-primary build-product-section hidden">
                   <div className="d-flex align-items-center justify-center">
                     You save
-                    <span className="ml-1 bundle-discount-value-160697">
+                    <span className="ml-1 bg-with-opacity rounded px-1 bundle-discount-value-160697">
                       -{product?.discount} %
                     </span>
                   </div>
@@ -333,6 +337,7 @@ const ProductItem = () => {
                     <input
                       type="number"
                       value={quantity}
+                      max={product?.stock}
                       pattern="[0-9]"
                       // onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57"
                       id="product_enteredQuantity_160697"
@@ -348,6 +353,9 @@ const ProductItem = () => {
                       className="qtyplus p-0 plus rounded-tr rounded-br outline-none focus:ring-primary bg-white text-gray-600 text-lg border"
                       onClick={increaseQuantity}
                       data-quantity="increase"
+                      disabled={
+                        quantity >= (product?.stock ? product.stock : 0)
+                      }
                     />
                   </div>
 
@@ -359,9 +367,13 @@ const ProductItem = () => {
                       >
                         <div className="d-flex flex-col pl-2 justify-content-center px-2 bg-with-opacity bg-opacity-1 align-items-center rounded-md ml-2">
                           <span className="text-xs text-primary font-medium">
-                            {product?.stock && product.stock >= 11
+                            {product?.stock &&
+                            (product?.stock ? product?.stock : 0) >= 11
                               ? `Me shume se 10`
-                              : `Vetëm edhe ${product?.stock}`}
+                              : (product?.stock ? product?.stock : 0 >= 1) &&
+                                (product?.stock ? product?.stock : 0 <= 10)
+                              ? `Vetëm edhe ${product?.stock}`
+                              : `Nuk ka`}
                           </span>
                         </div>
                       </div>
@@ -438,68 +450,70 @@ const ProductItem = () => {
                 </div>
               </div>
 
-              <div
-                id="product-overview-buttons"
-                className="overview-buttons d-flex bg-white w-100 px-2 right-0 md:px-0 fixed md:relative bottom-0 z-50 pt-3 pb-3 md:mb-0 md:py-0 gap-4 justify-content-end"
-              >
-                <button
-                  type="button"
-                  id="buy-now-btn"
-                  className="btn btn-primary btn-primary-hover w-100 focus:outline-none d-flex justify-content-center align-items-center gap-2 text-sm"
-                  onClick={() =>
-                    addToCartHandler(
-                      {
-                        productId: product?.id ?? '',
-                        quantity,
-                        price: product?.price ?? 0,
-                      },
-                      'buy'
-                    )
-                  }
+              {(product?.stock ? product?.stock : 0) >= 1 && (
+                <div
+                  id="product-overview-buttons"
+                  className="overview-buttons d-flex bg-white w-100 px-2 right-0 md:px-0 fixed md:relative bottom-0 z-50 pt-3 pb-3 md:mb-0 md:py-0 gap-4 justify-content-end"
                 >
-                  <i className="icon-check-badge text-2xl d-flex align-items-center justify-content-center gap-2 icon-line-height">
-                    <FontAwesomeIcon icon={faCheck} />
-                  </i>
-                  <span className="uppercase text-xs md:text-sm">
-                    Blej tani
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  id="add-to-cart-button"
-                  className="w-100 add-to-cart-button btn btn-secondary btn-secondary-hover md:w-100 focus:outline-none d-flex justify-content-center"
-                  data-productid="160697"
-                  aria-label="Shto në shportë"
-                  onClick={() =>
-                    addToCartHandler(
-                      {
-                        productId: product?.id ?? '',
-                        quantity: quantity,
-                        price: product?.price ?? 0,
-                      },
-                      'addToCart'
-                    )
-                  }
-                >
-                  <i className="icon-cart-shopping-add text-2xl icon-line-height">
-                    <FontAwesomeIcon icon={faShoppingCart} />
-                  </i>
-                  <span className="text-xs md:text-sm hidden md:flex ml-2">
-                    Shto në shportë
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  id="add-to-wishlist-button"
-                  className="add-to-wishlist-button btn btn-secondary btn-secondary-hover focus:outline-none hidden md:flex align-items-center"
-                  data-productid="160697"
-                  //  onclick="AjaxCart.addproducttocart_details('/addproducttocart/details/160697/2', '#product-details-form');return false;"
-                >
-                  <i className="icon-heart text-2xl icon-line-height">
-                    <FontAwesomeIcon icon={faHeart} />
-                  </i>
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    id="buy-now-btn"
+                    className="btn btn-primary btn-primary-hover w-100 focus:outline-none d-flex justify-content-center align-items-center gap-2 text-sm"
+                    onClick={() =>
+                      addToCartHandler(
+                        {
+                          productId: product?.id ?? '',
+                          quantity,
+                          price: product?.price ?? 0,
+                        },
+                        'buy'
+                      )
+                    }
+                  >
+                    <i className="icon-check-badge text-2xl d-flex align-items-center justify-content-center gap-2 icon-line-height">
+                      <FontAwesomeIcon icon={faCheck} />
+                    </i>
+                    <span className="uppercase text-xs md:text-sm">
+                      Blej tani
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    id="add-to-cart-button"
+                    className="w-100 add-to-cart-button btn btn-secondary btn-secondary-hover md:w-100 focus:outline-none d-flex justify-content-center"
+                    data-productid="160697"
+                    aria-label="Shto në shportë"
+                    onClick={() =>
+                      addToCartHandler(
+                        {
+                          productId: product?.id ?? '',
+                          quantity: quantity,
+                          price: product?.price ?? 0,
+                        },
+                        'addToCart'
+                      )
+                    }
+                  >
+                    <i className="icon-cart-shopping-add text-2xl icon-line-height">
+                      <FontAwesomeIcon icon={faShoppingCart} />
+                    </i>
+                    <span className="text-xs md:text-sm hidden md:flex ml-2">
+                      Shto në shportë
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    id="add-to-wishlist-button"
+                    className="add-to-wishlist-button btn btn-secondary btn-secondary-hover focus:outline-none hidden md:flex align-items-center"
+                    data-productid="160697"
+                    //  onclick="AjaxCart.addproducttocart_details('/addproducttocart/details/160697/2', '#product-details-form');return false;"
+                  >
+                    <i className="icon-heart text-2xl icon-line-height">
+                      <FontAwesomeIcon icon={faHeart} />
+                    </i>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </ProductWrapper>

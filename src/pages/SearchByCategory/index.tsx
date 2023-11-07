@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './style.css'
+import '../SearchPage/style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faArrowDown,
@@ -9,19 +9,28 @@ import {
   faHeart,
   faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons'
-import { useLocation } from 'react-router-dom'
-import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
-import { Product } from '@/helpers/types'
+import { useLocation, useParams } from 'react-router-dom'
+import {
+  useGetProductCategoriesQuery,
+  useGetProductsQuery,
+} from '@/store/products/RTKProductSlice'
+import { Product, ProductCategory } from '@/helpers/types'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 import { Dropdown, DropdownButton } from 'react-bootstrap'
-import CustomDropdown from './customDropdown'
-import { Image } from '@/helpers/helpers'
+import CustomDropdown from '../SearchPage/customDropdown'
+import { Image, getCategoryNameById } from '@/helpers/helpers'
 import ImageTwentyFour from '@/assets/images/tfTransport.png'
 import NewItem from '@/assets/images/newproduct-1.png'
+import Breadcrumb from '../Breadcrumb'
 
-const SearchComponent = () => {
+const SearchByCategory = () => {
+  const { categoryGroup, category } = useParams()
   const location = useLocation()
+  console.log('categoryGroup', categoryGroup)
+  const routeCategories = categoryGroup?.split('-')
+  console.log('routeCategories', routeCategories)
   const searchQuery = new URLSearchParams(location.search).get('q') || ''
+  const { data: categories } = useGetProductCategoriesQuery()
   const [filterByPrice, setFilterByPrice] = useState(true)
   const { data, error, isLoading } = useGetProductsQuery()
   const [sortOption, setSortOption] = useState('relevance')
@@ -32,65 +41,90 @@ const SearchComponent = () => {
   const [maxPrice, setMaxPrice] = useState<number>(7999)
   const [filteredData, setFilteredData] = useState<Product[] | undefined>([])
 
-  useEffect(() => {
-    if (data) {
-      const filteredProducts = data.filter((product: any) => {
-        const lowerSearchQuery = searchQuery.toLowerCase()
-        const lowerTitle = product.title.toLowerCase()
-        const tagFound = product.tags.some((tag: string) =>
-          tag.toLowerCase().includes(lowerSearchQuery)
+  const filterProductsByCategory = (
+    product: Product,
+    productCategoryName: string,
+    productTags: string[]
+  ) => {
+    if (category) {
+      return (
+        productCategoryName.includes(category.toLowerCase()) ||
+        productTags.some((tag: string) => tag.includes(category.toLowerCase()))
+      )
+    } else if (routeCategories && routeCategories.length > 0) {
+      return (
+        routeCategories.some((routeCategory) =>
+          productCategoryName.includes(routeCategory.toLowerCase())
+        ) ||
+        routeCategories.some((routeCategory) =>
+          productTags.some((tag: string) =>
+            tag.includes(routeCategory.toLowerCase())
+          )
         )
+      )
+    } else {
+      return (
+        ['computer', 'laptop', 'server'].some((defaultCategory) =>
+          productCategoryName.includes(defaultCategory.toLowerCase())
+        ) ||
+        ['computer', 'laptop', 'server'].some((defaultCategory) =>
+          productTags.some((tag: string) =>
+            tag.includes(defaultCategory.toLowerCase())
+          )
+        )
+      )
+    }
+  }
 
-        return lowerTitle.includes(lowerSearchQuery) || tagFound
+  const filterProducts = (product: Product) => {
+    const productCategoryName = getCategoryNameById(
+      categories as ProductCategory[],
+      product.category
+    ).toLowerCase()
+    const productTags: string[] = product.tags.map((tag: string) =>
+      tag.toLowerCase()
+    )
+    const titleMatch = product.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+    const isNewCondition = showNewProducts ? product.isNew : true
+    const hasDiscountCondition = showDiscountedProducts
+      ? product.discount > 0
+      : true
+    const isInRange = product.price >= minPrice && product.price <= maxPrice
+
+    return (
+      titleMatch &&
+      isNewCondition &&
+      hasDiscountCondition &&
+      isInRange &&
+      filterProductsByCategory(product, productCategoryName, productTags)
+    )
+  }
+
+  useEffect(() => {
+    if (data && categories) {
+      const filteredProducts = data.filter(filterProducts)
+
+      filteredProducts.sort((a, b) => {
+        if (sortOption === 'priceHighToLow') {
+          return b.price - a.price
+        } else if (sortOption === 'priceLowToHigh') {
+          return a.price - b.price
+        } else if (sortOption === 'newProducts') {
+          return a.isNew && !b.isNew ? -1 : !a.isNew && b.isNew ? 1 : 0
+        } else if (sortOption === 'hasDiscount') {
+          return a.discount > 0 && b.discount <= 0
+            ? -1
+            : a.discount <= 0 && b.discount > 0
+            ? 1
+            : 0
+        } else {
+          return 0
+        }
       })
 
-      if (showNewProducts || showDiscountedProducts) {
-        const filteredAndSortedProducts = filteredProducts.filter((product) => {
-          const titleMatch = product.title
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-          const isInRange =
-            product.price >= minPrice && product.price <= maxPrice
-          const isNewCondition = showNewProducts ? product.isNew : true
-          const hasDiscountCondition = showDiscountedProducts
-            ? product.discount > 0
-            : true
-
-          return (
-            titleMatch && isInRange && isNewCondition && hasDiscountCondition
-          )
-        })
-
-        filteredAndSortedProducts.sort((a, b) => {
-          if (sortOption === 'priceHighToLow') {
-            return b.price - a.price
-          } else if (sortOption === 'priceLowToHigh') {
-            return a.price - b.price
-          } else if (sortOption === 'newProducts') {
-            if (a.isNew && !b.isNew) {
-              return -1
-            } else if (!a.isNew && b.isNew) {
-              return 1
-            } else {
-              return 0
-            }
-          } else if (sortOption === 'hasDiscount') {
-            if (a.discount > 0 && b.discount <= 0) {
-              return -1
-            } else if (a.discount <= 0 && b.discount > 0) {
-              return 1
-            } else {
-              return 0
-            }
-          } else {
-            return 0
-          }
-        })
-
-        setFilteredData(filteredAndSortedProducts)
-      } else {
-        setFilteredData(filteredProducts)
-      }
+      setFilteredData(filteredProducts)
     }
   }, [
     data,
@@ -100,81 +134,221 @@ const SearchComponent = () => {
     minPrice,
     maxPrice,
     sortOption,
+    categories,
+    category,
   ])
 
   const handleApplyPriceFilter = () => {
-    const filteredProducts = data?.filter((product) => {
-      const titleMatch = product.title
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
+    if (data) {
+      const filteredProducts = data.filter(filterProducts)
 
-      if (showNewProducts && showDiscountedProducts) {
-        return (
-          titleMatch &&
-          product.isNew &&
-          product.discount &&
-          product.price >= minPrice &&
-          product.price <= maxPrice
-        )
-      } else if (showNewProducts) {
-        return (
-          titleMatch &&
-          product.isNew &&
-          product.price >= minPrice &&
-          product.price <= maxPrice
-        )
-      } else if (showDiscountedProducts) {
-        return (
-          titleMatch &&
-          product.discount &&
-          product.price >= minPrice &&
-          product.price <= maxPrice
-        )
-      }
+      filteredProducts.sort((a, b) => {
+        if (sortOption === 'priceHighToLow') {
+          return b.price - a.price
+        } else if (sortOption === 'priceLowToHigh') {
+          return a.price - b.price
+        } else {
+          return 0
+        }
+      })
 
-      return (
-        titleMatch && product.price >= minPrice && product.price <= maxPrice
-      )
-    })
-
-    filteredProducts?.sort((a, b) => {
-      if (sortOption === 'priceHighToLow') {
-        return b.price - a.price
-      } else if (sortOption === 'priceLowToHigh') {
-        return a.price - b.price
-      } else {
-        return 0
-      }
-    })
-
-    setFilteredData(filteredProducts)
+      setFilteredData(filteredProducts)
+    }
   }
 
-  filteredData?.sort((a, b) => {
-    if (sortOption === 'priceHighToLow') {
-      return b.price - a.price
-    } else if (sortOption === 'priceLowToHigh') {
-      return a.price - b.price
-    } else if (sortOption === 'newProducts') {
-      if (a.isNew && !b.isNew) {
-        return -1
-      } else if (!a.isNew && b.isNew) {
-        return 1
-      } else {
-        return 0
-      }
-    } else if (sortOption === 'hasDiscount') {
-      if (a.discount > 0 && b.discount <= 0) {
-        return -1
-      } else if (a.discount <= 0 && b.discount > 0) {
-        return 1
-      } else {
-        return 0
-      }
-    } else {
-      return 0
-    }
-  })
+  // useEffect(() => {
+  //   if (data && categories) {
+  //     let filteredProducts: Product[] = []
+  //     if (category) {
+  //       filteredProducts = data.filter((product: Product) => {
+  //         const productCategoryName = getCategoryNameById(
+  //           categories,
+  //           product.category
+  //         ).toLowerCase()
+  //         const productTags = product.tags.map((tag: string) =>
+  //           tag.toLowerCase()
+  //         )
+
+  //         return (
+  //           productCategoryName.includes(category.toLowerCase()) ||
+  //           productTags.some((tag) => tag.includes(category.toLowerCase()))
+  //         )
+  //       })
+  //     } else if (routeCategories && routeCategories.length > 0) {
+  //       filteredProducts = data.filter((product: Product) => {
+  //         const productCategoryName = getCategoryNameById(
+  //           categories,
+  //           product.category
+  //         ).toLowerCase()
+  //         const productTags = product.tags.map((tag: string) =>
+  //           tag.toLowerCase()
+  //         )
+
+  //         return (
+  //           routeCategories.some((routeCategory) =>
+  //             productCategoryName.includes(routeCategory.toLowerCase())
+  //           ) ||
+  //           routeCategories.some((routeCategory) =>
+  //             productTags.some((tag) =>
+  //               tag.includes(routeCategory.toLowerCase())
+  //             )
+  //           )
+  //         )
+  //       })
+  //     } else {
+  //       filteredProducts = data.filter((product: Product) => {
+  //         const productCategoryName = getCategoryNameById(
+  //           categories,
+  //           product.category
+  //         ).toLowerCase()
+  //         const productTags = product.tags.map((tag: string) =>
+  //           tag.toLowerCase()
+  //         )
+
+  //         return (
+  //           ['computer', 'laptop', 'server'].some((defaultCategory) =>
+  //             productCategoryName.includes(defaultCategory.toLowerCase())
+  //           ) ||
+  //           ['computer', 'laptop', 'server'].some((defaultCategory) =>
+  //             productTags.some((tag) =>
+  //               tag.includes(defaultCategory.toLowerCase())
+  //             )
+  //           )
+  //         )
+  //       })
+  //     }
+
+  //     if (showNewProducts || showDiscountedProducts) {
+  //       const filteredAndSortedProducts = filteredProducts.filter((product) => {
+  //         const titleMatch = product.title
+  //           .toLowerCase()
+  //           .includes(searchQuery.toLowerCase())
+  //         const isInRange =
+  //           product.price >= minPrice && product.price <= maxPrice
+  //         const isNewCondition = showNewProducts ? product.isNew : true
+  //         const hasDiscountCondition = showDiscountedProducts
+  //           ? product.discount > 0
+  //           : true
+
+  //         return (
+  //           titleMatch && isInRange && isNewCondition && hasDiscountCondition
+  //         )
+  //       })
+
+  //       filteredAndSortedProducts.sort((a, b) => {
+  //         if (sortOption === 'priceHighToLow') {
+  //           return b.price - a.price
+  //         } else if (sortOption === 'priceLowToHigh') {
+  //           return a.price - b.price
+  //         } else if (sortOption === 'newProducts') {
+  //           if (a.isNew && !b.isNew) {
+  //             return -1
+  //           } else if (!a.isNew && b.isNew) {
+  //             return 1
+  //           } else {
+  //             return 0
+  //           }
+  //         } else if (sortOption === 'hasDiscount') {
+  //           if (a.discount > 0 && b.discount <= 0) {
+  //             return -1
+  //           } else if (a.discount <= 0 && b.discount > 0) {
+  //             return 1
+  //           } else {
+  //             return 0
+  //           }
+  //         } else {
+  //           return 0
+  //         }
+  //       })
+
+  //       setFilteredData(filteredAndSortedProducts)
+  //     } else {
+  //       setFilteredData(filteredProducts)
+  //     }
+  //   }
+  // }, [
+  //   data,
+  //   searchQuery,
+  //   showNewProducts,
+  //   showDiscountedProducts,
+  //   minPrice,
+  //   maxPrice,
+  //   sortOption,
+  // ])
+
+  // const handleApplyPriceFilter = () => {
+  //   const filteredProducts = data?.filter((product) => {
+  //     const titleMatch = product.title
+  //       .toLowerCase()
+  //       .includes(searchQuery.toLowerCase())
+
+  //     if (showNewProducts && showDiscountedProducts) {
+  //       return (
+  //         titleMatch &&
+  //         product.isNew &&
+  //         product.discount &&
+  //         product.price >= minPrice &&
+  //         product.price <= maxPrice
+  //       )
+  //     } else if (showNewProducts) {
+  //       return (
+  //         titleMatch &&
+  //         product.isNew &&
+  //         product.price >= minPrice &&
+  //         product.price <= maxPrice
+  //       )
+  //     } else if (showDiscountedProducts) {
+  //       return (
+  //         titleMatch &&
+  //         product.discount &&
+  //         product.price >= minPrice &&
+  //         product.price <= maxPrice
+  //       )
+  //     }
+
+  //     return (
+  //       titleMatch && product.price >= minPrice && product.price <= maxPrice
+  //     )
+  //   })
+
+  //   filteredProducts?.sort((a, b) => {
+  //     if (sortOption === 'priceHighToLow') {
+  //       return b.price - a.price
+  //     } else if (sortOption === 'priceLowToHigh') {
+  //       return a.price - b.price
+  //     } else {
+  //       return 0
+  //     }
+  //   })
+
+  //   setFilteredData(filteredProducts)
+  // }
+
+  // filteredData?.sort((a, b) => {
+  //   if (sortOption === 'priceHighToLow') {
+  //     return b.price - a.price
+  //   } else if (sortOption === 'priceLowToHigh') {
+  //     return a.price - b.price
+  //   } else if (sortOption === 'newProducts') {
+  //     if (a.isNew && !b.isNew) {
+  //       return -1
+  //     } else if (!a.isNew && b.isNew) {
+  //       return 1
+  //     } else {
+  //       return 0
+  //     }
+  //   } else if (sortOption === 'hasDiscount') {
+  //     if (a.discount > 0 && b.discount <= 0) {
+  //       return -1
+  //     } else if (a.discount <= 0 && b.discount > 0) {
+  //       return 1
+  //     } else {
+  //       return 0
+  //     }
+  //   } else {
+  //     return 0
+  //   }
+  // })
 
   if (isLoading) {
     return <LoadingBar height="50px" size={50} />
@@ -205,6 +379,8 @@ const SearchComponent = () => {
       // style={{ minHeight: '100vh' }}
     >
       <div className="master-column-wrapper my-6">
+        <Breadcrumb />
+
         <div className="page-title-top mb-3 md:mb-6 page-title pointer-events-none w-100 text-center md:text-left text-primary text-lg font-medium">
           Kërko
         </div>
@@ -649,4 +825,4 @@ const SearchComponent = () => {
   )
 }
 
-export default SearchComponent
+export default SearchByCategory

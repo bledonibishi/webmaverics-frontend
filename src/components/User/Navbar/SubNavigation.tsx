@@ -62,11 +62,12 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="computer-laptop-server"
             >
               Computer,Laptop & Server
             </a>
             <BannerDropdown
+              link={'/computer-laptop-server'}
               buttonContent="test"
               content="first dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -109,11 +110,12 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/telephone-tablet-ebook-navigation"
             >
               Celular,Tablet & Navigim
             </a>
             <BannerDropdown
+              link={'/telephone-tablet-ebook-navigation'}
               content="second dropdown"
               onVisibilityChange={handleDropdownVisibility}
               categories={[
@@ -155,11 +157,12 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/tv-audio-foto-video"
             >
               TV,Audio & Foto
             </a>
             <BannerDropdown
+              link={'/tv-audio-foto-video'}
               buttonContent="test"
               content="third dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -202,12 +205,13 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/gaming"
             >
               Gaming
             </a>
 
             <BannerDropdown
+              link={'/gaming'}
               buttonContent="test"
               content="fourth dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -250,12 +254,13 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/smart"
             >
               SMART
             </a>
 
             <BannerDropdown
+              link={'/smart'}
               buttonContent="test"
               content="fifth dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -298,12 +303,13 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/accessories"
             >
               Accessories
             </a>
 
             <BannerDropdown
+              link={'/accessories'}
               buttonContent="test"
               content="seventh dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -346,12 +352,13 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/graphic-procesor-motherboard-ram-memory"
             >
               Parts for Computers
             </a>
 
             <BannerDropdown
+              link={'/graphic-procesor-motherboard-ram-memory'}
               buttonContent="test"
               content="eight dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -400,6 +407,7 @@ const SubNavigation = ({
             </a>
 
             <BannerDropdown
+              link={'/computer-laptop-server'}
               buttonContent="test"
               content="nine dropdown"
               onVisibilityChange={handleDropdownVisibility}
@@ -458,7 +466,7 @@ const SubNavigation = ({
           >
             <a
               className="category-item-content text-sm py-1 hover:underline font-medium d-flex align-items-center justify-content-center px-2 text-sm text-gray-700"
-              href=""
+              href="/apple"
             >
               <img
                 style={{ width: '30px', height: '30px' }}

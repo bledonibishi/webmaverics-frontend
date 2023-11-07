@@ -43,7 +43,7 @@ export type ProductInput = {
   description: string
   imageCover: File | null
   images: File[] | FileList | []
-  price: number
+  price: number | string
   category: string
   stock: number
   priceDiscount?: number
@@ -89,15 +89,30 @@ export type User = {
 export type SignupUserData = {
   name: string
   surname: string
-  gender: string
-  country: string
-  city: string
+  gender?: string
+  country?: string
+  city?: string
   email: string
   password: string
   passwordConfirm: string
-  birthYear: number
-  birthMonth: number
-  birthDay: number
+  birthYear?: number
+  birthMonth?: number
+  birthDay?: number
+}
+
+export type SignupPayload = {
+  status: string
+  refreshToken: string
+  token: string
+  user: {
+    active: boolean
+    email: string
+    id: string
+    name: string
+    surname: string
+    photo: string
+    role: string
+  }
 }
 export type LoginUserData = {
   email: string

@@ -570,7 +570,7 @@ input[type='number'] {
 }
 @media (min-width: 811px) {
   .md\:w-1\/2 {
-    width: 50%;
+    width: 50% !important;
   }
 }
 @media only screen and (min-width: 1400px) {
@@ -1021,4 +1021,41 @@ input[type='number'] {
 }
 .bg-with-opacity {
   background-color: #fadcd4 !important;
+}
+.sold-out-productBox {
+  width: calc(100%);
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+}
+.sold-out {
+  width: 100%;
+  z-index: 2;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+.disabled\:opacity-60:disabled {
+  opacity: 0.6;
+}
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+.scrollbar-modifier {
+  scrollbar-track-color: #f4f4f4;
+  // scrollbar-thumb-color: #888;
+  scrollbar-width: thin;
+  // scrollbar-radius: 5px;
+  scrollbar-base-color: #888;
+}
+
+.scrollbar-modifier::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-modifier::-webkit-scrollbar-thumb {
+  background-color: #e15726;
+  border-radius: 5px;
+}
+
+.scrollbar-modifier {
+  scrollbar-color: #888 #f4f4f4;
 }

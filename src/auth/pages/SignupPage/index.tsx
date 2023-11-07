@@ -6,7 +6,13 @@ import {
   WrappedFieldProps,
 } from 'redux-form'
 import FormGroup from '@mui/material/FormGroup'
-import { TextField, FormControl, Button, TextFieldProps } from '@mui/material'
+import {
+  TextField,
+  FormControl,
+  Button,
+  TextFieldProps,
+  Box,
+} from '@mui/material'
 import '../LoginPage/style.css'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Gjirafa50 from '@/assets/images/gjirafa50.png'
@@ -17,6 +23,10 @@ import {
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons'
 import LoadingBar from '@/ui/Loading/LoadingBar'
+import { useAppDispatch } from '@/hooks/hooks'
+import { signup } from '@/store/auth/authSlice'
+import { toast } from 'react-toastify'
+import { SignupPayload } from '@/helpers/types'
 
 type ExternalLinksProps = {
   label: string
@@ -38,72 +48,52 @@ const ExternalLinks = ({ label, icon }: ExternalLinksProps) => {
   )
 }
 
-const renderTextField: React.FC<WrappedFieldProps & TextFieldProps> = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => (
-  <TextField
-    label={label}
-    error={touched && error}
-    helperText={error}
-    margin="normal"
-    variant="outlined"
-    fullWidth
-    {...input}
-    {...custom}
-    // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-    //   input.onChange(e.target.value)
-    // }}
-  />
-)
-
-type ComponentProps = InjectedFormProps<{}, {}>
-
-const showResults = () => {
-  console.log('submitted')
-}
-
-const RegisterPageCompoonent: React.FC<ComponentProps> = (props) => {
+const RegisterPage = () => {
   const location = useLocation()
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
-  const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [firstNameError, setFirstNameError] = useState(false)
-  const [lastNameError, setLastNameError] = useState(false)
-  const [emailError, setEmailError] = useState(false)
-  const [passwordError, setPasswordError] = useState(false)
   const [termsAndConditions, setTermsAndConditions] = useState(false)
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault()
+  const [formData, setFormData] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  })
 
-    setEmailError(false)
-    setPasswordError(false)
-
-    if (firstName == '') {
-      setFirstNameError(true)
-    }
-    if (lastName == '') {
-      setLastNameError(true)
-    }
-    if (email == '') {
-      setEmailError(true)
-    }
-    if (password == '') {
-      setPasswordError(true)
-    }
-
-    if (email && password) {
-      console.log(email, password)
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
   const termsConditionsAccepted = () => {
     setTermsAndConditions((state) => !state)
+  }
+
+  console.log('formData', formData)
+
+  const submitHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      dispatch(signup(formData)).then((action) => {
+        const payload = action.payload as SignupPayload
+        if (
+          typeof payload === 'object' &&
+          payload?.hasOwnProperty('status') &&
+          payload.status === 'success'
+        ) {
+          toast.success('Registered successfully!')
+          navigate('/')
+        } else {
+          console.error('Registration failed:', action.payload)
+        }
+      })
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
   return (
@@ -130,56 +120,78 @@ const RegisterPageCompoonent: React.FC<ComponentProps> = (props) => {
           <p className="or-line">
             <span>Or</span>
           </p>
-          <form className="registerform">
+          <form className="registerform" onSubmit={submitHandler}>
             <div className="">
-              {/* <Field
-                component={renderTextField}
-                label="First Name"
-                className="mt-0"
-                required
-                name="firstName"
-                error={firstNameError} */}
               <TextField
                 label="First Name"
                 className="mt-0"
                 required
-                name="firstName"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}
-                error={firstNameError}
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                // error={firstNameError}
                 margin="normal"
                 variant="outlined"
                 fullWidth
               />
             </div>
             <div>
-              <Field
-                component={renderTextField}
+              <TextField
                 label="Last Name"
-                className="form-control"
+                className="mt-0"
                 required
-                name="lastName"
-                error={lastNameError}
+                name="surname"
+                value={formData.surname}
+                onChange={handleChange}
+                // error={firstNameError}
+                margin="normal"
+                variant="outlined"
+                fullWidth
               />
             </div>
             <div className="">
-              <Field
-                name="email"
-                component={renderTextField}
-                label="Email"
-                required
+              <TextField
                 type="email"
-                error={emailError}
+                label="Email"
+                className="mt-0"
+                required
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                // error={firstNameError}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              />
+            </div>
+            <div className="">
+              <TextField
+                type="password"
+                label="Password"
+                className="mt-0"
+                required
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                // error={firstNameError}
+                margin="normal"
+                variant="outlined"
+                fullWidth
               />
             </div>
             <div className="form-item">
-              <Field
-                name="password"
-                component={renderTextField}
-                label="Password"
-                required
+              <TextField
                 type="password"
-                error={passwordError}
+                label="Confirm password"
+                className="mt-0"
+                required
+                name="passwordConfirm"
+                value={formData.passwordConfirm}
+                onChange={handleChange}
+                // error={firstNameError}
+                margin="normal"
+                variant="outlined"
+                fullWidth
               />
             </div>
             <div className="login-remember">
@@ -231,7 +243,6 @@ const RegisterPageCompoonent: React.FC<ComponentProps> = (props) => {
                 type="submit"
                 className="btn btn-primary has-spinner"
                 id="btn-register"
-                onClick={() => setLoading(true)}
               >
                 {loading ? (
                   <LoadingBar height="20px" size={'20px'} />
@@ -252,10 +263,5 @@ const RegisterPageCompoonent: React.FC<ComponentProps> = (props) => {
     </div>
   )
 }
-
-const RegisterPage = reduxForm<{}>({
-  form: 'RegisterPage',
-  onSubmit: showResults,
-})(RegisterPageCompoonent)
 
 export default RegisterPage

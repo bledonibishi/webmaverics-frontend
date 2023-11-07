@@ -3,6 +3,7 @@ import {
   faChain,
   faHeart,
   faHeartBroken,
+  faShoppingCart,
   faTrash,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
@@ -156,6 +157,18 @@ const Wishlist = () => {
                             className="position-absolute top-0 right-0 bottom-0 left-0 m-auto transition-all duration-300 max-h-full max-w-full object-contain"
                           />
                         </a>
+                        {item.stock < 1 && (
+                          <div className="position-absolute uppercase top-0 left-0 sold-out-productBox d-flex align-items-center justify-content-center text-center">
+                            <a
+                              className="w-100 h-100 text-center d-flex align-items-center justify-content-center"
+                              href={`product/${item.id}`}
+                            >
+                              <span className="text-sm rounded px-2 py-1 bg-gray-100">
+                                E shitur
+                              </span>
+                            </a>
+                          </div>
+                        )}
                       </div>
                       <div className="details">
                         <span className="product-title">
@@ -175,16 +188,31 @@ const Wishlist = () => {
                           </div>
                         </div>
                         <div className="buttons d-flex justify-content-evenly gap-2">
-                          <button
-                            aria-label="Shto në shportë"
-                            className="h-10 product-box-add-to-cart-button d-flex align-items-center btn-primary-hover justify-content-center md:flex-grow hover:bg-primary hover:text-white w-50 focus:outline-none focus:border-none btn-simple btn-secondary focus:text-white"
-                            // onclick="AjaxCart.addproducttocart_catalog('/addproducttocart/catalog/160697/1/1');return false;"
-                          >
-                            <span className="icon-cart-shopping-add icon-line-height text-xl md:hidden"></span>
-                            <span className="hidden md:grid text-xs font-medium">
-                              Shto në shportë
-                            </span>
-                          </button>
+                          {item.stock < 1 ? (
+                            <button
+                              className="disabled:opacity-60 pointer-events-none d-flex flex-grow align-items-center justify-content-center gap-2 uppercase btn-simple btn-secondary"
+                              disabled={true}
+                              aria-label="JASHTË STOKU"
+                            >
+                              <i className="icon-cart-shopping-cancel text-gray-700 text-2xl">
+                                <FontAwesomeIcon icon={faShoppingCart} />
+                              </i>
+                              <span className="text-xs text-gray-700 hidden md:flex font-medium">
+                                JASHTË STOKU
+                              </span>
+                            </button>
+                          ) : (
+                            <button
+                              aria-label="Shto në shportë"
+                              className="h-10 product-box-add-to-cart-button d-flex align-items-center btn-primary-hover justify-content-center md:flex-grow hover:bg-primary hover:text-white w-50 focus:outline-none focus:border-none btn-simple btn-secondary focus:text-white"
+                              // onclick="AjaxCart.addproducttocart_catalog('/addproducttocart/catalog/160697/1/1');return false;"
+                            >
+                              <span className="icon-cart-shopping-add icon-line-height text-xl md:hidden"></span>
+                              <span className="hidden md:grid text-xs font-medium">
+                                Shto në shportë
+                              </span>
+                            </button>
+                          )}
                           <button
                             // name="updatecart"
                             style={{ border: 'none' }}

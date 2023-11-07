@@ -47,7 +47,7 @@
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: start !important;
+  justify-content: flex-start !important;
   padding: 4px 8px;
   border-radius: 4px;
   margin-left: 2px;
@@ -76,6 +76,11 @@
 @media (min-width: 480px) {
   .tablet\:flex-wrap {
     flex-wrap: wrap;
+  }
+}
+@media (min-width: 811px) {
+  .md\:flex-col {
+    flex-direction: column !important;
   }
 }
 
@@ -203,4 +208,7 @@
   border-radius: 8px;
   transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
   box-shadow: 0 4px 10px rgb(44 44 44/10%);
+}
+.product-manufacturer-group {
+  padding-inline-start: 0px;
 }

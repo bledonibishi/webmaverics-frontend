@@ -15,15 +15,20 @@ import {
   getAllAddresses,
 } from '@/store/addresses/addressesSlice'
 import LoadingBar from '@/ui/Loading/LoadingBar'
+import { fetchCountries } from '@/store/auth/authSlice'
 
 const Addresses = () => {
   const dispatch = useAppDispatch()
   const { addresses, loading } = useAppSelector((state) => state.address)
   console.log('addresses', addresses)
   const navigate = useNavigate()
+  const { countries, user } = useAppSelector((state) => state.auth)
+
+  console.log('countries', countries)
 
   useEffect(() => {
     dispatch(getAllAddresses())
+    dispatch(fetchCountries())
   }, [])
 
   const navigateHandler = () => {
@@ -40,29 +45,25 @@ const Addresses = () => {
       console.log('error', error)
     }
   }
+  const findCityName = (cityId: string) => {
+    for (const country of countries ?? []) {
+      for (const city of country.cities) {
+        if (city._id === cityId) {
+          return city.name
+        }
+      }
+    }
+    return 'Unknown City'
+  }
 
-  // const addressess = [
-  //   {
-  //     address: 'Hamdi gashi',
-  //     name: 'Bledon',
-  //     surname: 'Ibishi',
-  //     houseNr: 31,
-  //     city: 'Vushtrri',
-  //     country: 'Kosove',
-  //     telephone: '045224091',
-  //     email: 'bledonibishi1@gmail.com',
-  //   },
-  //   {
-  //     address: 'Hamdi gashi',
-  //     name: 'Bledon',
-  //     surname: 'Ibishi',
-  //     houseNr: 31,
-  //     city: 'Vushtrri',
-  //     country: 'Kosove',
-  //     telephone: '045224091',
-  //     email: 'bledonibishi1@gmail.com',
-  //   },
-  // ]
+  const findCountryName = (countryID: string) => {
+    for (const country of countries ?? []) {
+      if (country._id === countryID) {
+        return country.name
+      }
+    }
+    return 'Unknown country'
+  }
   return (
     <>
       <WrappingCard marginBtm="20px" padding="12px">
@@ -90,7 +91,11 @@ const Addresses = () => {
                     <p className="fw-bold">{item.address}</p>
                     <p>{item.name + ' ' + item.surname}</p>
                     {/* <p>Nr {item.houseNr}</p> */}
-                    <p>{item.city + ', ' + item.country}</p>
+                    <p>
+                      {findCityName(item.city) +
+                        ', ' +
+                        findCountryName(item.country)}
+                    </p>
                     <p>{item.telephone}</p>
                     <p>{item.email}</p>
                   </div>

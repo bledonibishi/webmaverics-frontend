@@ -12,8 +12,6 @@ import orderSlice from './orders/orderSlice'
 import { returnRequestsAPI } from './returnRequests/returnRequestAPI'
 
 const rootReducer = combineReducers({
-  // todos: todosReducer,
-  // filters: filtersSlice,
   products: productSlice,
   auth: authSlice,
   form: formReducer,

@@ -8,14 +8,21 @@ import {
   useGetProductCategoriesQuery,
   useGetProductsQuery,
 } from '@/store/products/RTKProductSlice'
-import React, { ChangeEvent, useState } from 'react'
 import axiosInstance from '@/api/axiosInstance'
-import { Button, Col, Row } from 'react-bootstrap'
 const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
+
+import React, { ChangeEvent } from 'react'
+import { useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Row from 'react-bootstrap/Row'
 
 const CreateProduct = () => {
   const { data: products } = useGetProductsQuery()
   const { data: categories } = useGetProductCategoriesQuery()
+  const [validated, setValidated] = useState(false)
   const [createProduct] = useCreateProductMutation()
   const [imageCover, setImageCover] = useState<File | null>(null)
   const [images, setImages] = useState<File[]>([])
@@ -23,7 +30,7 @@ const CreateProduct = () => {
     title: '',
     details: [],
     brand: '',
-    discount: null,
+    discount: 0,
     tfTransport: false,
     warranty: '',
     isNew: false,
@@ -92,8 +99,14 @@ const CreateProduct = () => {
     setFormData({ ...formData, relatedProducts: selectedProducts })
   }
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
+  const handleSubmit = (event: any) => {
+    const form = event.currentTarget
+    console.log('e.currentTarget', event.currentTarget)
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    setValidated(true)
 
     const formDataa = new FormData()
     if (imageCover) {
@@ -140,7 +153,7 @@ const CreateProduct = () => {
       title: '',
       details: [],
       brand: '',
-      discount: null,
+      discount: 0,
       tfTransport: false,
       warranty: '',
       isNew: false,
@@ -168,91 +181,119 @@ const CreateProduct = () => {
         >
           <h2>Create a New Product</h2>
 
-          {/* <form onSubmit={handleSubmit}> */}
-          <Row>
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="title">Title:</label>
-                <input
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Row>
+              <Form.Group as={Col} md="6" controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  required
                   type="text"
-                  id="title"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
                 />
-
-                <p
-                  className={`text-danger pb-2 text-xs ${
-                    formData.title !== '' ? 'hidden' : ''
-                  } `}
-                >
-                  Hapësira 'title' nuk duhet të jetë e zbrazët!
-                </p>
-              </div>
-            </Col>
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="ratingsAverage">Brand:</label>
-                <input
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid title.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} md="6" controlId="brand">
+                <Form.Label>Brand</Form.Label>
+                <Form.Control
+                  required
                   type="text"
-                  id="brand"
+                  placeholder="Brand"
                   name="brand"
                   value={formData.brand}
                   onChange={handleChange}
                 />
-              </div>
-            </Col>
-          </Row>
-          <Col md="12">
-            <div className="personal-info__input">
-              <label htmlFor="details">Details:</label>
-              <div className="d-flex justify-content-between py-1">
-                <Button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={addDetail}
-                >
-                  Add Detail
-                </Button>
-                <Button
-                  className="btn btn-danger"
-                  type="button"
-                  onClick={(e: any) => removeDetail(e)}
-                >
-                  Remove Detail
-                </Button>
-              </div>
-            </div>
-            {formData.details.map((detail, index) => (
-              <Row key={index} className="product-details personal-info__input">
-                <Col md="6">
-                  <input
-                    type="text"
-                    name="key"
-                    value={detail.key}
-                    onChange={(e) => handleDetailChange(e, index)}
-                    placeholder="Key"
-                  />
-                </Col>
-                <Col md="6">
-                  <input
-                    type="text"
-                    name="value"
-                    value={detail.value}
-                    onChange={(e) => handleDetailChange(e, index)}
-                    placeholder="Value"
-                  />
-                </Col>
-              </Row>
-            ))}
-          </Col>
-          <Row>
-            <Col md="6">
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid brand.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <Col md="12">
               <div className="personal-info__input">
-                <label htmlFor="ratingsAverage">Discount:</label>
-                <input
+                <label htmlFor="details">Details:</label>
+                <div className="d-flex justify-content-between py-1">
+                  <Button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={addDetail}
+                  >
+                    Add Detail
+                  </Button>
+                  <Button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={(e: any) => removeDetail(e)}
+                  >
+                    Remove Detail
+                  </Button>
+                </div>
+              </div>
+              {formData.details.map((detail, index) => (
+                <Row key={index} className="d-flex ">
+                  <Form.Group as={Col} md="6" controlId="key">
+                    <Form.Label>Key</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      name="key"
+                      value={detail.key}
+                      onChange={(e: any) => handleDetailChange(e, index)}
+                      placeholder="Key"
+                    />
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please provide a valid brand.
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group as={Col} md="6" controlId="value">
+                    <Form.Label>Value</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      name="value"
+                      value={detail.value}
+                      onChange={(e: any) => handleDetailChange(e, index)}
+                      placeholder="Value"
+                    />
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please provide a valid brand.
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  {/* <Col md="6">
+                    <input
+                      type="text"
+                      name="key"
+                      value={detail.key}
+                      onChange={(e) => handleDetailChange(e, index)}
+                      placeholder="Key"
+                    />
+                  </Col>
+                  <Col md="6">
+                    <input
+                      type="text"
+                      name="value"
+                      value={detail.value}
+                      onChange={(e) => handleDetailChange(e, index)}
+                      placeholder="Value"
+                    />
+                  </Col> */}
+                </Row>
+              ))}
+            </Col>
+
+            <Row>
+              <Form.Group as={Col} md="6" controlId="discount">
+                <Form.Label>Discount</Form.Label>
+                <Form.Control
+                  required
                   type="number"
-                  id="discount"
+                  placeholder="Discount"
                   name="discount"
                   value={
                     formData.discount !== null &&
@@ -262,59 +303,67 @@ const CreateProduct = () => {
                   }
                   onChange={handleChange}
                 />
-              </div>
-            </Col>
-            <Col md="6">
-              <div>
-                <label htmlFor="warranty">Warranty:</label>
-                <input
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid brand.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} md="6" controlId="warranty">
+                <Form.Label>Warranty</Form.Label>
+                <Form.Control
+                  required
                   type="text"
-                  id="warranty"
+                  placeholder="Warranty"
                   name="warranty"
                   value={formData.warranty}
                   onChange={handleChange}
                 />
-              </div>
-            </Col>
-          </Row>
-
-          <div className="personal-info__input">
-            <label htmlFor="summary">Summary:</label>
-            <textarea
-              cols={5}
-              rows={10}
-              // type="text"
-              className="w-100"
-              id="summary"
-              name="summary"
-              value={formData.summary}
-              onChange={handleChange}
-            ></textarea>
-          </div>
-          <div className="personal-info__input">
-            <label htmlFor="description">Description:</label>
-            <textarea
-              cols={5}
-              rows={10}
-              className="w-100"
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-            ></textarea>
-          </div>
-          <Row>
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="imageCover" className="custom-file-upload">
-                  <i className="fa fa-cloud-upload"></i> Image cover
-                </label>
-                <input
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid brand.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <Form.Group as={Col} md="12" controlId="summary">
+              <Form.Label>Summary</Form.Label>
+              <Form.Control
+                required
+                as="textarea"
+                placeholder="Summary"
+                name="summary"
+                value={formData.summary}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid summary.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="12" controlId="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                required
+                as="textarea"
+                placeholder="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid description.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Row>
+              <Form.Group as={Col} md="6" controlId="imageCover">
+                <Form.Label>Image cover</Form.Label>
+                <Form.Control
+                  required
                   type="file"
-                  id="imageCover"
+                  placeholder="Warranty"
                   name="imageCover"
                   className="custom-file-upload"
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     const files = e.target.files
                     if (files && files.length > 0) {
                       setImageCover(files[0])
@@ -323,67 +372,76 @@ const CreateProduct = () => {
                     }
                   }}
                 />
-              </div>
-            </Col>
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="images" className="custom-file-upload">
-                  <i className="fa fa-cloud-upload"></i> Additional images
-                </label>
-                <input
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid file.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} md="6" controlId="images">
+                <Form.Label>Images</Form.Label>
+                <Form.Control
+                  required
                   type="file"
-                  id="images"
+                  placeholder="Images"
                   name="images"
                   className="custom-file-upload"
                   multiple
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     const files = e.target.files
                     if (files) {
-                      const fileArray = Array.from(files)
+                      const fileArray: any = Array.from(files)
                       setImages(fileArray)
                     } else {
                       setImages([])
                     }
                   }}
                 />
-              </div>
-            </Col>
-          </Row>
-          <Row md="6">
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="price">Price:</label>
-                <input
-                  type="number"
-                  id="price"
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid images.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <Row md="6">
+              <Form.Group as={Col} md="6" controlId="warranty">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Price"
                   name="price"
                   value={formData.price}
                   onChange={handleChange}
                 />
-              </div>
-            </Col>
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="stock">Stock:</label>
-                <input
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid price.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} md="6" controlId="stock">
+                <Form.Label>Stock</Form.Label>
+                <Form.Control
+                  required
                   type="number"
-                  id="stock"
+                  placeholder="Stock"
                   name="stock"
                   value={formData.stock}
                   onChange={handleChange}
                 />
-              </div>
-            </Col>
-          </Row>
-          <Col md="12">
-            <div className="personal-info__input">
-              <label htmlFor="category">Category:</label>
-
-              <select
-                id="category"
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid stock.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <Form.Group as={Col} md="12" controlId="category">
+              <Form.Label>Category:</Form.Label>
+              <Form.Control
+                as="select"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
+                required
               >
                 <option value="">Select a category</option>
                 {categories?.map((category, index) => (
@@ -391,119 +449,131 @@ const CreateProduct = () => {
                     {category.name}
                   </option>
                 ))}
-              </select>
-            </div>
-          </Col>
-          <div className="personal-info__input">
-            <label htmlFor="relatedProducts">Related Products:</label>
-            <select
-              multiple
-              id="relatedProducts"
-              name="relatedProducts"
-              value={formData.relatedProducts}
-              onChange={(e) => {
-                const selectedOptions = Array.from(e.target.options)
-                const selectedProductIds = selectedOptions
-                  .filter((option) => option.selected)
-                  .map((option) => option.value)
-                handleRelatedProductsChange(selectedProductIds)
-              }}
-            >
-              {products?.map((product, index) => (
-                <option key={index} value={product.id}>
-                  {product.title}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="personal-info__input">
-            <label htmlFor="tags">Tags:</label>
-            <TagsInput
-              value={formData.tags}
-              //   id="tags"
-              // classNames={'tags'}
-              onChange={handleChangeTags}
-              name="tags"
-            />
-          </div>
-          <Row>
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="productStatus">Product Status:</label>
-                <select
-                  id="productStatus"
-                  name="productStatus"
-                  value={formData.productStatus}
-                  onChange={handleChange}
-                >
-                  <option value="">Select product status</option>
-                  <option value="active">Active</option>
-                  <option value="outofstock">Out of stock</option>
-                  <option value="discontinued">Discontinued</option>
-                </select>
-              </div>
-            </Col>
-            <Col md="6">
-              <div className="personal-info__input">
-                <label htmlFor="createdBy">Created By:</label>
-                <input
+              </Form.Control>
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please select a category.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="12" controlId="relatedProducts">
+              <Form.Label>Related products:</Form.Label>
+              <Form.Control
+                as="select"
+                multiple
+                name="relatedProducts"
+                value={formData.relatedProducts}
+                onChange={(e: any) => {
+                  const selectedOptions = Array.from(e.target.options)
+                  const selectedProductIds = selectedOptions
+                    .filter((option: any) => option.selected)
+                    .map((option: any) => option.value)
+                  handleRelatedProductsChange(selectedProductIds)
+                }}
+                required
+              >
+                {products?.map((product, index) => (
+                  <option key={index} value={product.id}>
+                    {product.title}
+                  </option>
+                ))}
+              </Form.Control>
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please select a related product.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="12" controlId="tags">
+              <Form.Label>Tags:</Form.Label>
+              <TagsInput
+                value={formData.tags}
+                onChange={handleChangeTags}
+                name="tags"
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please provide at least one tag.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Row>
+              <Col md="6">
+                <div className="personal-info__input">
+                  <label htmlFor="productStatus">Product Status:</label>
+                  <select
+                    id="productStatus"
+                    name="productStatus"
+                    value={formData.productStatus}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select product status</option>
+                    <option value="active">Active</option>
+                    <option value="outofstock">Out of stock</option>
+                    <option value="discontinued">Discontinued</option>
+                  </select>
+                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    Please select a product status.
+                  </Form.Control.Feedback>
+                </div>
+              </Col>
+              <Form.Group as={Col} md="6" controlId="createdBy">
+                <Form.Label>Created By</Form.Label>
+                <Form.Control
+                  required
                   type="text"
-                  id="createdBy"
+                  placeholder="Created By"
                   name="createdBy"
                   value={formData.createdBy}
                   onChange={handleChange}
                 />
-              </div>
-            </Col>
-          </Row>
-          {/* <Row> */}
-          {/* <div className=" d-flex align-items-center justify-content-between position-relative"> */}
-          <div className="personal-info__input">
-            <div className="d-flex align-items-center justify-content-between position-relative mb-4">
-              <span className="text-sm">24H</span>
-              <div className="toggle-btn-wrapper">
-                <input
-                  type="checkbox"
-                  id="tfTransport"
-                  className="toggle-btn"
-                  name="tfTransport"
-                  checked={formData.tfTransport}
-                  onChange={handleChange}
-                />
-                <div className="knobs"></div>
-                <div className="layer"></div>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid stock.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <div className="personal-info__input">
+              <div className="d-flex align-items-center justify-content-between position-relative mb-4">
+                <span className="text-sm">24H</span>
+                <div className="toggle-btn-wrapper">
+                  <input
+                    type="checkbox"
+                    id="tfTransport"
+                    className="toggle-btn"
+                    name="tfTransport"
+                    checked={formData.tfTransport}
+                    onChange={handleChange}
+                  />
+                  <div className="knobs"></div>
+                  <div className="layer"></div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="personal-info__input">
-            <div className="d-flex align-items-center  justify-content-between position-relative">
-              <span className="text-sm">New</span>
-              <div className="toggle-btn-wrapper">
-                <input
-                  id="isNew"
-                  type="checkbox"
-                  className="toggle-btn"
-                  name="isNew"
-                  checked={formData.isNew}
-                  onChange={handleChange}
-                />
-                <div className="knobs"></div>
-                <div className="layer"></div>
+            <div className="personal-info__input">
+              <div className="d-flex align-items-center  justify-content-between position-relative">
+                <span className="text-sm">New</span>
+                <div className="toggle-btn-wrapper">
+                  <input
+                    id="isNew"
+                    type="checkbox"
+                    className="toggle-btn"
+                    name="isNew"
+                    checked={formData.isNew}
+                    onChange={handleChange}
+                  />
+                  <div className="knobs"></div>
+                  <div className="layer"></div>
+                </div>
               </div>
             </div>
-          </div>
-          {/* </div> */}
-          {/* </Row> */}
-          <div>
-            <button
+            <Button
               type="submit"
               className="btn btn-primary btn-primary-hover w-100"
             >
               Create Product
-            </button>
-          </div>
-          {/* </form> */}
+            </Button>
+          </Form>
         </div>
       </div>
     </div>

@@ -19,6 +19,7 @@ type DropdownProps = {
   buttonContent?: string
   onVisibilityChange: (isVisible: boolean) => void
   categories: Category[]
+  link: string
 }
 
 const BannerDropdown = ({
@@ -26,6 +27,7 @@ const BannerDropdown = ({
   content,
   onVisibilityChange,
   categories,
+  link,
 }: DropdownProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(true)
 
@@ -55,7 +57,7 @@ const BannerDropdown = ({
               </div>
               <div className="">
                 <a
-                  href=""
+                  href={link + '/' + categoryKey}
                   className="category-item-content text-sm  hover:underline font-medium d-flex px-2 text-sm text-gray-700"
                 >
                   {categoryKey}

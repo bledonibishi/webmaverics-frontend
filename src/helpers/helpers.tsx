@@ -1,6 +1,17 @@
-import { ImageHelperTypes } from './types'
+import { useGetProductCategoriesQuery } from '@/store/products/RTKProductSlice'
+import { ImageHelperTypes, ProductCategory } from './types'
 import React from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
+export function getCategoryNameById(
+  categories: ProductCategory[],
+  categoryId: string
+) {
+  const category = categories.find(
+    (cat: ProductCategory) => cat._id === categoryId
+  )
+  return category ? category.name : 'Unknown Category'
+}
 
 export function getImage(filename: string) {
   return `src/assets/images/${filename}`

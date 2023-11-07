@@ -27,14 +27,14 @@ select {
   cursor: pointer;
   width: 100%;
 }
-.toggle-btn-wrapper {
+.create-product .toggle-btn-wrapper {
   position: relative;
   width: 66px;
   height: 30px;
   overflow: hidden;
   border-radius: 8px;
 }
-.toggle-btn {
+.create-product.toggle-btn {
   position: relative;
   width: 100%;
   height: 100%;
@@ -44,44 +44,44 @@ select {
   cursor: pointer;
   z-index: 3;
 }
-.knobs {
+.create-product .knobs {
   z-index: 2;
   background-color: #e37046;
 }
-.knobs,
-.layer {
+.create-product .knobs,
+.create-product .layer {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
 }
-.toggle-btn-wrapper .knobs,
-.toggle-btn-wrapper .knobs:before,
-.toggle-btn-wrapper .layer {
+.create-product .toggle-btn-wrapper .knobs,
+.create-product .toggle-btn-wrapper .knobs:before,
+.create-product .toggle-btn-wrapper .layer {
   transition: 0.3s ease all;
 }
-.toggle-btn-wrapper .knobs,
-.toggle-btn-wrapper .knobs:before,
-.toggle-btn-wrapper .layer {
+.create-product .toggle-btn-wrapper .knobs,
+.create-product .toggle-btn-wrapper .knobs:before,
+.create-product .toggle-btn-wrapper .layer {
   transition: 0.3s ease all;
 }
 
-.layer {
+.create-product .layer {
   width: 100%;
   background-color: #f4f4f4;
   transition: 0.3s ease all;
   z-index: 1;
 }
-.knobs,
-.layer {
+.create-product .knobs,
+.create-product .layer {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
 }
-.toggle-btn-wrapper .toggle-btn:checked + .knobs:before {
+.create-product .toggle-btn-wrapper .toggle-btn:checked + .knobs:before {
   content: 'I';
   left: 36px;
   color: #e15726;
@@ -92,7 +92,7 @@ select {
 .toggle-btn-wrapper .layer {
   transition: 0.3s ease all;
 }
-.toggle-btn-wrapper .knobs:before {
+.create-product .toggle-btn-wrapper .knobs:before {
   content: '';
   position: absolute;
   display: flex;

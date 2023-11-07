@@ -53,12 +53,38 @@ const CustomMenu = React.forwardRef<
     </div>
   )
 })
+type CustomDropdownProps = {
+  setSortOption: React.Dispatch<React.SetStateAction<string>>
+  sortOption: string
+  setShowNewProducts: React.Dispatch<React.SetStateAction<boolean>>
+  setShowDiscountedProducts: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const CustomDropdown: React.FC = () => {
+const CustomDropdown: React.FC<CustomDropdownProps> = ({
+  setSortOption,
+  sortOption,
+  setShowNewProducts,
+  setShowDiscountedProducts,
+}) => {
+  const handleOptionSelect = (event: React.SyntheticEvent<HTMLElement>) => {
+    const eventKey = event.currentTarget.getAttribute('eventkey')
+    console.log('eventKey', eventKey)
+    if (eventKey === '1') {
+      setShowDiscountedProducts(true)
+    } else if (eventKey === '2') {
+      setSortOption('priceLowToHigh')
+      setShowNewProducts(false)
+      setShowDiscountedProducts(false)
+    } else if (eventKey === '3') {
+      setSortOption('priceHighToLow')
+      setShowNewProducts(false)
+      setShowDiscountedProducts(false)
+    }
+  }
   return (
     <Dropdown drop="up-centered" id="custom-dropdown-search">
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-        <span>Sipas Relevancës</span>
+        <span>With relevance</span>
         <i className="icon-chevron-line-down text-base text-gray-600 pl-1"></i>
       </Dropdown.Toggle>
 
@@ -69,27 +95,27 @@ const CustomDropdown: React.FC = () => {
       >
         <Dropdown.Item
           eventKey="1"
-          className="selectCustom-option sort-options bg-white text-xs font-medium d-flex justify-content-center text-gray-600 light-dropdown-hover"
+          onClick={() => setSortOption('hasDiscount')}
         >
-          Sipas Relevancës
+          With discount
         </Dropdown.Item>
         <Dropdown.Item
           eventKey="2"
-          className="selectCustom-option sort-options bg-white text-xs font-medium d-flex justify-content-center text-gray-600 light-dropdown-hover"
+          onClick={() => setSortOption('priceLowToHigh')}
         >
-          Qmimi: ulet ne te larte
+          Price: low to high
         </Dropdown.Item>
         <Dropdown.Item
           eventKey="3"
-          className="selectCustom-option sort-options bg-white text-xs font-medium d-flex justify-content-center text-gray-600 light-dropdown-hover"
+          onClick={() => setSortOption('priceHighToLow')}
         >
-          Qmimi: larte ne te ulet
+          Price: high to low
         </Dropdown.Item>
         <Dropdown.Item
-          eventKey="1"
-          className="selectCustom-option sort-options bg-white text-xs font-medium d-flex justify-content-center text-gray-600 light-dropdown-hover"
+          eventKey="4"
+          onClick={() => setSortOption(' newProducts')}
         >
-          Me te rejat
+          New products
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
