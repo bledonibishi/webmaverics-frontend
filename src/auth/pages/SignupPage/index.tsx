@@ -12,12 +12,17 @@ import {
   Button,
   TextFieldProps,
   Box,
+  InputAdornment,
+  IconButton,
 } from '@mui/material'
 import '../LoginPage/style.css'
+import '../ResetPassword/style.css'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Gjirafa50 from '@/assets/images/gjirafa50.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
+  faEye,
+  faEyeSlash,
   faMeteor,
   faTShirt,
   faUserCircle,
@@ -27,6 +32,12 @@ import { useAppDispatch } from '@/hooks/hooks'
 import { signup } from '@/store/auth/authSlice'
 import { toast } from 'react-toastify'
 import { SignupPayload } from '@/helpers/types'
+import {
+  containsNumber,
+  containsSpecialCharacter,
+  containsUppercaseLetter,
+  isPasswordLengthValid,
+} from '@/helpers/helpers'
 
 type ExternalLinksProps = {
   label: string
@@ -54,6 +65,7 @@ const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
   const [termsAndConditions, setTermsAndConditions] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -63,6 +75,10 @@ const RegisterPage = () => {
     passwordConfirm: '',
   })
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -71,8 +87,6 @@ const RegisterPage = () => {
   const termsConditionsAccepted = () => {
     setTermsAndConditions((state) => !state)
   }
-
-  console.log('formData', formData)
 
   const submitHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -166,7 +180,7 @@ const RegisterPage = () => {
             </div>
             <div className="">
               <TextField
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 label="Password"
                 className="mt-0"
                 required
@@ -177,11 +191,27 @@ const RegisterPage = () => {
                 margin="normal"
                 variant="outlined"
                 fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleShowPassword} edge="end">
+                        {showPassword ? (
+                          <FontAwesomeIcon
+                            className="text-sm"
+                            icon={faEyeSlash}
+                          />
+                        ) : (
+                          <FontAwesomeIcon className="text-sm" icon={faEye} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
             <div className="form-item">
               <TextField
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 label="Confirm password"
                 className="mt-0"
                 required
@@ -192,7 +222,69 @@ const RegisterPage = () => {
                 margin="normal"
                 variant="outlined"
                 fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleShowPassword} edge="end">
+                        {showPassword ? (
+                          <FontAwesomeIcon
+                            className="text-sm"
+                            icon={faEyeSlash}
+                          />
+                        ) : (
+                          <FontAwesomeIcon className="text-sm" icon={faEye} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
+            </div>
+            <div
+              className={`pw-meter-container mb-5 pw-check-container ${
+                formData.password.length ? 'active' : ''
+              }`}
+            >
+              <h6 className="title">Create a password that contains:</h6>
+
+              <p
+                className={`pw_val_in pw-check-item ${
+                  isPasswordLengthValid(formData.password) ? 'checked' : 'error'
+                }`}
+                id="pw_length"
+              >
+                Password must be at least 8 characters long.
+              </p>
+              <p
+                className={`pw_val_in pw-check-item ${
+                  containsSpecialCharacter(formData.password)
+                    ? 'checked'
+                    : 'error'
+                }`}
+                id="pw_character"
+              >
+                {' '}
+                Password must contain at least one special character.
+              </p>
+              <p
+                className={`pw_val_in pw-check-item ${
+                  containsNumber(formData.password) ? 'checked' : 'error'
+                }`}
+                id="pw_number"
+              >
+                {' '}
+                Password must contain at least one number.{' '}
+              </p>
+              <p
+                className={`pw_val_in pw-check-item ${
+                  containsUppercaseLetter(formData.password)
+                    ? 'checked'
+                    : 'error'
+                }`}
+                id="pw_uppercase"
+              >
+                Password must contain at least one uppercase letter.{' '}
+              </p>
             </div>
             <div className="login-remember">
               <div className="d-flex justify-content-between align-items-center flex-wrap">

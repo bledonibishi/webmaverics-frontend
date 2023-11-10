@@ -1,0 +1,61 @@
+.pw-check-container.active {
+  display: block;
+}
+
+.pw-check-container {
+  margin-top: 32px;
+  display: none;
+}
+.pw-check-container .pw-check-item.error {
+  color: #e34850;
+}
+.pw-check-container .pw-check-item:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.pw-check-container .pw-check-item {
+  position: relative;
+  padding-left: 24px;
+  color: #667c99;
+  font-size: 14px;
+}
+.pw-check-container .pw-check-item.checked {
+  color: #36b37e;
+}
+.pw-check-container .pw-check-item.error::before {
+  background-image: url(../../../assets/images/close-icon-red.svg);
+}
+
+.pw-check-container .pw-check-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  background-image: url(../../../assets/images/check-icon-gray.svg);
+  background-size: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: background-color 0.15s ease-in;
+}
+
+.pw-check-container .pw-check-item.checked::before {
+  background-image: url(../../../assets/images/check-icon-green.svg);
+}
+
+.pw-check-container .pw-check-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  background-image: url(../../../assets/images/check-icon-gray.svg);
+  background-size: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: background-color 0.15s ease-in;
+}

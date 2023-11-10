@@ -119,6 +119,11 @@ export type LoginUserData = {
   password: string
 }
 
+export type ResetPasswordInput = {
+  password: string
+  passwordConfirm: string
+}
+
 export type CartItemProduct = {
   product: Product
   quantity: number

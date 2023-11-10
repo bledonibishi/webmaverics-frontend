@@ -66,25 +66,16 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   setShowNewProducts,
   setShowDiscountedProducts,
 }) => {
-  const handleOptionSelect = (event: React.SyntheticEvent<HTMLElement>) => {
-    const eventKey = event.currentTarget.getAttribute('eventkey')
-    console.log('eventKey', eventKey)
-    if (eventKey === '1') {
-      setShowDiscountedProducts(true)
-    } else if (eventKey === '2') {
-      setSortOption('priceLowToHigh')
-      setShowNewProducts(false)
-      setShowDiscountedProducts(false)
-    } else if (eventKey === '3') {
-      setSortOption('priceHighToLow')
-      setShowNewProducts(false)
-      setShowDiscountedProducts(false)
-    }
+  const [selectedTitle, setSelectedTitle] = useState('With relevance')
+
+  const handleSortOptionClick = (eventKey: string, title: string) => {
+    setSortOption(eventKey)
+    setSelectedTitle(title)
   }
   return (
     <Dropdown drop="up-centered" id="custom-dropdown-search">
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-        <span>With relevance</span>
+        <span>{selectedTitle}</span>
         <i className="icon-chevron-line-down text-base text-gray-600 pl-1"></i>
       </Dropdown.Toggle>
 
@@ -95,25 +86,29 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       >
         <Dropdown.Item
           eventKey="1"
-          onClick={() => setSortOption('hasDiscount')}
+          onClick={() => handleSortOptionClick('hasDiscount', 'With discount')}
         >
           With discount
         </Dropdown.Item>
         <Dropdown.Item
           eventKey="2"
-          onClick={() => setSortOption('priceLowToHigh')}
+          onClick={() =>
+            handleSortOptionClick('priceLowToHigh', 'Price: low to high')
+          }
         >
           Price: low to high
         </Dropdown.Item>
         <Dropdown.Item
           eventKey="3"
-          onClick={() => setSortOption('priceHighToLow')}
+          onClick={() =>
+            handleSortOptionClick('priceHighToLow', 'Price: high to low')
+          }
         >
           Price: high to low
         </Dropdown.Item>
         <Dropdown.Item
           eventKey="4"
-          onClick={() => setSortOption(' newProducts')}
+          onClick={() => handleSortOptionClick('newProducts', 'New products')}
         >
           New products
         </Dropdown.Item>

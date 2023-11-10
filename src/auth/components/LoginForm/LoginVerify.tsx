@@ -56,7 +56,7 @@ const LoginVerify: FC<props> = ({
         </div>
         <div className="login-remember">
           <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <div className="checkbox-wrapper">
+            {/* <div className="checkbox-wrapper">
               <input
                 type="checkbox"
                 id="RememberLogin"
@@ -66,7 +66,7 @@ const LoginVerify: FC<props> = ({
                 value="true"
               />
               <label htmlFor="remember-me">Keep me logged in</label>
-            </div>
+            </div> */}
             <a
               className="link text-primary"
               defaultValue={'forgot'}

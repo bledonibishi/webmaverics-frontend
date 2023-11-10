@@ -26,12 +26,11 @@ import Breadcrumb from '../Breadcrumb'
 const SearchByCategory = () => {
   const { categoryGroup, category } = useParams()
   const location = useLocation()
-  console.log('categoryGroup', categoryGroup)
   const routeCategories = categoryGroup?.split('-')
-  console.log('routeCategories', routeCategories)
   const searchQuery = new URLSearchParams(location.search).get('q') || ''
   const { data: categories } = useGetProductCategoriesQuery()
   const [filterByPrice, setFilterByPrice] = useState(true)
+  const [filterByManufacturer, setFilterByManufacturer] = useState(true)
   const { data, error, isLoading } = useGetProductsQuery()
   const [sortOption, setSortOption] = useState('relevance')
   const [showNewProducts, setShowNewProducts] = useState<boolean>(false)
@@ -40,6 +39,19 @@ const SearchByCategory = () => {
   const [minPrice, setMinPrice] = useState<number>(0)
   const [maxPrice, setMaxPrice] = useState<number>(7999)
   const [filteredData, setFilteredData] = useState<Product[] | undefined>([])
+  const [selectedManufacturers, setSelectedManufacturers] = useState<string[]>(
+    []
+  )
+
+  const handleManufacturerChange = (manufacturer: string) => {
+    if (selectedManufacturers.includes(manufacturer)) {
+      setSelectedManufacturers(
+        selectedManufacturers.filter((item) => item !== manufacturer)
+      )
+    } else {
+      setSelectedManufacturers([...selectedManufacturers, manufacturer])
+    }
+  }
 
   const filterProductsByCategory = (
     product: Product,
@@ -91,6 +103,12 @@ const SearchByCategory = () => {
     const hasDiscountCondition = showDiscountedProducts
       ? product.discount > 0
       : true
+    const manufacturerSelected =
+      selectedManufacturers.length === 0 ||
+      selectedManufacturers.some(
+        (selectedManufacturer) =>
+          selectedManufacturer.toLowerCase() === product.brand.toLowerCase()
+      )
     const isInRange = product.price >= minPrice && product.price <= maxPrice
 
     return (
@@ -98,7 +116,8 @@ const SearchByCategory = () => {
       isNewCondition &&
       hasDiscountCondition &&
       isInRange &&
-      filterProductsByCategory(product, productCategoryName, productTags)
+      filterProductsByCategory(product, productCategoryName, productTags) &&
+      manufacturerSelected
     )
   }
 
@@ -136,6 +155,7 @@ const SearchByCategory = () => {
     sortOption,
     categories,
     category,
+    selectedManufacturers,
   ])
 
   const handleApplyPriceFilter = () => {
@@ -156,199 +176,34 @@ const SearchByCategory = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (data && categories) {
-  //     let filteredProducts: Product[] = []
-  //     if (category) {
-  //       filteredProducts = data.filter((product: Product) => {
-  //         const productCategoryName = getCategoryNameById(
-  //           categories,
-  //           product.category
-  //         ).toLowerCase()
-  //         const productTags = product.tags.map((tag: string) =>
-  //           tag.toLowerCase()
-  //         )
-
-  //         return (
-  //           productCategoryName.includes(category.toLowerCase()) ||
-  //           productTags.some((tag) => tag.includes(category.toLowerCase()))
-  //         )
-  //       })
-  //     } else if (routeCategories && routeCategories.length > 0) {
-  //       filteredProducts = data.filter((product: Product) => {
-  //         const productCategoryName = getCategoryNameById(
-  //           categories,
-  //           product.category
-  //         ).toLowerCase()
-  //         const productTags = product.tags.map((tag: string) =>
-  //           tag.toLowerCase()
-  //         )
-
-  //         return (
-  //           routeCategories.some((routeCategory) =>
-  //             productCategoryName.includes(routeCategory.toLowerCase())
-  //           ) ||
-  //           routeCategories.some((routeCategory) =>
-  //             productTags.some((tag) =>
-  //               tag.includes(routeCategory.toLowerCase())
-  //             )
-  //           )
-  //         )
-  //       })
-  //     } else {
-  //       filteredProducts = data.filter((product: Product) => {
-  //         const productCategoryName = getCategoryNameById(
-  //           categories,
-  //           product.category
-  //         ).toLowerCase()
-  //         const productTags = product.tags.map((tag: string) =>
-  //           tag.toLowerCase()
-  //         )
-
-  //         return (
-  //           ['computer', 'laptop', 'server'].some((defaultCategory) =>
-  //             productCategoryName.includes(defaultCategory.toLowerCase())
-  //           ) ||
-  //           ['computer', 'laptop', 'server'].some((defaultCategory) =>
-  //             productTags.some((tag) =>
-  //               tag.includes(defaultCategory.toLowerCase())
-  //             )
-  //           )
-  //         )
-  //       })
-  //     }
-
-  //     if (showNewProducts || showDiscountedProducts) {
-  //       const filteredAndSortedProducts = filteredProducts.filter((product) => {
-  //         const titleMatch = product.title
-  //           .toLowerCase()
-  //           .includes(searchQuery.toLowerCase())
-  //         const isInRange =
-  //           product.price >= minPrice && product.price <= maxPrice
-  //         const isNewCondition = showNewProducts ? product.isNew : true
-  //         const hasDiscountCondition = showDiscountedProducts
-  //           ? product.discount > 0
-  //           : true
-
-  //         return (
-  //           titleMatch && isInRange && isNewCondition && hasDiscountCondition
-  //         )
-  //       })
-
-  //       filteredAndSortedProducts.sort((a, b) => {
-  //         if (sortOption === 'priceHighToLow') {
-  //           return b.price - a.price
-  //         } else if (sortOption === 'priceLowToHigh') {
-  //           return a.price - b.price
-  //         } else if (sortOption === 'newProducts') {
-  //           if (a.isNew && !b.isNew) {
-  //             return -1
-  //           } else if (!a.isNew && b.isNew) {
-  //             return 1
-  //           } else {
-  //             return 0
-  //           }
-  //         } else if (sortOption === 'hasDiscount') {
-  //           if (a.discount > 0 && b.discount <= 0) {
-  //             return -1
-  //           } else if (a.discount <= 0 && b.discount > 0) {
-  //             return 1
-  //           } else {
-  //             return 0
-  //           }
-  //         } else {
-  //           return 0
-  //         }
-  //       })
-
-  //       setFilteredData(filteredAndSortedProducts)
-  //     } else {
-  //       setFilteredData(filteredProducts)
-  //     }
-  //   }
-  // }, [
-  //   data,
-  //   searchQuery,
-  //   showNewProducts,
-  //   showDiscountedProducts,
-  //   minPrice,
-  //   maxPrice,
-  //   sortOption,
-  // ])
-
-  // const handleApplyPriceFilter = () => {
-  //   const filteredProducts = data?.filter((product) => {
-  //     const titleMatch = product.title
-  //       .toLowerCase()
-  //       .includes(searchQuery.toLowerCase())
-
-  //     if (showNewProducts && showDiscountedProducts) {
-  //       return (
-  //         titleMatch &&
-  //         product.isNew &&
-  //         product.discount &&
-  //         product.price >= minPrice &&
-  //         product.price <= maxPrice
-  //       )
-  //     } else if (showNewProducts) {
-  //       return (
-  //         titleMatch &&
-  //         product.isNew &&
-  //         product.price >= minPrice &&
-  //         product.price <= maxPrice
-  //       )
-  //     } else if (showDiscountedProducts) {
-  //       return (
-  //         titleMatch &&
-  //         product.discount &&
-  //         product.price >= minPrice &&
-  //         product.price <= maxPrice
-  //       )
-  //     }
-
-  //     return (
-  //       titleMatch && product.price >= minPrice && product.price <= maxPrice
-  //     )
-  //   })
-
-  //   filteredProducts?.sort((a, b) => {
-  //     if (sortOption === 'priceHighToLow') {
-  //       return b.price - a.price
-  //     } else if (sortOption === 'priceLowToHigh') {
-  //       return a.price - b.price
-  //     } else {
-  //       return 0
-  //     }
-  //   })
-
-  //   setFilteredData(filteredProducts)
-  // }
-
-  // filteredData?.sort((a, b) => {
-  //   if (sortOption === 'priceHighToLow') {
-  //     return b.price - a.price
-  //   } else if (sortOption === 'priceLowToHigh') {
-  //     return a.price - b.price
-  //   } else if (sortOption === 'newProducts') {
-  //     if (a.isNew && !b.isNew) {
-  //       return -1
-  //     } else if (!a.isNew && b.isNew) {
-  //       return 1
-  //     } else {
-  //       return 0
-  //     }
-  //   } else if (sortOption === 'hasDiscount') {
-  //     if (a.discount > 0 && b.discount <= 0) {
-  //       return -1
-  //     } else if (a.discount <= 0 && b.discount > 0) {
-  //       return 1
-  //     } else {
-  //       return 0
-  //     }
-  //   } else {
-  //     return 0
-  //   }
-  // })
+  const manufacturers = [
+    'Acer',
+    'Alienware',
+    'Apple',
+    'ASRock',
+    'ASU',
+    'ASUS',
+    'Banana Pi',
+    'CZC',
+    'Dell',
+    'Fujitsu',
+    'Game X',
+    'GIGABYTE',
+    'HAL3000',
+    'HP',
+    'HP1',
+    'Intel',
+    'Lenovo',
+    'Lynx',
+    'Morele.net',
+    'MSI',
+    'OMEN by HP',
+    'Radxa',
+    'Raspberry Pi',
+    'ScreenShield',
+    'Umax',
+    'Zotac',
+  ]
 
   if (isLoading) {
     return <LoadingBar height="50px" size={50} />
@@ -357,21 +212,6 @@ const SearchByCategory = () => {
   if (error) {
     return <div>Error</div>
   }
-
-  const prodhuesit = [
-    'asus',
-    'dell',
-    'acer',
-    'asus',
-    'dell',
-    'acer',
-    'asus',
-    'dell',
-    'acer',
-    'asus',
-    'dell',
-    'acer',
-  ]
 
   return (
     <div
@@ -435,14 +275,14 @@ const SearchByCategory = () => {
             <div className="product-filter price-range-filter overflow-hidden">
               <div
                 onClick={() => setFilterByPrice((state) => !state)}
-                className="filter-title w-100  bg-white d-flex justify-content-between align-items-center border-b px-3 py-2 hover:cursor-pointer"
+                className="filter-title cursor-pointer w-100  bg-white d-flex justify-content-between align-items-center border-b px-3 py-2 hover:cursor-pointer"
               >
                 <span
                   className="text-sm text-gray-700 d-flex align-items-center"
                   onClick={() => setFilterByPrice(true)}
                 >
                   <i className="icon-payment-money-usd text-gray-700 text-2xl"></i>
-                  Filtro sipas çmimit
+                  Filter by price
                 </span>
                 <i className="icon-chevron-line-up text-gray-600 text-sm transform transition-all">
                   {filterByPrice ? (
@@ -494,35 +334,49 @@ const SearchByCategory = () => {
               )}
             </div>
             <div className="product-filter product-spec-filter overflow-hidden">
-              <div className="filter-title px-3 py-2 d-flex justify-content-between align-items-center select-none border-b text-left hover:cursor-pointer">
-                <span className="text-sm text-gray-700 d-flex align-items-center">
-                  {/* <icon className="icon-filter-drag text-gray-700 text-xl pr-1"></icon> */}
-                  Filtro sipas cilësive
-                </span>
-                <i className="icon-chevron-line-up text-gray-600 text-lg md:block transform transition-all rotate-180"></i>
-              </div>
               <div
-                className="filter-content w-100  bg-white overflow-y-scroll max-h-64 scrollbar-modifier"
-                style={{ maxHeight: '16rem' }}
+                onClick={() =>
+                  setFilterByManufacturer((state: boolean) => !state)
+                }
+                className="filter-title cursor-pointer px-3 py-2 d-flex justify-content-between align-items-center select-none border-b text-left hover:cursor-pointer"
               >
-                <ul className=" product-manufacturer-group select-none">
-                  {prodhuesit.map(() => (
-                    <li className="item d-flex align-items-center border-b px-3 py-2 hover:cursor-pointer ">
-                      <input
-                        id="attribute-manufacturer-2046"
-                        type="checkbox"
-                        data-manufacturer-id="2046"
-                      />
-                      <label
-                        className="text-gray-600 text-xs pl-2"
-                        htmlFor="attribute-manufacturer-2046"
-                      >
-                        DJI Osmo
-                      </label>
-                    </li>
-                  ))}
-                </ul>
+                <span className="text-sm text-gray-700 d-flex align-items-center">
+                  Filter by manufacturer
+                </span>
+                <i className="icon-chevron-line-up text-gray-600 text-sm transform transition-all">
+                  {filterByManufacturer ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  )}
+                </i>
               </div>
+              {filterByManufacturer && (
+                <div
+                  className="filter-content w-100  bg-white overflow-y-scroll max-h-64 scrollbar-modifier"
+                  style={{ maxHeight: '16rem' }}
+                >
+                  <ul className=" product-manufacturer-group select-none">
+                    {manufacturers.map((item: string) => (
+                      <li className="item d-flex align-items-center border-b px-3 py-2 hover:cursor-pointer ">
+                        <input
+                          id={`attribute-manufacturer-${item}`}
+                          type="checkbox"
+                          data-manufacturer-id={item}
+                          onChange={() => handleManufacturerChange(item)}
+                          checked={selectedManufacturers.includes(item)}
+                        />
+                        <label
+                          className="text-gray-600 text-xs pl-2"
+                          htmlFor={`attribute-manufacturer-${item}`}
+                        >
+                          {item}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -682,7 +536,7 @@ const SearchByCategory = () => {
                               <div className="picture position-relative px-4 pt-6">
                                 <a
                                   className="position-relative block"
-                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                  href={`/product/${result.id}`}
                                   title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
                                 >
                                   <Image
@@ -711,7 +565,7 @@ const SearchByCategory = () => {
                                   <a
                                     className="text-gray-700 text-sm md:text-base product-title-lines hover:underline"
                                     title="Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
-                                    href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                    href={`/product/${result.id}`}
                                   >
                                     {result.title}
                                   </a>

@@ -77,6 +77,8 @@ const LoginPageCompoonent: React.FC<ComponentProps> = (props) => {
   const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
   const buttonParam = queryParams.get('useAnotherAccount')
+  const resetParam = queryParams.get('rpMess')
+  console.log('resetParam', resetParam)
   const emailParam = queryParams.get('email')
   const validatedUser = useAppSelector((state) => state.auth)
   console.log('validatedUser', validatedUser)
@@ -86,6 +88,7 @@ const LoginPageCompoonent: React.FC<ComponentProps> = (props) => {
   const [passwordError, setPasswordError] = useState<null | string>(null)
 
   const isAnotherAccount = buttonParam === 'True'
+  const resetPassword = resetParam === 'True'
 
   const handleSubmit = async (values: any) => {
     setLoading(true)
@@ -116,6 +119,17 @@ const LoginPageCompoonent: React.FC<ComponentProps> = (props) => {
   return (
     <div className="auth-main-container">
       <div className="auth-wrapper">
+        {resetPassword && (
+          <div
+            className="alert alert-dismissible alert-wrapper success fade-in active"
+            role="alert"
+          >
+            If you have a registered account with the information that you
+            provided, you will receive an email to complete the process to reset
+            your password.
+          </div>
+        )}
+
         <div className="auth-inner">
           <div className="inner-header  text-center">
             <div className="main-title">

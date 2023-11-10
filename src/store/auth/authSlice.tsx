@@ -1,12 +1,22 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import {
+  SerializedError,
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit'
 import authService from './authService'
 import {
   AuthPromise,
   ChangePasswordInput,
   LoginUserData,
+  ResetPasswordInput,
   SignupUserData,
   User,
 } from '@/helpers/types'
+
+type ResetPasswordThunkArgs = {
+  body: ResetPasswordInput
+  token: string
+}
 
 interface AuthState {
   user: User | null
@@ -15,7 +25,7 @@ interface AuthState {
   countries: any[] | null
   isLoading: boolean
   isSuccess: boolean
-  error: string | null
+  error: string | null | SerializedError
   message?: string
   accessToken: string | null
   refreshToken: string | null
@@ -75,8 +85,14 @@ export const login = createAsyncThunk(
   }
 )
 
-export const logout = createAsyncThunk('auth/logout', () => {
-  authService.logout()
+export const logout = createAsyncThunk('auth/logout', async () => {
+  try {
+    const response = await authService.logout()
+    return response.data
+  } catch (error) {
+    console.error('Logout error:', error)
+    throw error
+  }
 })
 
 export const userLogin = createAsyncThunk('auth/userLogin', async () => {
@@ -140,6 +156,40 @@ export const updateMyPassword = createAsyncThunk<
     return thunkAPI.rejectWithValue(message)
   }
 })
+
+export const forgotPassword = createAsyncThunk(
+  'auth/forgotPassword',
+  async (email: string, thunkAPI) => {
+    try {
+      return await authService.forgotPassword(email)
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ body, token }: ResetPasswordThunkArgs, thunkAPI) => {
+    try {
+      return await authService.resetPassword(body, token)
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
@@ -276,9 +326,42 @@ const authSlice = createSlice({
         state.isSuccess = false
         state.isLoading = false
         state.authPromise = null
-        state.error = 'Error while trying to update password'
+        state.error = action.error
         state.message = action.error.message
         state.validatedUserByEmail = false
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(forgotPassword.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.error = null
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.countries = null
+        state.isSuccess = false
+        state.isLoading = false
+        state.authPromise = null
+        state.error = action.error
+        state.message = action.error.message
+        state.validatedUserByEmail = false
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(resetPassword.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.error = null
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.countries = null
+        state.isSuccess = false
+        state.isLoading = false
+        state.authPromise = null
+        state.error = action.error
+        state.message = action.error.message
       })
   },
 })

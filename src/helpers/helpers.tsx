@@ -80,3 +80,13 @@ export const Image = ({ src, alt, className, ...props }: ImageHelperTypes) => {
 export const generateOrderCode = () => {
   return uuidv4()
 }
+
+export const isPasswordLengthValid = (password: string) => password.length >= 8
+
+export const containsSpecialCharacter = (password: string) =>
+  /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+export const containsNumber = (password: string) => /\d/.test(password)
+
+export const containsUppercaseLetter = (password: string) =>
+  /[A-Z]/.test(password)

@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom'
 import { useGetProductsQuery } from '@/store/products/RTKProductSlice'
 import { Product } from '@/helpers/types'
 import { Image } from '@/helpers/helpers'
+import LoadingModal from './LoadingModal'
 
 const Navigation = () => {
   const navigate = useNavigate()
@@ -32,6 +33,7 @@ const Navigation = () => {
   )
   const [test, setTest] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [loadingModal, setLoadingModal] = useState(false)
   const { data } = useGetProductsQuery()
   const { user, isSuccess, error, message, isLoading, countries } =
     useAppSelector((state) => state.auth)
@@ -43,14 +45,21 @@ const Navigation = () => {
     isLoading: cartLoading,
   } = useGetCartProductsQuery()
 
-  const onLogout = () => {
+  const onLogout = async () => {
     setLoading(true)
-    dispatch(logout())
-    dispatch(reset())
-    setTimeout(() => {
-      navigate('/')
-      setLoading(false)
-    }, 1500)
+    try {
+      await dispatch(logout())
+      dispatch(reset())
+    } catch (error) {
+      console.error('Logout error:', error)
+    } finally {
+      setLoadingModal(true)
+      setTimeout(() => {
+        navigate('/')
+        setLoading(false)
+        setLoadingModal(false)
+      }, 1500)
+    }
   }
 
   useEffect(() => {
@@ -79,11 +88,7 @@ const Navigation = () => {
   }
 
   const goToLogin = () => {
-    navigate('/login/identifier')
-  }
-
-  const searchHandler = () => {
-    navigate('/search')
+    navigate('/login/identifier?useAnotherAccount=True')
   }
 
   const handleSearchChange = (event: any) => {
@@ -502,30 +507,12 @@ const Navigation = () => {
           </div>
         )}
       </div>
-      <div
-        className="ajax-loading-block-window"
-        style={{ display: 'none' }}
-      ></div>
-      <div
-        id="dialog-notifications-success"
-        title="Njoftim"
-        style={{ display: 'none' }}
-      ></div>
-      <div
-        id="dialog-notifications-error"
-        title="Gabim"
-        style={{ display: 'none' }}
-      ></div>
-      <div
-        id="dialog-notifications-warning"
-        title="Paralajmërim"
-        style={{ display: 'none' }}
-      ></div>
-      <div
-        id="bar-notification"
-        className="bar-notification-container"
-        data-close="Mbyll"
-      ></div>
+      {loadingModal && (
+        <LoadingModal
+          show={loadingModal}
+          onHide={() => setLoadingModal(false)}
+        />
+      )}
     </div>
   )
 }

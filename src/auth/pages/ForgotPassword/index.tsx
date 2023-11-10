@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 import { TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
-import { validateUserByEmail } from '@/store/auth/authSlice'
+import { forgotPassword, validateUserByEmail } from '@/store/auth/authSlice'
 import LoadingBar from '@/ui/Loading/LoadingBar'
 
 const ForgotPassword = () => {
@@ -15,44 +15,35 @@ const ForgotPassword = () => {
   const [emailError, setEmailError] = useState<string | null>(null)
   const { isLoading } = useAppSelector((state) => state.auth)
 
-  const validateEmail = (value: string) => {
-    if (!value) {
-      setEmailError('Email is required')
-    } else {
-      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-
-      if (!emailRegex.test(value)) {
-        setEmailError('Invalid email address')
-      } else {
-        setEmailError('')
-      }
-    }
-  }
   const handleEmailChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const newValue = e.target.value
     setEmail(newValue)
-    // validateEmail(newValue)
   }
 
-  const continueValidation = async (e: any) => {
+  const continueValidation = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    validateEmail(email)
-
-    if (emailError === '' || emailError === null) {
-      try {
-        await dispatch(validateUserByEmail(email))
-      } catch (error) {
-        setEmailError('Validation failed')
-      } finally {
-        setLoading(false)
-      }
+    console.log('email', email)
+    try {
+      await dispatch(forgotPassword(email)).then((res) => {
+        if (res.payload.status === 'success') {
+          navigate('/login/identifier?useAnotherAccount=True&rpMess=True', {
+            state: {
+              message: `If you have a registered account with the information that you provided, you will receive an email to complete the process to reset your password.`,
+            },
+          })
+        } else {
+          setEmailError(res.payload)
+        }
+      })
+    } catch (error) {
+      console.error('Forgot password error:', error)
+    } finally {
+      setLoading(false)
     }
   }
-
-  console.log('loading', loading)
 
   return (
     <div className="auth-main-container">
