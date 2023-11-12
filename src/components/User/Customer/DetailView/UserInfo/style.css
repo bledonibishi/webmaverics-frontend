@@ -1,7 +1,8 @@
 .personal-info_topdiv {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 15px;
+
+  gap: 1.5rem;
   padding-bottom: 15px;
 }
 .personal-info__input {
@@ -21,17 +22,27 @@
   background: 0 0;
   box-shadow: none;
 }
-
-.account-page .customer-info-input,
-input[type='text'].customer-info-input,
-select.customer-info-input,
-textarea.customer-info-input {
-  border-radius: 0;
-  border: none;
-  border-bottom: 1px solid #eaeaea !important;
-  padding: 0;
-  color: #1a1a1a;
-  font-size: 0.875rem;
-  line-height: 1.125rem;
-  font-weight: 500;
+.account-page input[type='radio']:checked {
+  border: 1px solid #f04d24 !important;
+}
+.account-page input[type='radio'] {
+  border: 1px solid #b3b3b3 !important;
+}
+input[type='radio']:checked {
+  border: 2px solid #e15726 !important;
+}
+input[type='radio']:checked::after {
+  content: '';
+  background-color: #e15726;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border: 5px solid #e15726;
+  border-radius: 50%;
+}
+.form-check-input:checked {
+  background-color: transparent;
 }

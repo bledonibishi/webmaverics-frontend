@@ -7,7 +7,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 const OrdersHeader = () => {
   return (
     <div className="d-flex justify-content-between orders-header">
-      <p className="text-lg">Porosite</p>
+      <p className="text-lg  py-2">Porosite</p>
       <div className="d-flex align-items-center">
         <FormSelect
           className="addresses-select"

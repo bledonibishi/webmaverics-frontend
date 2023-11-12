@@ -81,15 +81,6 @@ const ProductItem = () => {
     setQuantity(quantity + 1)
   }
 
-  console.log('product', product)
-
-  const handleImageChange = (newImage: string) => {
-    console.log('newImage', newImage)
-    setSelectedImage(newImage)
-  }
-
-  console.log('selectedImage', selectedImage)
-
   useEffect(() => {
     dispatch(getProductWithId(id))
   }, [])
@@ -339,7 +330,6 @@ const ProductItem = () => {
                       value={quantity}
                       max={product?.stock}
                       pattern="[0-9]"
-                      // onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57"
                       id="product_enteredQuantity_160697"
                       className="quantity quantity-in-product border qty outline-none focus:ring-2 focus:ring-primary"
                       aria-label="Shkruani një sasi"

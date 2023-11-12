@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import WrappingCard from '../../../../../ui/WrappingCard'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faSearch } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowRight,
+  faReorder,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { Form, FormSelect, InputGroup } from 'react-bootstrap'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
@@ -80,27 +84,6 @@ const OrderCard = ({
           </div>
         ))}
       </div>
-      {/* <div className="order-card-content w-100">
-        {products.map((prod) => (
-          // <img
-          //   src={
-          //     typeof prod.product === 'string'
-          //       ? ''
-          //       : prod.product.imageCover || undefined
-          //   }
-          //   alt=""
-          // />
-          <Image
-            src={
-              typeof prod.product === 'string'
-                ? ''
-                : prod.product.imageCover || ''
-            }
-            alt="imageCover"
-            className=""
-          />
-        ))}
-      </div> */}
     </>
   )
 }
@@ -165,20 +148,38 @@ const Orders = () => {
           </div>
         </div>
       </WrappingCard>
-      {orders.map((order) => (
-        <WrappingCard marginBtm={'20px'} padding="12px">
-          <OrderCard
-            id={order._id}
-            sericalNumber={order.orderCode}
-            completionDate={order.arrivalDate}
-            status={order.status}
-            price={order.totalOrderPrice}
-            products={order.products}
-            orders={orders}
-          />
-        </WrappingCard>
-      ))}
-      <WrappingCard padding="12px">Pagination</WrappingCard>
+      {orders.length ? (
+        orders.map((order) => (
+          <WrappingCard marginBtm={'20px'} padding="12px">
+            <OrderCard
+              id={order._id}
+              sericalNumber={order.orderCode}
+              completionDate={order.arrivalDate}
+              status={order.status}
+              price={order.totalOrderPrice}
+              products={order.products}
+              orders={orders}
+            />
+          </WrappingCard>
+        ))
+      ) : (
+        <div className="no-data w-100 bg-white rounded shadow-md d-flex flex-col align-items-center px-4 py-5">
+          <div className="w-32 h-32 rounded-full bg-gray-100 d-flex align-items-center justify-content-center mb-4">
+            <i className="icon-megaphone text-6xl text-gray-600">
+              <FontAwesomeIcon icon={faReorder} />
+            </i>
+          </div>
+          <p className="font-medium text-base tablet:text-lg text-center break-words">
+            Ju ende nuk keni bërë ndonjë porosi
+          </p>
+          <p className="text-sm tablet:text-base text-center break-words">
+            Kontrolloni përsëri pas blerjes së ardhshme.
+          </p>
+        </div>
+      )}
+      {orders.length ? (
+        <WrappingCard padding="12px">Pagination</WrappingCard>
+      ) : null}
     </div>
   )
 }

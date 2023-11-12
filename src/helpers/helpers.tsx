@@ -53,6 +53,17 @@ export function formatISODateRange(
 
   return `${startDay} ${startMonth} - ${endDay} ${endMonth}`
 }
+export function formatISODateRange1date(numberOfDays1: number) {
+  const today = new Date()
+  const futureDate1 = new Date(today)
+  futureDate1.setDate(today.getDate() + numberOfDays1)
+
+  const startDay1 = futureDate1.getUTCDate()
+  const startMonth1 = futureDate1.toLocaleString('default', { month: 'long' })
+  const startYear1 = futureDate1.toLocaleString('default', { year: 'numeric' })
+
+  return `${startDay1} ${startMonth1} ${startYear1}`
+}
 export function formatISODateRange2dates(
   numberOfDays1: number,
   numberOfDays2: number
@@ -65,10 +76,12 @@ export function formatISODateRange2dates(
 
   const startDay1 = futureDate1.getUTCDate()
   const startMonth1 = futureDate1.toLocaleString('default', { month: 'long' })
+  const startYear1 = futureDate1.toLocaleString('default', { year: 'numeric' })
   const startDay2 = futureDate2.getUTCDate()
   const startMonth2 = futureDate2.toLocaleString('default', { month: 'long' })
+  const startYear2 = futureDate1.toLocaleString('default', { year: 'numeric' })
 
-  return `${startDay1} ${startMonth1} - ${startDay2} ${startMonth2}`
+  return `${startDay1} ${startMonth1} ${startYear1} - ${startDay2} ${startMonth2} ${startYear2}`
 }
 
 export const Image = ({ src, alt, className, ...props }: ImageHelperTypes) => {

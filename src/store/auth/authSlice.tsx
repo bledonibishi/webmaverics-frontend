@@ -10,6 +10,7 @@ import {
   LoginUserData,
   ResetPasswordInput,
   SignupUserData,
+  UpdateMeTypes,
   User,
 } from '@/helpers/types'
 
@@ -102,6 +103,20 @@ export const userLogin = createAsyncThunk('auth/userLogin', async () => {
     console.log('err', err)
   }
 })
+
+export const updateMe = createAsyncThunk(
+  'auth/updateMe',
+  async (body: UpdateMeTypes, { rejectWithValue }) => {
+    try {
+      const response = await authService.updateMe(body)
+      console.log('response', response)
+
+      return response
+    } catch (error: any) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
 
 export const refreshToken = createAsyncThunk('auth/refreshToken', async () => {
   try {
@@ -229,6 +244,26 @@ const authSlice = createSlice({
         state.error = 'Error when trying to login'
         state.message = action.error.message
       })
+      .addCase(updateMe.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateMe.fulfilled, (state, action) => {
+        state.isAuthenticated = true
+        state.isLoading = false
+        state.isSuccess = true
+        state.error = null
+        state.message = ''
+        state.user = { ...state.user, ...action.payload }
+      })
+      .addCase(updateMe.rejected, (state, action) => {
+        state.user = null
+        state.isAuthenticated = false
+        state.isSuccess = false
+        state.isLoading = false
+        state.error = 'Error when trying to update user'
+        state.message = action.error.message
+      })
+
       .addCase(signup.pending, (state) => {
         state.isLoading = true
       })
@@ -242,6 +277,7 @@ const authSlice = createSlice({
 
         console.log('Signup successful:', action.payload)
       })
+
       .addCase(signup.rejected, (state, action) => {
         state.user = null
         state.isSuccess = false

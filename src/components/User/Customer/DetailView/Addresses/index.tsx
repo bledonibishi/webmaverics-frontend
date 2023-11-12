@@ -67,7 +67,7 @@ const Addresses = () => {
   return (
     <>
       <WrappingCard marginBtm="20px" padding="12px">
-        <div className="d-flex align-items-center  justify-content-between account-details-container">
+        <div className="d-flex align-items-center  justify-content-between account-details-container py-2">
           <div className="text-base font-medium">Adresat</div>
           <button
             type="button"

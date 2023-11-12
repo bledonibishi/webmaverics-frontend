@@ -45,7 +45,13 @@ const CalculateTotalPrice = (items: CartItemProduct[] | undefined) => {
 
   const totalPriceWithVAT = items?.reduce(
     (total: number, cartItem: CartItemProduct) => {
-      return total + cartItem.product.priceDiscount * cartItem.quantity
+      return (
+        total +
+        (cartItem.product.priceDiscount
+          ? cartItem.product.priceDiscount
+          : cartItem.product.price) *
+          cartItem.quantity
+      )
     },
     0
   )

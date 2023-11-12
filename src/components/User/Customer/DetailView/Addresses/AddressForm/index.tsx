@@ -8,9 +8,67 @@ import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { getAddressWithId } from '@/store/addresses/addressesSlice'
 import LoadingBar from '@/ui/Loading/LoadingBar'
+import {
+  createTheme,
+  ThemeProvider,
+  Theme,
+  useTheme,
+} from '@mui/material/styles'
+
+const customTheme = (outerTheme: Theme) =>
+  createTheme({
+    palette: {
+      mode: outerTheme.palette.mode,
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '--TextField-brandBorderColor': '#E0E3E7',
+            '--TextField-brandBorderHoverColor': '#B2BAC2',
+            '--TextField-brandBorderFocusedColor': '#e65228',
+            '& label.Mui-focused': {
+              color: '#e65228',
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            '&:before, &:after': {
+              borderBottom: '2px solid var(--TextField-brandBorderColor)',
+            },
+            '&:hover:not(.Mui-disabled, .Mui-error):before': {
+              borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
+            },
+            '&.Mui-focused:after': {
+              borderBottom: '2px solid #e65228',
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            '&:before': {
+              borderBottom: '1px solid var(--TextField-brandBorderColor)',
+            },
+            '&:hover:not(.Mui-disabled, .Mui-error):before': {
+              borderBottom: '1px solid #e65228',
+            },
+            '&.Mui-focused:after': {
+              borderBottom: '1px solid #e65228',
+            },
+          },
+        },
+      },
+    },
+  })
 
 const AddressForm = () => {
   const dispatch = useAppDispatch()
+  const outerTheme = useTheme()
   const [loading, setLoading] = useState(false)
   const { id } = useParams()
   const isEditing = !!id
@@ -106,12 +164,14 @@ const AddressForm = () => {
                 selectedType={selectedType}
                 isEditing={isEditing}
                 addressToEdit={address}
+                customTheme={customTheme}
               />
             ) : (
               <BusinessForm
                 selectedType={selectedType}
                 isEditing={isEditing}
                 addressToEdit={address}
+                customTheme={customTheme}
               />
             )}
           </div>

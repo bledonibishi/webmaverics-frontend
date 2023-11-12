@@ -71,7 +71,7 @@ export type User = {
   user: {
     name: string
     surname: string
-    gender: string
+    gender?: 'male' | 'female'
     country: string
     cart: string
     city: string
@@ -80,24 +80,27 @@ export type User = {
     photo: string
     role: string
     wishlist?: string
-    birthYear: number
-    birthMonth: number
-    birthDay: number
+    birthdate?: Date
   }
 }
 
 export type SignupUserData = {
   name: string
   surname: string
-  gender?: string
+  gender?: 'male' | 'female'
   country?: string
   city?: string
   email: string
   password: string
   passwordConfirm: string
-  birthYear?: number
-  birthMonth?: number
-  birthDay?: number
+  birthdate?: Date
+}
+
+export type UserInfoTypes = {
+  name: string
+  surname: string
+  birthdate?: Date
+  gender?: 'male' | 'female'
 }
 
 export type SignupPayload = {
@@ -117,6 +120,13 @@ export type SignupPayload = {
 export type LoginUserData = {
   email: string
   password: string
+}
+
+export type UpdateMeTypes = {
+  name: string
+  surname: string
+  birthdate?: Date
+  gender?: 'male' | 'female'
 }
 
 export type ResetPasswordInput = {
@@ -296,4 +306,16 @@ export type OrderData = {
   hasMore: boolean
   object: string
   url: string
+}
+export type NewAddressCheckout = {
+  type: string
+  name: string
+  surname: string
+  company?: string
+  fiscalNumber?: string
+  country: string
+  city: string
+  address: string
+  email: string
+  telephone: number | null
 }

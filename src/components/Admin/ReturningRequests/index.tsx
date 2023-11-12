@@ -51,10 +51,10 @@ const ReturningRequests = () => {
                     <a
                       onClick={() =>
                         setDetails((prevDetails) => {
-                          const newDetails = [...prevDetails] // Create a copy of the details array
+                          const newDetails = [...prevDetails]
                           newDetails[index] = {
                             ...newDetails[index],
-                            state: !newDetails[index]?.state, // Toggle the state for the specific item
+                            state: !newDetails[index]?.state,
                           }
                           return newDetails
                         })
@@ -130,8 +130,12 @@ const ReturningRequests = () => {
                             </li>
                           </ul>
                         </div>
-                        <div className="font-semibold text-sm tablet:text-base whitespace-nowrap">
-                          35.50 €
+                        <div className="font-semibold text-sm tablet:text-base d-flex flex-col whitespace-nowrap">
+                          <div>35.50 €</div>
+                          <div className="d-flex align-items-center">
+                            <a href="">Approve</a>
+                            <a href="">Deny</a>
+                          </div>
                         </div>
                       </div>
                     </div>

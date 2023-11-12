@@ -25,23 +25,15 @@ const Asus = require('@/assets/images/asus.png')
 const OrderDetails = () => {
   const location = useLocation()
   const { id } = useParams()
-  const dispatch = useAppDispatch()
   const orderResponse = location.state.orders
 
   const [returnRequestModal, setReturnRequestModal] = useState(false)
 
   const order1 = orderResponse.find((order: Order) => order._id === id)
-  console.log('order', order1)
 
   const totalPriceInfo = CalculateTotalPrice(order1?.products)
-  const {
-    totalPriceWithoutVAT,
-    totalPriceWithVAT,
-    totalTvsh,
-    discountValueInEuros,
-    priceAfterDiscount,
-    discountedTotalPriceWithoutVAT,
-  } = totalPriceInfo
+  const { discountValueInEuros, discountedTotalPriceWithoutVAT } =
+    totalPriceInfo
 
   return (
     <>

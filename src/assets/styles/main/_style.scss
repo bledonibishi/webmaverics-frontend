@@ -543,7 +543,7 @@ input[type='number'] {
 }
 @media (min-width: 811px) {
   .md\:justify-start {
-    justify-content: flex-start;
+    justify-content: flex-start !important;
   }
 }
 
@@ -656,15 +656,22 @@ input[type='number'] {
   }
 }
 @media (min-width: 811px) {
-  .md\:col-span-4 {
-    grid-column: span 4 / span 4;
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2 !important;
   }
 }
 @media (min-width: 811px) {
-  .md\:col-span-2 {
-    grid-column: span 2 / span 2;
+  .md\:col-span-4 {
+    grid-column: span 4 / span 4 !important;
   }
 }
+@media (min-width: 811px) {
+  .md\:px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
 .col-span-6 {
   grid-column: span 6 / span 6;
 }
@@ -701,11 +708,11 @@ input[type='number'] {
 .grid {
   display: grid;
 }
-.grid-cols-10 {
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-}
 .flex-grow {
   flex-grow: 1;
+}
+.top-3 {
+  top: 0.75rem;
 }
 
 .underline {
@@ -874,13 +881,14 @@ input[type='number'] {
     margin-right: auto;
   }
 }
-.grid-cols-10 {
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-}
+
 @media (min-width: 811px) {
   .md\:gap-4 {
     gap: 1rem !important;
   }
+}
+.grid-cols-10 {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1058,4 +1066,35 @@ input[type='number'] {
 
 .scrollbar-modifier {
   scrollbar-color: #888 #f4f4f4;
+}
+@media (min-width: 811px) {
+  .md\:grid-flow-col {
+    grid-auto-flow: column;
+  }
+}
+@media (min-width: 811px) {
+  .md\:p-0 {
+    padding: 0 !important;
+  }
+}
+.col-span-10 {
+  grid-column: span 10 / span 10;
+}
+.center-3 {
+  width: 100%;
+}
+.side-3 {
+  width: 100%;
+}
+@media (min-width: 811px) {
+  .center-3 {
+    float: left !important;
+    width: 68.7%;
+  }
+}
+@media (min-width: 811px) {
+  .side-3 {
+    float: right !important;
+    width: 30%;
+  }
 }

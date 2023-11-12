@@ -4,6 +4,7 @@ import {
   LoginUserData,
   ResetPasswordInput,
   SignupUserData,
+  UpdateMeTypes,
   User,
 } from '@/helpers/types'
 import axiosInstance from '../../api/axiosInstance'
@@ -38,6 +39,28 @@ const login = async (userData: LoginUserData) => {
   }
 
   return response.data
+}
+
+const updateMe = async (body: UpdateMeTypes) => {
+  try {
+    const response = await axiosInstance.patch(API_URL + 'updateMe', body)
+    console.log('response', response)
+
+    const updatedUser = response.data
+
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
+    const updatedStoredUser = { ...storedUser, ...updatedUser }
+    const userObject = {
+      token: localStorage.getItem('token'),
+      user: { ...storedUser, ...updatedUser },
+    }
+    localStorage.setItem('user', JSON.stringify(updatedStoredUser))
+
+    return updatedUser
+  } catch (error) {
+    console.error('API call failed', error)
+    throw error
+  }
 }
 
 const logout = async () => {
@@ -126,6 +149,7 @@ const authService = {
   changePassword,
   forgotPassword,
   resetPassword,
+  updateMe,
 }
 
 export default authService

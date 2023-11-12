@@ -27,8 +27,8 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
         <p className="text-sm pb-3">Faleminderit që je pjesë e Gjirafa50</p>
       </div>
       <div className="costumer-sidebar__body ">
-        <ul className="list flex-col gap-2 p-0 m-0">
-          <li>
+        <ul className="list flex-col gap-2 p-0 mt-2">
+          <li className="pb:7">
             <Link
               to={`/customer/info`}
               onClick={() => onLinkClick('info')}
@@ -40,7 +40,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
               Të dhënat personale
             </Link>
           </li>
-          <li>
+          <li className="pb:7">
             <Link
               to="/customer/addresses"
               onClick={() => onLinkClick('addresses')}
@@ -56,7 +56,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
               Adresat
             </Link>
           </li>
-          <li>
+          <li className="pb:7">
             <Link
               to="/customer/orders"
               onClick={() => onLinkClick('orders')}
@@ -70,7 +70,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
               Porosite
             </Link>
           </li>
-          <li>
+          <li className="pb:7">
             <Link
               to="/customer/wishlist"
               onClick={() => onLinkClick('wishlist')}
@@ -84,7 +84,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
               Lista e deshirave
             </Link>
           </li>
-          <li>
+          <li className="pb:7">
             <a
               href="/customer/return-requests"
               onClick={() => onLinkClick('return-requests')}
@@ -98,7 +98,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
               Kerkesat per kthim
             </a>
           </li>
-          <li>
+          <li className="pb:7">
             <a
               href="/customer/returned-products"
               onClick={() => onLinkClick('returned-products')}
@@ -112,7 +112,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
               Produktet e kthyera ne stok
             </a>
           </li>
-          <li>
+          <li className="pb:7">
             <a
               href="/changePassword"
               className={`customer-nav anchor-links link-hover-effect group customer-info ${
@@ -125,7 +125,7 @@ const Sidebar = ({ onLinkClick, activeLink }: sidebarProps) => {
               Ndrysho fjalekalimin
             </a>
           </li>
-          <li>
+          <li className="pb:7">
             <a
               href="/customer/productreviews"
               onClick={() => onLinkClick('productreviews')}

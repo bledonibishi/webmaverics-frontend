@@ -13,8 +13,8 @@ const AddressesHeader = () => {
   }
 
   return (
-    <div className="d-flex align-items-center justify-content-between account-details-container">
-      <div className="text-base font-medium">Adresat</div>
+    <div className="d-flex align-items-center justify-content-between account-details-container py-2">
+      <div className="text-base font-medium  ">Adresat</div>
       <button
         type="button"
         className="add-address-button text-primary text-xs font-semibold"

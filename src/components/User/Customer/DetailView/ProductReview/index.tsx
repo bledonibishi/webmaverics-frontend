@@ -87,7 +87,7 @@ const ProductReview = () => {
             ))}
           </div>
         ) : (
-          <div className="no-data bg-white rounded  d-flex flex-col align-items-center justify-content-center px-4 py-10">
+          <div className="no-data bg-white rounded  d-flex flex-col align-items-center justify-content-center px-4 py-5">
             <div className="w-32 h-32 rounded-full bg-gray-100 d-flex align-items-center justify-content-center mb-4">
               <i className="icon-star text-6xl text-gray-600">
                 <FontAwesomeIcon icon={faStar} />

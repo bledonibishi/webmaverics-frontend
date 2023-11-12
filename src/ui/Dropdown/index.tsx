@@ -13,7 +13,13 @@ import '@szhsin/react-menu/dist/index.css'
 import '@szhsin/react-menu/dist/transitions/slide.css'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShoppingCart, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import {
+  faHeart,
+  faReorder,
+  faShoppingCart,
+  faTrashCan,
+  faUserEdit,
+} from '@fortawesome/free-solid-svg-icons'
 import { CartItemProduct } from '@/helpers/types'
 import {
   useDeleteCartProductMutation,
@@ -116,23 +122,6 @@ const CustomDropdown = ({
         state={isOpen ? 'open' : 'closed'}
         anchorRef={ref}
         onClose={() => setOpen(false)}
-        // menuButton={
-        //   <span
-        //     title="Shporta e blerjes"
-        //     id="topcartlink"
-        //     className="ico-cart nav-i-animation i-bg-effect position-relative"
-        //   >
-        //     <span className="icon-cart-shopping text-white md:text-white text-xl">
-        //       {buttonContent}
-        //       {icon}
-        //     </span>
-        //     {hasCartNumber && (
-        //       <span className="cart-qty animate-flip bg-primary rounded-full position-absolute top-0 right-0">
-        //         {cartItemProducts?.length || 0}
-        //       </span>
-        //     )}
-        //   </span>
-        // }
         menuClassName={menuClassName}
         transition
         align={align}
@@ -176,7 +165,12 @@ const CustomDropdown = ({
                       style={{ display: 'flex', flexDirection: 'column' }}
                     >
                       <h6 className="text-sm">{item.product.title}</h6>
-                      <small>Qmimi per njesi: {item.product.price}€</small>
+                      <small>
+                        Qmimi per njesi:{' '}
+                        {item.product.priceDiscount
+                          ? `${Math.round(item.product.priceDiscount)}.00 €`
+                          : `${Math.round(item.product.price)}.00 €`}
+                      </small>
                       <small>Sasia: {item.quantity}</small>
                     </div>
                     <div className="cartItem_action text-md">
@@ -194,9 +188,7 @@ const CustomDropdown = ({
               >
                 Total:
                 <p className="text-gray-700 fw-bold pl-2">
-                  {/* version original */}
-                  {/* {cartItemProducts.map((item) => item.price)} */}
-                  {totalPriceWithVAT?.toFixed(2)} €
+                  {Math.round(totalPriceWithVAT ? totalPriceWithVAT : 0)}.00 €
                 </p>
               </div>
               <div className="buttons d-flex justify-content-center px-4 ">
@@ -212,15 +204,37 @@ const CustomDropdown = ({
             <MenuItem>Nuk keni ndonje product</MenuItem>
           )
         ) : (
-          menuItems?.map((item, index) => (
+          <>
+            <div className="userinfo-div">
+              <MenuItem
+                className={menuItemClassName}
+                onClick={() => navigate('/customer/info')}
+              >
+                <FontAwesomeIcon icon={faUserEdit} />
+                Profile info
+              </MenuItem>
+            </div>
             <MenuItem
               className={menuItemClassName}
-              onClick={logout}
-              key={index}
+              onClick={() => navigate('/customer/orders')}
             >
-              {item}
+              <FontAwesomeIcon icon={faReorder} />
+              Orders
             </MenuItem>
-          ))
+            <MenuItem
+              className={menuItemClassName}
+              onClick={() => navigate('/customer/wishlist')}
+            >
+              <FontAwesomeIcon icon={faHeart} />
+              Wishlist
+            </MenuItem>
+            <div className="logout-div">
+              <MenuItem className={menuItemClassName} onClick={logout}>
+                <FontAwesomeIcon icon={faUserEdit} />
+                Logout
+              </MenuItem>
+            </div>
+          </>
         )}
       </ControlledMenu>
     </>

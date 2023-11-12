@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 type OpcShippingMethodPropTypes = {
   handleContinue: (activeStep: string) => void
   shippingMethod: string | null
-  setShippingMethod: React.Dispatch<React.SetStateAction<string | null>>
+  setShippingMethod: React.Dispatch<React.SetStateAction<string>>
 }
 
 const OpcShippingMethod: React.FC<OpcShippingMethodPropTypes> = ({

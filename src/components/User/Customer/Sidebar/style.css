@@ -26,9 +26,18 @@
 .anchor-links:last-child {
   margin-bottom: 0;
 }
+.anchor-links:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 238 233 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(230 82 40 / var(--tw-text-opacity));
+}
 .active-link-effect {
   --tw-bg-opacity: 1;
   background-color: rgb(252 238 233 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgb(230 82 40 / var(--tw-text-opacity));
+}
+.pb\:7 {
+  padding-bottom: 7px;
 }
