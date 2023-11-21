@@ -30,6 +30,8 @@ const SearchComponent = () => {
   const [showDiscountedProducts, setShowDiscountedProducts] =
     useState<boolean>(false)
   const [minPrice, setMinPrice] = useState<number>(0)
+  const [inStock, setInStock] = useState(false)
+  const [tfTransport, setTfTransport] = useState(false)
   const [maxPrice, setMaxPrice] = useState<number>(7999)
   const [filteredData, setFilteredData] = useState<Product[] | undefined>([])
   const [selectedManufacturers, setSelectedManufacturers] = useState<string[]>(
@@ -47,6 +49,8 @@ const SearchComponent = () => {
   }
 
   const filterProducts = (product: Product) => {
+    const inStockCondition = inStock ? product.stock : true
+    const tfTransportCondition = tfTransport ? product.tfTransport : true
     const productTags: string[] = product.tags.map((tag: string) =>
       tag.toLowerCase()
     )
@@ -71,7 +75,9 @@ const SearchComponent = () => {
       isNewCondition &&
       hasDiscountCondition &&
       isInRange &&
-      manufacturerSelected
+      manufacturerSelected &&
+      inStockCondition &&
+      tfTransportCondition
     )
   }
 
@@ -108,6 +114,8 @@ const SearchComponent = () => {
     maxPrice,
     sortOption,
     selectedManufacturers,
+    inStock,
+    tfTransport,
   ])
 
   const handleApplyPriceFilter = () => {
@@ -129,7 +137,16 @@ const SearchComponent = () => {
   }
 
   if (isLoading) {
-    return <LoadingBar height="50px" size={50} />
+    return (
+      <div
+        className="master-wrapper-content px-2 md:px-0 mx-auto d-flex align-items-center justify-content-center"
+        style={{ minHeight: '60vh' }}
+      >
+        <div className="master-column-wrapper my-6">
+          <LoadingBar height="50px" size={50} />
+        </div>
+      </div>
+    )
   }
 
   if (error) {
@@ -172,24 +189,24 @@ const SearchComponent = () => {
     >
       <div className="master-column-wrapper my-6">
         <div className="page-title-top mb-3 md:mb-6 page-title pointer-events-none w-100 text-center md:text-left text-primary text-lg font-medium">
-          Kërko
+          Search
         </div>
         <div className="side-2 md:sticky md:top-20 mb-4 md:mb-0">
           <div
             id="product-filters-mobile"
             className="bg-white shadow-md md:rounded md:overflow-hidden  z-20 top-0 bg-white md:flex md:flex-col h-100 md:h-min w-5/6 md:w-full right-0"
           >
-            {/* <div className="d-flex align-items-center justify-content-between bg-gray-100 p-4 md:hidden">
-              <span className="text-sm">Filterat e produkteve</span>
+            <div className="d-flex align-items-center justify-content-between bg-gray-100 p-4 md:hidden">
+              <span className="text-sm">Products filters</span>
               <div id="close-product-filters">
                 <i className="icon-close-cancel text-2xl text-gray-700"></i>
               </div>
-            </div> */}
+            </div>
 
             <div className="active-filters-wrapper hidden">
               <div className="w-100 bg-white d-flex align-items-center px-4 py-2">
                 <i className="icon-filter-drag text-gray-700 text-xl"></i>
-                <span className="text-sm text-gray-700">Filterët aktiv</span>
+                <span className="text-sm text-gray-700">Active filters</span>
               </div>
               <div className="active-filters d-flex px-4 pb-2 border-b flex-wrap"></div>
             </div>
@@ -202,6 +219,7 @@ const SearchComponent = () => {
                     type="checkbox"
                     id="inStockInput"
                     className="toggle-btn"
+                    onClick={() => setInStock((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -215,6 +233,7 @@ const SearchComponent = () => {
                     id="hasLocalStockInput"
                     type="checkbox"
                     className="toggle-btn"
+                    onClick={() => setTfTransport((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -488,7 +507,7 @@ const SearchComponent = () => {
                               <div className="picture position-relative px-4 pt-6">
                                 <a
                                   className="position-relative block"
-                                  href="/kompjuter-laptop-server/laptop-6/gaming-14/laptop-lenovo-ideapad-gaming-3-15ach6-156-amd-ryzen-5-16gb-ram-512-gb-ssd-nvidia-geforce-rtx-3060-i-zi"
+                                  href={`product/${result.id}`}
                                   title="Shfaq detaje për Laptop Lenovo IdeaPad Gaming 3 15ACH6, 15.6'', AMD Ryzen 5, 16GB RAM, 512 GB SSD, NVIDIA GeForce RTX 3060, i zi"
                                 >
                                   <Image
@@ -524,11 +543,20 @@ const SearchComponent = () => {
                                 </h2>
                                 <div className="prices d-flex flex-col h-12 position-relative">
                                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                                    {result.priceDiscount?.toFixed(2)} €
+                                    {result.priceDiscount
+                                      ? Math.round(
+                                          result.priceDiscount
+                                        )?.toLocaleString()
+                                      : Math.round(
+                                          result.price
+                                        )?.toLocaleString()}
+                                    .00 €
                                   </span>
-                                  <span className="price old-price text-gray-600 font-medium text-sm line-through">
-                                    {result.price?.toFixed(2)} €
-                                  </span>
+                                  {result.priceDiscount && (
+                                    <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                      {result.price?.toFixed(2)} €
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
                                   <span className="text-xs text-gray-600">

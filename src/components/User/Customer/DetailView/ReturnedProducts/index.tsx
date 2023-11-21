@@ -10,6 +10,7 @@ const ReturnedProducts = () => {
   const [details, setDetails] = useState(
     Array(data?.length).fill({ state: false })
   )
+  console.log('data', data)
   return (
     <>
       <WrappingCard marginBtm="20px" padding="12px">
@@ -18,7 +19,7 @@ const ReturnedProducts = () => {
         </div>
       </WrappingCard>
       <div className="page account-page return-request-list-page rounded">
-        {data?.length ? (
+        {data?.filter((item) => item.returningStatus === 'approved').length ? (
           <div className="page-body d-flex flex-col gap-4 -mb-4">
             {data
               ?.filter((item) => item.returningStatus === 'approved')

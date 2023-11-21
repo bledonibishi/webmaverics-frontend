@@ -50,12 +50,48 @@ export const getOrderWithUserID = createAsyncThunk(
   }
 )
 
+export const getAllOrders = createAsyncThunk(
+  'orders/getAllOrders',
+  async () => {
+    try {
+      return await OrderService.fetchAllOrders()
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
+export const updateOrderStatus = createAsyncThunk(
+  'orders/updateOrderStatus',
+  async ({ orderID, action }: { orderID: string; action: string }) => {
+    try {
+      return await OrderService.updateOrderStatus(orderID, action)
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
 const orderSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getAllOrders.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getAllOrders.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.orders = action.payload
+        state.error = null
+      })
+      .addCase(getAllOrders.rejected, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = action.error.message ?? null
+      })
       .addCase(fetchOrders.pending, (state) => {
         state.isLoading = true
       })
@@ -94,6 +130,19 @@ const orderSlice = createSlice({
         state.error = null
       })
       .addCase(getOrderWithUserID.rejected, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = action.error.message ?? null
+      })
+      .addCase(updateOrderStatus.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateOrderStatus.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.error = null
+      })
+      .addCase(updateOrderStatus.rejected, (state, action) => {
         state.isLoading = false
         state.isSuccess = false
         state.error = action.error.message ?? null

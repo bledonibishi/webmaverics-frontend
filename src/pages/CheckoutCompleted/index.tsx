@@ -153,8 +153,16 @@ const CheckoutCompleted = () => {
                             <span className="product-quantity text-xs text-gray-600">
                               SKU: 213486
                             </span>
+
                             <span className="product-unit-price text-xs text-gray-600">
-                              {product.product.priceDiscount.toFixed(2)} €
+                              {product.product.priceDiscount
+                                ? Math.round(
+                                    product.product.priceDiscount
+                                  ).toLocaleString()
+                                : Math.round(
+                                    product.product.price
+                                  ).toLocaleString()}
+                              .00 €
                             </span>
                           </div>
                         </div>

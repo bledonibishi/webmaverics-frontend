@@ -41,7 +41,7 @@ export type ProductInput = {
   details: Detail[]
   summary: string
   description: string
-  imageCover: File | null
+  imageCover: File | string | null
   images: File[] | FileList | []
   price: number | string
   category: string
@@ -171,6 +171,7 @@ export type ProductItemTypes = {
   stock: number
   summary: string
   title: string
+  hasAccess: boolean
 }
 
 export type Address = {
@@ -238,7 +239,7 @@ export type Order = {
   _id: string
   userID: string | SignupUserData
   products: OrderProduct[]
-  status: 'pending' | 'processed' | 'completed' | 'admin'
+  status: 'pending' | 'processed' | 'completed' | 'rejected'
   addressID: string | Address
   billingAddress: string | Address
   transportMode: string
@@ -318,4 +319,11 @@ export type NewAddressCheckout = {
   address: string
   email: string
   telephone: number | null
+}
+export type updateStatusReturn = {
+  data: {
+    message: string
+    status: string
+    returnRequest: ReturnRequest
+  }
 }

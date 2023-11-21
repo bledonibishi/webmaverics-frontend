@@ -1,15 +1,15 @@
+import { combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+import { productsAPI } from './products/RTKProductSlice'
+import { cartsAPI } from '../Cart/store/cartAPI'
+import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
+import { returnRequestsAPI } from './returnRequests/returnRequestAPI'
 import productSlice from './products/productSlice'
 import authSlice from './auth/authSlice'
 import wishlistSlice from '@/wishlist/store/wishlistSlice'
-import { combineReducers } from 'redux'
-import { productsAPI } from './products/RTKProductSlice'
-import { cartsAPI } from '../Cart/store/cartAPI'
-import { reducer as formReducer } from 'redux-form'
 import cartSlice from '@/Cart/store/cartSlice'
-import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
 import addressesSlice from './addresses/addressesSlice'
 import orderSlice from './orders/orderSlice'
-import { returnRequestsAPI } from './returnRequests/returnRequestAPI'
 
 const rootReducer = combineReducers({
   products: productSlice,

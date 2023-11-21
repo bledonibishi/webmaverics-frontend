@@ -34,7 +34,6 @@ const Header = () => {
     setIsDropdownVisible(false)
   }
   return (
-    // <nav className="w-100 position-relative">
     <>
       <Navigation />
       <SubNavigation
@@ -46,7 +45,6 @@ const Header = () => {
       />
       {isDropdownVisible && <div className="overlay"></div>}
     </>
-    // </nav>
   )
 }
 

@@ -3,6 +3,15 @@ import { Order, OrderInput } from '@/helpers/types'
 
 const API_URL = 'api/v1/orders'
 
+const fetchAllOrders = async () => {
+  try {
+    const response = await axiosInstance.get(API_URL + '/getAll')
+    return response.data
+  } catch (error: any) {
+    throw new Error(error)
+  }
+}
+
 const fetchOrders = async () => {
   try {
     const response = await axiosInstance.get(API_URL)
@@ -31,10 +40,24 @@ const fetchOrderWithUserID = async () => {
   }
 }
 
+const updateOrderStatus = async (orderID: string, action: string) => {
+  try {
+    const response = await axiosInstance.patch(
+      API_URL + `/updateStatus/${orderID}`,
+      { action: action }
+    )
+    return response.data
+  } catch (error: any) {
+    throw new Error(error)
+  }
+}
+
 const OrderService = {
+  fetchAllOrders,
   createOrder,
   fetchOrders,
   fetchOrderWithUserID,
+  updateOrderStatus,
 }
 
 export default OrderService

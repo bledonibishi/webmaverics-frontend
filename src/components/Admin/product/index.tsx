@@ -174,11 +174,7 @@ const CreateProduct = () => {
   return (
     <div className="master-wrapper-content px-2 md:px-0 mx-auto">
       <div className="master-column-wrapper my-6">
-        <div
-          // item-grid d-grid grid-cols-6 gap-2 md:grid-cols-6 lg:grid-cols-6 position-relative w-100 p-0
-          className="create-product "
-          style={{ marginLeft: '1px' }}
-        >
+        <div className="create-product " style={{ marginLeft: '1px' }}>
           <h2>Create a New Product</h2>
 
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -265,24 +261,6 @@ const CreateProduct = () => {
                       Please provide a valid brand.
                     </Form.Control.Feedback>
                   </Form.Group>
-                  {/* <Col md="6">
-                    <input
-                      type="text"
-                      name="key"
-                      value={detail.key}
-                      onChange={(e) => handleDetailChange(e, index)}
-                      placeholder="Key"
-                    />
-                  </Col>
-                  <Col md="6">
-                    <input
-                      type="text"
-                      name="value"
-                      value={detail.value}
-                      onChange={(e) => handleDetailChange(e, index)}
-                      placeholder="Value"
-                    />
-                  </Col> */}
                 </Row>
               ))}
             </Col>
@@ -478,9 +456,9 @@ const CreateProduct = () => {
                 ))}
               </Form.Control>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">
+              {/* <Form.Control.Feedback type="invalid">
                 Please select a related product.
-              </Form.Control.Feedback>
+              </Form.Control.Feedback> */}
             </Form.Group>
             <Form.Group as={Col} md="12" controlId="tags">
               <Form.Label>Tags:</Form.Label>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   Button,
   Card,
@@ -28,6 +28,7 @@ import {
   useGetCartProductsQuery,
 } from '@/Cart/store/cartAPI'
 import { ToastContainer, toast } from 'react-toastify'
+import { Dropdown, DropdownButton } from 'react-bootstrap'
 
 type AddToCart = {
   id: string
@@ -52,28 +53,18 @@ const ProductItem: React.FC<ProductItemTypes> = ({
   warranty,
   imageCover,
   brand,
+  hasAccess,
 }) => {
   const socket = useSocket()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  // const user = useSelector((state) => state.auth.user)
   const [createProduct, { error }] = useCreateProductMutation()
-  const [addToCartQuery, { isError, isLoading, isSuccess }] =
-    useAddToCartQueryMutation()
+  const [addToCartQuery] = useAddToCartQueryMutation()
+  const { refetch } = useGetCartProductsQuery()
+
+  const productItemRef = useRef()
 
   console.log('imageCover', imageCover)
 
-  {
-    console.log('typeofdiscount', typeof discount)
-  }
-  const {
-    data: cart,
-    refetch,
-    isLoading: cartLoading,
-  } = useGetCartProductsQuery()
-
   const addToCartHandler = (items: addToCartType) => {
-    console.log('items', items)
     addToCartQuery(items)
       // .unwrap()
       .then(() => {
@@ -95,18 +86,10 @@ const ProductItem: React.FC<ProductItemTypes> = ({
       })
   }
 
-  const [shoppingCartModal, setShoppingCartModal] = useState(false)
-  const toggleShoppingCartModal = () => setShoppingCartModal((state) => !state)
-  const starStyle = { color: '#FFD700' }
-
   const truncatedText =
     description?.length > 50
       ? `${description.substring(0, 50)}...`
       : description
-
-  const goToProductHandler = () => {
-    navigate(`/product/${id}`)
-  }
 
   return (
     <>
@@ -166,11 +149,29 @@ const ProductItem: React.FC<ProductItemTypes> = ({
               <a
                 className="text-gray-700  md:text-base product-title-lines hover:underline"
                 title="Apple iPhone 15, 128GB, Black"
-                //  onclick="produceClickedProductEvent('',160697)"
-                href="/celular-tablet-navigim/celular-3/touchscreen-4/apple-iphone-15-128gb-black"
+                href={`/product/${id}`}
               >
                 {title}
               </a>
+
+              <Dropdown>
+                <Dropdown.Toggle
+                  className="custom-button"
+                  variant="success"
+                  id="dropdown-basic"
+                >
+                  ...
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href={`/admin/update-product/${id}`}>
+                    Edit product
+                  </Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">
+                    Remove product
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </h2>
             <div className="prices d-flex flex-col h-12 position-relative">
               {discount !== 0 ? (

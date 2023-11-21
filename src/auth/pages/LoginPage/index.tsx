@@ -18,6 +18,10 @@ import { login } from '@/store/auth/authSlice'
 import LoginIdentifier from '@/auth/components/LoginForm/LoginIdentifier'
 import LoginWithAnotherAccount from '@/auth/components/LoginForm/LoginWithAnotherAccount'
 import LoginVerify from '@/auth/components/LoginForm/LoginVerify'
+import { GoogleLogin } from 'react-google-login'
+
+const clientId =
+  '930571813085-ms4a875b73k24sjq38emvrom8makvnm3.apps.googleusercontent.com'
 
 type ExternalLinksProps = {
   label: string

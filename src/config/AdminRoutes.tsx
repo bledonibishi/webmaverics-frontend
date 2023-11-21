@@ -11,6 +11,7 @@ import Footer from '@/components/User/Footer'
 import UpdateProduct from '@/components/Admin/product/updateProduct'
 import { useAppSelector } from '@/hooks/hooks'
 import ReturningRequests from '@/components/Admin/ReturningRequests'
+import Orders from '@/components/Admin/Orders'
 
 const AdminRoutes = () => {
   const { user } = useAppSelector((state) => state.auth)
@@ -28,8 +29,9 @@ const AdminRoutes = () => {
           element={<h1 className="text-center p-5">Admin dashboard here</h1>}
         />
         <Route path="/create-product" element={<CreateProduct />} />
-        <Route path="/update-product" element={<UpdateProduct />} />
+        <Route path="/update-product/:id" element={<UpdateProduct />} />
         <Route path="/return-requests" element={<ReturningRequests />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
       <Footer />
     </>

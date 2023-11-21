@@ -6,6 +6,9 @@
   color: #6e6e6e;
   z-index: 7 !important;
 }
+.bb {
+  z-index: 777 !important;
+}
 
 .my-menuCartItem-hover .cartItem_action:hover {
   color: red;

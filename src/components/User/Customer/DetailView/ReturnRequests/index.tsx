@@ -5,12 +5,23 @@ import React, { useState } from 'react'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faRing } from '@fortawesome/free-solid-svg-icons'
+import PaginationComponent from '@/helpers/Pagination'
 
 const ReturnRequests = () => {
   const { data, error, isLoading } = useGetAllWithUserQuery()
   const [details, setDetails] = useState(
     Array(data?.length).fill({ state: false })
   )
+  const [currentPage, setCurrentPage] = useState(1)
+  const ordersPerPage = 5
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const indexOfLastOrder = currentPage * ordersPerPage
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage
+  const currentData = data?.slice(indexOfFirstOrder, indexOfLastOrder)
   return (
     <>
       <WrappingCard marginBtm="20px" padding="12px">
@@ -21,7 +32,7 @@ const ReturnRequests = () => {
       <div className="page account-page return-request-list-page rounded">
         {data?.length ? (
           <div className="page-body d-flex flex-col gap-4 -mb-4">
-            {data?.map((item, index) => (
+            {currentData?.map((item, index) => (
               <div
                 key={index}
                 className="section request-item details position-relative rounded bg-white rounded shadow-md text-sm font-medium text-gray-700"
@@ -136,95 +147,17 @@ const ReturnRequests = () => {
                   ))}
               </div>
             ))}
-            <div className="pager mt-4">
-              <div className="d-flex flex-col tablet:flex-wrap gap-4 tablet:flex-row tablet:justify-between bg-white rounded shadow-md p-3 md:p-4 text-base">
-                <ul className="d-flex items-center"></ul>
-                <div className="hidden tablet:flex gap-2 tablet:gap-4 items-center">
-                  <form
-                    method="get"
-                    id="page-size-form"
-                    className="d-flex gap-2"
-                    action=""
-                  >
-                    <select
-                      className="mr-1 hidden"
-                      id="option-select"
-                      data-val="true"
-                      data-val-required="The PageSize field is required."
-                      name="PageSize"
-                    >
-                      <option value="5">5</option>
-                      <option value="7">7</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                      <option value="50">50</option>
-                    </select>
-                    <div className="select rounded d-flex items-center">
-                      <div
-                        className="selectCustom select js-selectCustom d-flex items-center"
-                        style={{
-                          paddingLeft: '4px',
-                          paddingRight: '0',
-                          height: '28px',
-                          width: '52px',
-                        }}
-                      >
-                        <div
-                          className="selectCustom-trigger d-flex justify-content-between items-center text-sm text-gray-700 bg-white font-medium filter-products-categories"
-                          style={{ height: '24px', width: '32px' }}
-                        >
-                          <span>7</span>
-                          <i className="icon-chevron-line-down text-base text-gray-600 pl-1"></i>
-                        </div>
-                        <div
-                          className="selectCustom-options bg-white shadow-md"
-                          style={{ top: '44px' }}
-                        >
-                          <div
-                            className="selectCustom-option sort-options bg-white text-sm font-medium d-flex justify-center text-gray-600 light-dropdown-hover"
-                            data-value="5"
-                            data-text="5"
-                          >
-                            5
-                          </div>
-                          <div
-                            className="selectCustom-option sort-options bg-white text-sm font-medium d-flex justify-center text-gray-600 light-dropdown-hover"
-                            data-value="7"
-                            data-text="7"
-                          >
-                            7
-                          </div>
-                          <div
-                            className="selectCustom-option sort-options bg-white text-sm font-medium d-flex justify-center text-gray-600 light-dropdown-hover"
-                            data-value="10"
-                            data-text="10"
-                          >
-                            10
-                          </div>
-                          <div
-                            className="selectCustom-option sort-options bg-white text-sm font-medium d-flex justify-center text-gray-600 light-dropdown-hover"
-                            data-value="20"
-                            data-text="20"
-                          >
-                            20
-                          </div>
-                          <div
-                            className="selectCustom-option sort-options bg-white text-sm font-medium d-flex justify-center text-gray-600 light-dropdown-hover"
-                            data-value="50"
-                            data-text="50"
-                          >
-                            50
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  <p className="total-summary w-100 text-sm whitespace-nowrap">
-                    Kërkesat 1-1 prej 1 në total.
-                  </p>
+            {currentData?.length ? (
+              <WrappingCard padding="12px">
+                <div className="w-100 d-flex justify-content-end">
+                  <PaginationComponent
+                    totalItems={data ? data.length : 0}
+                    itemsPerPage={5}
+                    onPageChange={handlePageChange}
+                  />
                 </div>
-              </div>
-            </div>
+              </WrappingCard>
+            ) : null}
           </div>
         ) : (
           <div className="page-body d-flex flex-col gap-4 -mb-4">

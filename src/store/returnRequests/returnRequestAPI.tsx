@@ -6,6 +6,7 @@ import {
   RatingInput,
   ReturnRequest,
   ReturnRequestInput,
+  updateStatusReturn,
 } from '@/helpers/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
@@ -35,8 +36,22 @@ export const returnRequestsAPI = createApi({
         body: body,
       }),
     }),
+    updateStatus: builder.mutation<
+      updateStatusReturn,
+      { id: string; action: string }
+    >({
+      query: ({ id, action }) => ({
+        url: `/returnRequest/updateStatus/${id}`,
+        method: 'PATCH',
+        body: { action },
+      }),
+    }),
   }),
 })
 
-export const { useGetAllQuery, useCreateOneMutation, useGetAllWithUserQuery } =
-  returnRequestsAPI
+export const {
+  useGetAllQuery,
+  useCreateOneMutation,
+  useGetAllWithUserQuery,
+  useUpdateStatusMutation,
+} = returnRequestsAPI

@@ -218,3 +218,13 @@
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+.product-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.custom-button {
+  background-color: transparent !important;
+  color: #e65228 !important;
+  border: none !important;
+}

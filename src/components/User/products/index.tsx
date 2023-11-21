@@ -6,10 +6,12 @@ import LoadingBar from '../../../ui/Loading/LoadingBar'
 import { useGetProductsQuery } from '../../../store/products/RTKProductSlice'
 import ProductItem from './productItem/ProductItem'
 import './style.css'
+import { useAppSelector } from '@/hooks/hooks'
 
 function ProductList() {
   const { data, error, isLoading } = useGetProductsQuery()
-  console.log('data', data)
+  const user = useAppSelector((state) => state.auth.user?.user)
+  console.log('user', user)
 
   return (
     <div className="master-wrapper-content mx-auto p-0">
@@ -51,6 +53,7 @@ function ProductList() {
                 isNew={product.isNew}
                 tfTransport={product.tfTransport}
                 warranty={product.warranty}
+                hasAccess={user?.role === 'admin'}
                 // rating={product.ratingsAverage}
                 // thumbnail={product.imageCover}
                 // key={product.id}

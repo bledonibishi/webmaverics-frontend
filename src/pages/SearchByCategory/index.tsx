@@ -36,6 +36,8 @@ const SearchByCategory = () => {
   const [showNewProducts, setShowNewProducts] = useState<boolean>(false)
   const [showDiscountedProducts, setShowDiscountedProducts] =
     useState<boolean>(false)
+  const [inStock, setInStock] = useState(false)
+  const [tfTransport, setTfTransport] = useState(false)
   const [minPrice, setMinPrice] = useState<number>(0)
   const [maxPrice, setMaxPrice] = useState<number>(7999)
   const [filteredData, setFilteredData] = useState<Product[] | undefined>([])
@@ -89,6 +91,8 @@ const SearchByCategory = () => {
   }
 
   const filterProducts = (product: Product) => {
+    const inStockCondition = inStock ? product.stock : true
+    const tfTransportCondition = tfTransport ? product.tfTransport : true
     const productCategoryName = getCategoryNameById(
       categories as ProductCategory[],
       product.category
@@ -156,6 +160,8 @@ const SearchByCategory = () => {
     categories,
     category,
     selectedManufacturers,
+    inStock,
+    tfTransport,
   ])
 
   const handleApplyPriceFilter = () => {
@@ -206,7 +212,16 @@ const SearchByCategory = () => {
   ]
 
   if (isLoading) {
-    return <LoadingBar height="50px" size={50} />
+    return (
+      <div
+        className="master-wrapper-content px-2 md:px-0 mx-auto"
+        style={{ minHeight: '60vh' }}
+      >
+        <div className="master-column-wrapper my-6">
+          <LoadingBar height="50px" size={50} />
+        </div>
+      </div>
+    )
   }
 
   if (error) {
@@ -229,12 +244,12 @@ const SearchByCategory = () => {
             id="product-filters-mobile"
             className="bg-white shadow-md md:rounded md:overflow-hidden  z-20 top-0 bg-white md:flex md:flex-col h-100 md:h-min w-5/6 md:w-full right-0"
           >
-            {/* <div className="d-flex align-items-center justify-content-between bg-gray-100 p-4 md:hidden">
+            <div className="d-flex align-items-center justify-content-between bg-gray-100 p-4 md:hidden">
               <span className="text-sm">Filterat e produkteve</span>
               <div id="close-product-filters">
                 <i className="icon-close-cancel text-2xl text-gray-700"></i>
               </div>
-            </div> */}
+            </div>
 
             <div className="active-filters-wrapper hidden">
               <div className="w-100 bg-white d-flex align-items-center px-4 py-2">
@@ -246,12 +261,13 @@ const SearchByCategory = () => {
 
             <div className="d-flex flex-col border-b p-3">
               <div className="d-flex align-items-center justify-content-between position-relative mb-3">
-                <span className="text-sm">Në stok</span>
+                <span className="text-sm">Available in stock</span>
                 <div className="toggle-btn-wrapper">
                   <input
                     type="checkbox"
                     id="inStockInput"
                     className="toggle-btn"
+                    onClick={() => setInStock((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -265,6 +281,7 @@ const SearchByCategory = () => {
                     id="hasLocalStockInput"
                     type="checkbox"
                     className="toggle-btn"
+                    onClick={() => setTfTransport((state) => !state)}
                   />
                   <div className="knobs"></div>
                   <div className="layer"></div>
@@ -572,11 +589,20 @@ const SearchByCategory = () => {
                                 </h2>
                                 <div className="prices d-flex flex-col h-12 position-relative">
                                   <span className="price font-semibold text-gray-700 text-base md:text-xl">
-                                    {result.priceDiscount?.toFixed(2)} €
+                                    {result.priceDiscount
+                                      ? Math.round(
+                                          result.priceDiscount
+                                        )?.toLocaleString()
+                                      : Math.round(
+                                          result.price
+                                        )?.toLocaleString()}
+                                    .00 €
                                   </span>
-                                  <span className="price old-price text-gray-600 font-medium text-sm line-through">
-                                    {result.price?.toFixed(2)} €
-                                  </span>
+                                  {result.priceDiscount && (
+                                    <span className="price old-price text-gray-600 font-medium text-sm line-through">
+                                      {result.price?.toFixed(2)} €
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="d-flex flex-col pt-2 justify-content-between lg:flex-row">
                                   <span className="text-xs text-gray-600">

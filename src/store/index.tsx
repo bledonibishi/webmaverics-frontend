@@ -1,7 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { productsAPI } from './products/RTKProductSlice'
-// import { cartsAPI } from '../Cart/store/cartAPI'
-// import { wishlistsAPI } from '../wishlist/store/wishlistAPI'
 import rootReducer from '@/store/rootReducer'
 import { cartsAPI } from '@/Cart/store/cartAPI'
 import { wishlistsAPI } from '@/wishlist/store/wishlistAPI'
