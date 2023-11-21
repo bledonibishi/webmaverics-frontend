@@ -552,7 +552,6 @@ const ProductItem = () => {
                         {productRatings?.length}
                         <i className="icon-star text-sm">
                           <FullStar />
-                          {/* <FontAwesomeIcon /> */}
                         </i>
                       </span>
                       <p>{productRatings?.length} Ratings</p>
@@ -619,6 +618,8 @@ const ProductItem = () => {
             onHide={() => setRatingsModal(false)}
             userID={user?.user.id || ''}
             productID={id}
+            productTitle={product ? product.title : ''}
+            productImage={product?.imageCover ? product.imageCover : ''}
           />
         )}
 
